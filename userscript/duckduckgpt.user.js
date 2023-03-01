@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name             DuckDuckGPT 🤖
-// @version          2023.02.22
+// @version          2023.03.01
 // @author           Adam Lui
 // @namespace        https://github.com/adamlui
 // @description      Adds ChatGPT answers to DuckDuckGo sidebar
@@ -23,8 +23,6 @@
 // @grant            GM.info
 // @grant            GM.xmlHttpRequest
 // @grant            GM_cookie
-// @updateURL        https://www.duckduckgpt.com/userscript/code/duckduckgpt.meta.js
-// @downloadURL      https://www.duckduckgpt.com/userscript/code/duckduckgpt.user.js
 // ==/UserScript==
 
 var GM_setValue = (() => GM.setValue)()
@@ -106,59 +104,67 @@ var timeoutPromise = new Promise((resolve, reject) => {
 async function getAnswer(question, callback) {
     try {
         var accessToken = await Promise.race([getAccessToken(), timeoutPromise])
-        GM_xmlhttpRequest({
-            method: "POST",
-            url: "https://chat.openai.com/backend-api/conversation",
-            headers: {
-                "Content-Type": "   application/json",
-                Authorization: `Bearer ${accessToken}`
-            },
-            responseType: responseType(),
-            data: JSON.stringify({
-                action: "next",
-                messages: [
-                    {
-                        id: uuidv4(),
-                        role: "user",
-                        content: {
-                            content_type: "text",
-                            parts: [question]
-                        }
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "https://chat.openai.com/backend-api/conversation");
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.setRequestHeader("Authorization", `Bearer ${accessToken}`);
+        xhr.responseType = responseType();
+        xhr.onloadstart = onLoadStart();
+        xhr.onload = onLoad();
+        xhr.send(JSON.stringify({
+            action: "next",
+            messages: [
+                {
+                    id: uuidv4(),
+                    role: "user",
+                    content: {
+                        content_type: "text",
+                        parts: [question]
                     }
-                ],
-                model: "text-davinci-002-render",
-                parent_message_id: uuidv4()
-            }),
-            onloadstart: onLoadStart(),
-            onload: onLoad()
-        })
+                }
+            ],
+            model: "text-davinci-002-render",
+            parent_message_id: uuidv4()
+        }));
     } catch (error) {
         if (error === "UNAUTHORIZED") {
-            GM_deleteValue("accessToken")
-            alertLogin()
+            localStorage.removeItem("accessToken");
+            alertLogin();
         }
         console.error("getAnswer error: ", error)
     }
     function responseType() {
-      if (getUserscriptManager() === "Tampermonkey") {
-        return "stream" } else { return "text" }
+        if (getUserscriptManager() === "Tampermonkey") {
+            return "stream";
+        } else {
+            return "text";
+        }
     }
     function onLoad() {
         return function(event) {
-            if (event.status === 401) { GM_deleteValue("accessToken") ; alertLogin() }
-            if (event.status === 403) { alertBlockedByCloudflare() }
-            if (event.status === 429) { alertFrequentRequests() }
+            if (event.target.status === 401) {
+                localStorage.removeItem("accessToken");
+                alertLogin();
+            }
+            if (event.target.status === 403) {
+                alertBlockedByCloudflare();
+            }
+            if (event.target.status === 429) {
+                alertFrequentRequests();
+            }
             if (getUserscriptManager() !== "Tampermonkey") {
-                if (event.response) {
-                    const answer = JSON.parse(event.response
-                        .split("\n\n").slice(-3, -2)[0].slice(6)).message.content.parts[0]
-                    containerShow(answer)
-        }}}
+                if (event.target.response) {
+                    const answer = JSON.parse(event.target.response
+                        .split("\n\n").slice(-3, -2)[0].slice(6)).message.content.parts[0];
+                    containerShow(answer);
+                }
+            }
+        }
     }
     function onLoadStart() {
         if (getUserscriptManager() === "Tampermonkey") {
             return function(stream) {
-                var reader = stream.response.getReader()
+                var reader = stream.target.responseBody.getReader()
                 reader.read().then(function processText({ done, value }) {
                     if (done) { return }
                     let responseItem = String.fromCharCode(...Array.from(value))
@@ -174,7 +180,10 @@ async function getAnswer(question, callback) {
                         containerShow(answer)
                     } else if (responseItem.startsWith("data: [DONE]")) { return }
                     return reader.read().then(processText)
-    })}}}
+                })
+            }
+        }
+    }
 }
 
 function getAccessToken() {
