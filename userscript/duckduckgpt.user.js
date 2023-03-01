@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name             DuckDuckGPT 🤖
-// @version          2023.03.01
+// @version          2023.03.01.1
 // @author           Adam Lui
 // @namespace        https://github.com/adamlui
 // @description      Adds ChatGPT answers to DuckDuckGo sidebar
@@ -105,12 +105,12 @@ async function getAnswer(question, callback) {
     try {
         var accessToken = await Promise.race([getAccessToken(), timeoutPromise])
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", "https://chat.openai.com/backend-api/conversation");
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.setRequestHeader("Authorization", `Bearer ${accessToken}`);
-        xhr.responseType = responseType();
-        xhr.onloadstart = onLoadStart();
-        xhr.onload = onLoad();
+        xhr.open("POST", "https://chat.openai.com/backend-api/conversation")
+        xhr.setRequestHeader("Content-Type", "application/json")
+        xhr.setRequestHeader("Authorization", `Bearer ${accessToken}`)
+        xhr.responseType = responseType()
+        xhr.onloadstart = onLoadStart()
+        xhr.onload = onLoad()
         xhr.send(JSON.stringify({
             action: "next",
             messages: [
@@ -125,42 +125,32 @@ async function getAnswer(question, callback) {
             ],
             model: "text-davinci-002-render",
             parent_message_id: uuidv4()
-        }));
+        }))
     } catch (error) {
         if (error === "UNAUTHORIZED") {
-            localStorage.removeItem("accessToken");
-            alertLogin();
+            localStorage.removeItem("accessToken") ; alertLogin()
         }
         console.error("getAnswer error: ", error)
     }
     function responseType() {
         if (getUserscriptManager() === "Tampermonkey") {
-            return "stream";
-        } else {
-            return "text";
-        }
+            return "stream"
+        } else { return "text" }
     }
     function onLoad() {
         return function(event) {
             if (event.target.status === 401) {
-                localStorage.removeItem("accessToken");
-                alertLogin();
+                localStorage.removeItem("accessToken")
+                alertLogin()
             }
-            if (event.target.status === 403) {
-                alertBlockedByCloudflare();
-            }
-            if (event.target.status === 429) {
-                alertFrequentRequests();
-            }
+            if (event.target.status === 403) { alertBlockedByCloudflare() }
+            if (event.target.status === 429) { alertFrequentRequests() }
             if (getUserscriptManager() !== "Tampermonkey") {
                 if (event.target.response) {
                     const answer = JSON.parse(event.target.response
-                        .split("\n\n").slice(-3, -2)[0].slice(6)).message.content.parts[0];
-                    containerShow(answer);
-                }
-            }
-        }
-    }
+                        .split("\n\n").slice(-3, -2)[0].slice(6)).message.content.parts[0]
+                    containerShow(answer)
+    }}}}
     function onLoadStart() {
         if (getUserscriptManager() === "Tampermonkey") {
             return function(stream) {
@@ -180,11 +170,7 @@ async function getAnswer(question, callback) {
                         containerShow(answer)
                     } else if (responseItem.startsWith("data: [DONE]")) { return }
                     return reader.read().then(processText)
-                })
-            }
-        }
-    }
-}
+})}}}}
 
 function getAccessToken() {
     return new Promise(async (resolve, rejcet) => {
