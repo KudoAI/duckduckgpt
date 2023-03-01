@@ -1,6 +1,10 @@
 // ==UserScript==
 // @name             DuckDuckGPT 🤖
+<<<<<<< Updated upstream
 // @version          2023.03.01.1
+=======
+// @version          2023.03.01.2
+>>>>>>> Stashed changes
 // @author           Adam Lui
 // @namespace        https://github.com/adamlui
 // @description      Adds ChatGPT answers to DuckDuckGo sidebar
@@ -17,19 +21,11 @@
 // @match            https://duckduckgo.com/*
 // @include          https://auth0.openai.com
 // @connect          chat.openai.com
-// @grant            GM.deleteValue
-// @grant            GM.getValue
-// @grant            GM.setValue
 // @grant            GM.info
-// @grant            GM.xmlHttpRequest
 // @grant            GM_cookie
 // ==/UserScript==
 
-var GM_setValue = (() => GM.setValue)()
-var GM_deleteValue = (() => GM.deleteValue)()
 var GM_info = (() => GM.info)()
-var GM_xmlhttpRequest = (() => GM.xmlHttpRequest)()
-var GM_getValue = (() => GM.getValue)()
 
 var alerts = {
     waitingResponse: "Waiting for ChatGPT response...",
@@ -173,23 +169,23 @@ async function getAnswer(question, callback) {
 })}}}}
 
 function getAccessToken() {
-    return new Promise(async (resolve, rejcet) => {
-        var accessToken = await GM_getValue("accessToken")
-        if (!accessToken) {
-            GM_xmlhttpRequest({
-                url: "https://chat.openai.com/api/auth/session",
-                onload: function(response) {
-                    if (isBlockedbyCloudflare(response.responseText)) {
-                        alertLogin() ; return }
-                    var accessToken2 = JSON.parse(response.responseText).accessToken;
-                    if (!accessToken2) { rejcet("UNAUTHORIZED") }
-                    GM_setValue("accessToken", accessToken2)
-                    resolve(accessToken2)
-                },
-                onerror: function(error) { rejcet(error) },
-                ontimeout: () => { console.error("getAccessToken timeout!") }
-            })
-        } else { resolve(accessToken) }
+  return new Promise(async (resolve, reject) => {
+    var accessToken = localStorage.getItem("accessToken")
+    if (!accessToken) {
+      var xhr = new XMLHttpRequest()
+      xhr.open("GET", "https://chat.openai.com/api/auth/session")
+      xhr.onload = function () {
+        if (xhr.status === 200) {
+          const json = JSON.parse(xhr.responseText)
+          const accessToken2 = json.accessToken
+          if (!accessToken2) { reject("UNAUTHORIZED") }
+          localStorage.setItem("accessToken", accessToken2)
+          resolve(accessToken2)
+        } else { reject(new Error(xhr.statusText)) }
+      }
+      xhr.onerror = function () { reject(new Error("Network error")) }
+      xhr.send()
+    } else { resolve(accessToken) }
 })}
 
 // Stylize ChatGPT container to match DDG's
