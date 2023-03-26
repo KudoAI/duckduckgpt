@@ -1,11 +1,11 @@
-name: Sync src/greasemonkey to adamlui/userscripts/chatgpt/duckduckgpt
+name: Sync greasemonkey to adamlui/userscripts/chatgpt/duckduckgpt
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'src/greasemonkey/**'
+      - 'greasemonkey/**'
 
 jobs:
   sync-duckduckgpt:
@@ -28,9 +28,9 @@ jobs:
           repository: adamlui/userscripts
           path: adamlui/userscripts
 
-      # Sync adamlui/duckduckgpt/src/greasemonkey to adamlui/userscripts/chatgpt/duckduckgpt
+      # Sync adamlui/duckduckgpt/greasemonkey to adamlui/userscripts/chatgpt/duckduckgpt
       - name: Sync duckduckgpt
-        run: rsync -av --delete ${{ github.workspace }}/adamlui/duckduckgpt/src/greasemonkey/ ${{ github.workspace }}/adamlui/userscripts/chatgpt/duckduckgpt/
+        run: rsync -av --delete ${{ github.workspace }}/adamlui/duckduckgpt/greasemonkey/ ${{ github.workspace }}/adamlui/userscripts/chatgpt/duckduckgpt/
 
       # Push to adamlui/userscripts
       - name: Push changes
