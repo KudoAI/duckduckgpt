@@ -36,7 +36,8 @@ jobs:
       - name: Push changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          push_options: --force
-          commit_message: "Synced from adamlui/duckduckgpt: ${{ github.event.head_commit.message }}"
+          push_options: '--force'
+          add_options: '--all'
+          commit_message: 'Synced from adamlui/duckduckgpt: ${{ github.event.head_commit.message }}'
           file_pattern: 'chatgpt/duckduckgpt/*'
           repository: adamlui/userscripts
