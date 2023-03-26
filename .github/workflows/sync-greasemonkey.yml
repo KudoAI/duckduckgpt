@@ -30,15 +30,14 @@ jobs:
 
       # Sync adamlui/duckduckgpt/src/greasemonkey to adamlui/userscripts/chatgpt/duckduckgpt
       - name: Sync duckduckgpt
-        run: |
-          rsync -av ${{ github.workspace }}/adamlui/duckduckgpt/src/greasemonkey/ ${{ github.workspace }}/adamlui/userscripts/chatgpt/duckduckgpt/
+        run: rsync -av ${{ github.workspace }}/adamlui/duckduckgpt/src/greasemonkey/ ${{ github.workspace }}/adamlui/userscripts/chatgpt/duckduckgpt/
 
       # Push to adamlui/userscripts
       - name: Push changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           push_options: '--force'
-          add_options: '--u'
+          add_options: '--all'
           commit_message: 'Synced from adamlui/duckduckgpt: ${{ github.event.head_commit.message }}'
           file_pattern: 'chatgpt/duckduckgpt/*'
           repository: adamlui/userscripts
