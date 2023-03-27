@@ -1,0 +1,54 @@
+name: Sync README + greasemonkey to adamlui/userscripts/chatgpt/duckduckgpt
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'greasemonkey/**'
+      - 'README.md'
+    if: 'github.event.head_commit.committer.username != "github-actions[bot]"'
+
+jobs:
+  sync-duckduckgpt:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout kudoai/duckduckgpt
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.REPO_SYNC_PAT }}
+          repository: kudoai/duckduckgpt
+          path: kudoai/duckduckgpt
+
+      - name: Checkout adamlui/userscripts
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.REPO_SYNC_PAT }}
+          repository: adamlui/userscripts
+          path: adamlui/userscripts
+
+      - name: Handle README.md change
+        run: |
+          if [[ -n $(git diff HEAD^..HEAD --name-only kudoai/duckduckgpt/README.md) ]]; then
+            cp "${{ github.workspace }}/kudoai/duckduckgpt/README.md" "${{ github.workspace }}/kudoai/duckduckgpt/greasemonkey/"
+            cd "${{ github.workspace }}/kudoai/duckduckgpt"
+            git config user.email "auto-sync[bot]@users.noreply.github.com"
+            git config user.name "auto-sync[bot]"
+            commit_message="${{ github.event.head_commit.message }} ← \`kudoai/duckduckgpt/README.md\` auto-sync"
+            git commit -m "$commit_message"
+            git push origin HEAD
+          fi
+
+      - name: Sync greasemonkey to adamlui/userscripts/chatgpt/duckduckgpt
+        run: rsync -av --delete ${{ github.workspace }}/kudoai/duckduckgpt/greasemonkey/ ${{ github.workspace }}/adamlui/userscripts/chatgpt/duckduckgpt/
+
+      - name: Push changes to adamlui/userscripts/chatgpt/duckduckgpt
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          push_options: '--force'
+          add_options: '--all'
+          commit_user_name: 'auto-sync[bot]'
+          commit_message: '${{ github.event.head_commit.message }} ← `kudoai/duckduckgpt` auto-sync'
+          file_pattern: 'chatgpt/duckduckgpt/*'
+          repository: adamlui/userscripts
