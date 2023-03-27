@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'greasemonkey/**'
+    if: 'github.actor != "auto-sync[bot]"'
 
 jobs:
   sync-duckduckgpt:
@@ -38,6 +39,7 @@ jobs:
         with:
           push_options: '--force'
           add_options: '--all'
+          commit_user_name: 'auto-sync[bot]'
           commit_message: '${{ github.event.head_commit.message }} (synced from adamlui/duckduckgpt)'
           file_pattern: 'chatgpt/duckduckgpt/*'
           repository: adamlui/userscripts
