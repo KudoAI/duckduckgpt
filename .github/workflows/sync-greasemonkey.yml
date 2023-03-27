@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - 'greasemonkey/**'
-    if: 'github.actor != "github-actions[bot]"'
+    if: 'github.event.head_commit.committer.username != "github-actions[bot]"'
 
 jobs:
   sync-duckduckgpt:
