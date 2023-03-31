@@ -10,7 +10,7 @@
 ![usercount](https://img.shields.io/greasyfork/dt/459849?label=Users)
 [![license](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE.md)
 [![support](https://img.shields.io/badge/Support-Chrome/Firefox/Edge/Opera/Brave/Vivaldi/LibreWolf/QQ-989898.svg)](#compatibility)
-[![Mentioned in Awesome Userscripts](https://awesome.re/mentioned-badge.svg)](https://github.com/awesome-scripts/awesome-userscripts)
+[![Mentioned in Awesome Userscripts](https://awesome.re/mentioned-badge.svg)](https://awesome.re)
 
 <h3><b>DuckDuckGPT</b> brings the magic of ChatGPT to search results.</h3>
 
@@ -52,6 +52,21 @@
 - QQ
 
 If you've tested it to work in a browser not listed, create a [pull request](https://github.duckduckgpt.com/pulls) to become a contributor!
+
+## Proxy Mode
+
+Proxy API Mode (enabled by default) returns text responses, without the need for a chat.openai.com account!
+
+For even *faster* stream-type responses (like the one in demo), Tampermonkey users (w/ registered accounts) can disable it like this:
+
+<div align='center'>
+
+![image](https://user-images.githubusercontent.com/10906554/229062641-abff9d17-21cc-49b2-a98e-7793c231c4f2.png)
+![image](https://user-images.githubusercontent.com/10906554/229062275-fe67713f-cb93-4e08-b4ad-7e273eef2cd1.png)
+
+</div>
+
+<br>
 
 <a href="https://greasyfork.org/en/scripts/459849-duckduckgpt"><img alt="Install this script" src="https://raw.githubusercontent.com/adamlui/userscripts/master/install-button.svg"></a><a href="#installation"><img alt="How to install" title="How to install" src="https://github.com/adamlui/userscripts/raw/master/help-button.svg"></a>
 <br>
