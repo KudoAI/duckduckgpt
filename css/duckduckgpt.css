@@ -7,5 +7,5 @@
 .ddgpt-container .loading { color: #b6b8ba ; animation: pulse 2s cubic-bezier(.4,0,.6,1) infinite }
 .ddgpt-container.sidebar-free { margin-left: 60px ; height: fit-content }
 .ddgpt-container pre { white-space: pre-wrap ; min-width: 0 ; margin-bottom: 0 ; line-height: 20px }
-.chatgpt-feedback { margin: 2px 0 25px 0 }
+.chatgpt-feedback { margin: 2px 0 25px }
 @keyframes pulse { 0%, to { opacity: 1 } 50% { opacity: .5 }}
