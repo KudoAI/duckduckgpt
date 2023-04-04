@@ -49,7 +49,7 @@ jobs:
           add_options: '--all'
           commit_user_email: auto-sync@kudoai.com
           commit_message: '${{ github.event.head_commit.message }} ↞ [auto-sync from `kudoai/duckduckgpt/greasemonkey`]'
-          file_pattern: '/*'
+          file_pattern: '*'
           repository: kudoai/duckduckgpt
 
       - name: Push to adamlui/userscripts
