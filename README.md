@@ -72,7 +72,7 @@ DuckDuckGPT relies on code from the powerful [chatgpt.js](https://github.com/cha
 - LibreWolf
 - QQ
 
-If you've tested it to work in a browser not listed, create a [pull request](https://github.duckduckgpt.com/pulls) to become a contributor!
+If you've tested it to work in a browser not listed, simply create a [pull request](https://github.duckduckgpt.com/pulls) to become a contributor!
 
 ## Proxy Mode
 
@@ -80,7 +80,7 @@ Proxy API Mode (disabled by default) returns text responses, without the need fo
 
 When disabled, a ChatGPT account is required to fetch responses, but they are faster stream-type ones (like in demo).
 
-Tampermonkey users (w/ registered accounts) can enable Proxy Mode like this:
+If OpenAI API is acting unreliable, Tampermonkey users (w/ registered accounts) can enable Proxy Mode like this:
 
 <div align='center'>
 
