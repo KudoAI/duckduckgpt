@@ -50,7 +50,7 @@ jobs:
           commit_user_email: auto-sync@kudoai.com
           commit_message: '${{ github.event.head_commit.message }} ↞ [auto-sync from `kudoai/duckduckgpt/greasemonkey`]'
           file_pattern: '/*'
-          repository: adamlui/userscripts
+          repository: kudoai/duckduckgpt
 
       - name: Push to adamlui/userscripts
         uses: stefanzweifel/git-auto-commit-action@v4
