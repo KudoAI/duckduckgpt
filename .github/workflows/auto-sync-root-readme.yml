@@ -1,10 +1,10 @@
-name: Sync greasemonkey to (adamlui/userscripts/chatgpt || adamlui/chatgpt-userscripts) /duckduckgpt
+name: Sync README.md to (greasemonkey) && (adamlui/userscripts/chatgpt || adamlui/chatgpt-userscripts) /duckduckgpt
 
 on:
   push:
     branches: [ master, main ]
     paths:
-      - 'greasemonkey/**'
+      - 'README.md'
 
 jobs:
   build:
@@ -33,11 +33,24 @@ jobs:
           repository: adamlui/chatgpt-userscripts
           path: adamlui/chatgpt-userscripts
 
+      - name: Copy README.md to greasemonkey directory
+        run: cp -f ${{ github.workspace }}/kudoai/duckduckgpt/README.md ${{ github.workspace }}/kudoai/duckduckgpt/greasemonkey/README.md
+
       - name: Sync kudoai/duckduckgpt/greasemonkey to adamlui/userscripts/chatgpt/duckduckgpt
         run: rsync -av --delete ${{ github.workspace }}/kudoai/duckduckgpt/greasemonkey/ ${{ github.workspace }}/adamlui/userscripts/chatgpt/duckduckgpt/
 
       - name: Sync kudoai/duckduckgpt/greasemonkey to adamlui/chatgpt-userscripts/duckduckgpt
-        run: rsync -av --delete --exclude="/.*" ${{ github.workspace }}/kudoai/duckduckgpt/greasemonkey/ ${{ github.workspace }}/adamlui/chatgpt-userscripts/duckduckgpt/
+        run: rsync -av --delete ${{ github.workspace }}/kudoai/duckduckgpt/greasemonkey/ ${{ github.workspace }}/adamlui/chatgpt-userscripts/duckduckgpt/
+
+      - name: Push to kudoai/duckduckgpt
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          push_options: '--force'
+          add_options: '--all'
+          commit_user_email: auto-sync@kudoai.com
+          commit_message: '${{ github.event.head_commit.message }} ↞ [auto-sync from `kudoai/duckduckgpt`]'
+          file_pattern: 'greasemonkey/*'
+          repository: adamlui/userscripts
 
       - name: Push to adamlui/userscripts
         uses: stefanzweifel/git-auto-commit-action@v4
