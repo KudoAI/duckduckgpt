@@ -10,6 +10,7 @@
 ![usercount](https://img.shields.io/greasyfork/dt/459849?label=Users)
 [![license](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE.md)
 [![support](https://img.shields.io/badge/Support-Chrome/Firefox/Edge/Opera/Brave/Vivaldi/LibreWolf/QQ-989898.svg)](#compatibility)
+[![commits](https://img.shields.io/github/commit-activity/w/kudoai/duckduckgpt?label=Commits)](https://github.com/kudoai/duckduckgpt/commits/main)
 [![code-quality](https://img.shields.io/codefactor/grade/github/kudoai/duckduckgpt?label=Code%20Quality)](https://www.codefactor.io/repository/github/kudoai/duckduckgpt)
 <a alt="chatgpt.js" href="https://github.com/chatgptjs/chatgpt.js"><img height=20 src="https://i.imgur.com/IlqFZJI.png"></a>
 [![Mentioned in Awesome Userscripts](https://awesome.re/mentioned-badge.svg)](https://github.com/awesome-scripts/awesome-userscripts#duckduckgo)
@@ -75,14 +76,16 @@ If you've tested it to work in a browser not listed, create a [pull request](htt
 
 ## Proxy Mode
 
-Proxy API Mode (enabled by default) returns text responses, without the need for a chat.openai.com account!
+Proxy API Mode (disabled by default) returns text responses, without the need for a chat.openai.com account.
 
-For even *faster* stream-type responses (like the one in demo), Tampermonkey users (w/ registered accounts) can disable it like this:
+When disabled, a ChatGPT account is required to fetch responses, but they are faster stream-type ones (like in demo).
+
+Tampermonkey users (w/ registered accounts) can enable Proxy Mode like this:
 
 <div align='center'>
 
 ![image](https://user-images.githubusercontent.com/10906554/229062641-abff9d17-21cc-49b2-a98e-7793c231c4f2.png)
-![image](https://user-images.githubusercontent.com/10906554/229062275-fe67713f-cb93-4e08-b4ad-7e273eef2cd1.png)
+![image](https://user-images.githubusercontent.com/10906554/229728672-3fec6a2d-c4fe-4738-871d-56c1d97cb2c5.png)
 
 </div>
 
