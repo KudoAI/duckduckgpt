@@ -42,7 +42,7 @@ jobs:
           fi
 
       - name: Sync / to adamlui/chatgpt-apps/duckduckgpt/
-        run: rsync -avhr --delete --exclude={'.git','.github'} ${{ github.workspace }}/kudoai/duckduckgpt/ ${{ github.workspace }}/adamlui/chatgpt-apps/duckduckgpt/
+        run: rsync -avhr --delete --exclude={'.*','package*json'} ${{ github.workspace }}/kudoai/duckduckgpt/ ${{ github.workspace }}/adamlui/chatgpt-apps/duckduckgpt/
 
       - name: Sync /greasemonkey/ to adamlui/userscripts/chatgpt/duckduckgpt/
         run: rsync -avhr --delete ${{ github.workspace }}/kudoai/duckduckgpt/greasemonkey/ ${{ github.workspace }}/adamlui/userscripts/chatgpt/duckduckgpt/
