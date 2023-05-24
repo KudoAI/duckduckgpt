@@ -427,9 +427,9 @@
             + 'border-bottom-style: solid ; border-bottom-width: 1.19rem ; border-top: 0 ; border-bottom-color: '
             + ( isDarkMode() ? '#3a3a3a' : '#eaeaea' ) + ' } '
         + '.continue-chat > textarea {'
-            + 'border: none ; border-radius: 12px 13px 12px 0 ;
-            + 'height: 1.55rem ; width: 97.6% ; max-height: 200px ;resize: none ; 
-            + 'margin: 3px 0 15px 0 ; padding: 9px 0 5px 10px ; 
+            + 'border: none ; border-radius: 12px 13px 12px 0 ; '
+            + 'height: 1.55rem ; width: 97.6% ; max-height: 200px ;resize: none ; '
+            + 'margin: 3px 0 15px 0 ; padding: 9px 0 5px 10px ; '
             + 'background: ' + ( isDarkMode() ? '#515151' : '#eeeeee70' ) + ' } '
         + '.kudo-ai { position: relative ; left: 6px ; color: #aaa } '
         + '.kudo-ai a, .kudo-ai a:visited { color: #aaa ; text-decoration: none } '
