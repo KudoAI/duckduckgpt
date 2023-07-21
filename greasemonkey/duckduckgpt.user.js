@@ -14,7 +14,7 @@
 // @description:zh-HK   將 ChatGPT 答案添加到 DuckDuckGo 側邊欄 (由 GPT-4 提供支持!)
 // @author              Adam Lui
 // @namespace           https://github.com/adamlui
-// @version             2023.7.20.2
+// @version             2023.7.20.3
 // @license             MIT
 // @icon                https://media.ddgpt.com/images/ddgpt-icon48.png
 // @icon64              https://media.ddgpt.com/images/ddgpt-icon64.png
@@ -226,7 +226,7 @@
 
     function getOpenAItoken() {
         return new Promise((resolve) => {
-            const accessToken = GM_getValue('openAItoken')
+            const accessToken = GM_getValue(config.prefix + '_openAItoken')
             ddgptConsole.info('OpenAI access token: ' + accessToken)
             if (!accessToken) {
                 GM.xmlHttpRequest({ url: chatGPTsessURL, onload: (response) => {
@@ -234,7 +234,7 @@
                         ddgptAlert('checkCloudflare') ; return }
                     try {
                         const newAccessToken = JSON.parse(response.responseText).accessToken
-                        GM_setValue('openAItoken', newAccessToken)
+                        GM_setValue(config.prefix + '_openAItoken', newAccessToken)
                         resolve(newAccessToken)
                     } catch { ddgptAlert('login') ; return }
                 }})
@@ -243,8 +243,8 @@
 
     function getAIGCFkey() {
         return new Promise((resolve) => {
-            const publicKey = GM_getValue('aigcfKey')
-            if (!publicKey) {         
+            const publicKey = GM_getValue(config.prefix + '_aigcfKey')
+            if (!publicKey) {
                 GM.xmlHttpRequest({ method: 'GET', url: 'https://api.aigcfun.com/fc/key',
                     headers: {
                         'Content-Type': 'application/json',
@@ -253,7 +253,7 @@
                     onload: (response) => {
                         const newPublicKey = JSON.parse(response.responseText).data
                         if (!newPublicKey) { ddgptConsole.error('Failed to get AIGCFun public key') ; return }
-                        GM_setValue('aigcfKey', newPublicKey)
+                        GM_setValue(config.prefix + '_aigcfKey', newPublicKey)
                         console.info('AIGCFun public key set: ' + newPublicKey)
                         resolve(newPublicKey)
                 }})
@@ -341,7 +341,7 @@
                     if (config.proxyAPIenabled && getShowReply.attemptCnt < proxyEndpointMap.length)
                         retryDiffHost()
                     else if (event.status === 401 && !config.proxyAPIenabled) {
-                        GM_deleteValue('accessToken') ; ddgptAlert('login') }
+                        GM_deleteValue(config.prefix + '_openAItoken') ; ddgptAlert('login') }
                     else if (event.status === 403)
                         ddgptAlert(config.proxyAPIenabled ? 'suggestOpenAI' : 'checkCloudflare')
                     else if (event.status === 429) ddgptAlert('tooManyRequests')
@@ -367,7 +367,7 @@
                             ddgptConsole.info('Response: ' + event.responseText)
 
                             if (event.responseText.includes('finish_reason')) { // if AIGCF error encountered
-                                GM_setValue('aigcfKey', false) // clear GM key for fresh getAIGCFkey()
+                                GM_setValue(config.prefix + '_aigcfKey', false) // clear GM key for fresh getAIGCFkey()
 
                                 // Determine index of AIGCF in endpoint map
                                 let aigcfMapIndex = -1
