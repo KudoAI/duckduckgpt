@@ -12,12 +12,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - name: Checkout kudoai/duckduckgpt
+      - name: Checkout KudoAI/duckduckgpt
         uses: actions/checkout@v2
         with:
           token: ${{ secrets.REPO_SYNC_PAT }}
-          repository: kudoai/duckduckgpt
-          path: kudoai/duckduckgpt
+          repository: KudoAI/duckduckgpt
+          path: KudoAI/duckduckgpt
           fetch-depth: 2
 
       - name: Checkout adamlui/chatgpt-apps
@@ -37,11 +37,11 @@ jobs:
       - name: Sync docs between root & /greasemonkey
         run: |
           shopt -s globstar
-          cd ${{ github.workspace }}/kudoai/duckduckgpt
+          cd ${{ github.workspace }}/KudoAI/duckduckgpt
           for file in docs/**/*.md; do
             relative_path=${file#"docs/"}
-            root_doc="${{ github.workspace }}/kudoai/duckduckgpt/docs/$relative_path"
-            gm_doc="${{ github.workspace }}/kudoai/duckduckgpt/greasemonkey/docs/$relative_path"
+            root_doc="${{ github.workspace }}/KudoAI/duckduckgpt/docs/$relative_path"
+            gm_doc="${{ github.workspace }}/KudoAI/duckduckgpt/greasemonkey/docs/$relative_path"
             root_modified=$(git log -1 --format="%ct" -- "$root_doc")
             gm_modified=$(git log -1 --format="%ct" -- "$gm_doc")
             if (( root_modified > gm_modified )); then
@@ -54,24 +54,24 @@ jobs:
       - name: Sync / to adamlui/chatgpt-apps/duckduckgpt/
         run: |
           rsync -avhr --delete --exclude={'.*','package*json'} \
-            ${{ github.workspace }}/kudoai/duckduckgpt/ \
+            ${{ github.workspace }}/KudoAI/duckduckgpt/ \
             ${{ github.workspace }}/adamlui/chatgpt-apps/duckduckgpt/
 
       - name: Sync /greasemonkey/ to adamlui/userscripts/chatgpt/duckduckgpt/
         run: |
           rsync -avhr --delete \
-            ${{ github.workspace }}/kudoai/duckduckgpt/greasemonkey/ \
+            ${{ github.workspace }}/KudoAI/duckduckgpt/greasemonkey/ \
             ${{ github.workspace }}/adamlui/userscripts/chatgpt/duckduckgpt/
 
-      - name: Push to kudoai/duckduckgpt
+      - name: Push to KudoAI/duckduckgpt
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           push_options: '--force'
           add_options: '--all'
           commit_user_email: auto-sync@kudoai.com
-          commit_message: '${{ github.event.head_commit.message }} ↞ [auto-sync from `kudoai/duckduckgpt`]'
+          commit_message: '${{ github.event.head_commit.message }} ↞ [auto-sync from `KudoAI/duckduckgpt`]'
           file_pattern: '**'
-          repository: kudoai/duckduckgpt
+          repository: KudoAI/duckduckgpt
 
       - name: Push to adamlui/chatgpt-apps
         uses: stefanzweifel/git-auto-commit-action@v4
@@ -79,7 +79,7 @@ jobs:
           push_options: '--force'
           add_options: '--all'
           commit_user_email: auto-sync@kudoai.com
-          commit_message: '${{ github.event.head_commit.message }} ↞ [auto-sync from `kudoai/duckduckgpt`]'
+          commit_message: '${{ github.event.head_commit.message }} ↞ [auto-sync from `KudoAI/duckduckgpt`]'
           file_pattern: 'duckduckgpt/**'
           repository: adamlui/chatgpt-apps
 
@@ -89,6 +89,6 @@ jobs:
           push_options: '--force'
           add_options: '--all'
           commit_user_email: auto-sync@kudoai.com
-          commit_message: '${{ github.event.head_commit.message }} ↞ [auto-sync from `kudoai/duckduckgpt`]'
+          commit_message: '${{ github.event.head_commit.message }} ↞ [auto-sync from `KudoAI/duckduckgpt`]'
           file_pattern: 'chatgpt/duckduckgpt/**'
           repository: adamlui/userscripts
