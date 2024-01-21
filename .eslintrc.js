@@ -13,6 +13,15 @@ module.exports = {
     },
     'globals': { 'chatgpt': 'readonly', 'CryptoJS': 'readonly', 'GM_cookie': 'readonly' },
     'parserOptions': { 'ecmaVersion': 2022, 'sourceType': 'script' },
-    'overrides': [{ 'files': ['**/lib*/**.js'], 'parserOptions': { 'sourceType': 'module' }}],
+    'overrides': [
+        { 'files': ['**/lib*/**.js'], 'parserOptions': { 'sourceType': 'module' }},
+        {
+            'files': ['**/*.user.js'],
+            'extends': ['plugin:userscripts/recommended'],
+            'rules': {
+                'userscripts/align-attributes': ['error', 3]
+            }
+        }
+    ],
     'env': { 'browser': true, 'node': true, 'es6': true, 'greasemonkey': true }
 };
