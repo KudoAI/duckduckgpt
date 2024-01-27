@@ -19,7 +19,8 @@ module.exports = {
             'files': ['**/*.user.js'],
             'extends': ['plugin:userscripts/recommended'],
             'rules': {
-                'userscripts/align-attributes': ['error', 3]
+                'userscripts/align-attributes': ['error', 3],
+                'userscripts/use-homepage-and-url': 'off'
             }
         }
     ],

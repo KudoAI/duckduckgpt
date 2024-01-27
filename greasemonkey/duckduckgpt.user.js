@@ -187,7 +187,6 @@
 // @grant               GM.xmlHttpRequest
 // @downloadURL         https://update.greasyfork.org/scripts/459849/duckduckgpt.user.js
 // @updateURL           https://update.greasyfork.org/scripts/459849/duckduckgpt.meta.js
-// @homepage            https://www.duckduckgpt.com
 // @homepageURL         https://www.duckduckgpt.com
 // @supportURL          https://github.duckduckgpt.com/issues
 // ==/UserScript==
