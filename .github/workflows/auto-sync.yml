@@ -44,11 +44,8 @@ jobs:
             gm_doc="${{ github.workspace }}/KudoAI/duckduckgpt/greasemonkey/docs/$relative_path"
             root_modified=$(git log -1 --format="%ct" -- "$root_doc")
             gm_modified=$(git log -1 --format="%ct" -- "$gm_doc")
-            if (( root_modified > gm_modified )); then
-              cp -f "$root_doc" "$gm_doc"
-            else
-              cp -f "$gm_doc" "$root_doc"
-            fi
+            if (( root_modified > gm_modified )) ; then cp -f "$root_doc" "$gm_doc"
+            else cp -f "$gm_doc" "$root_doc" ; fi
           done
 
       - name: Sync / to adamlui/chatgpt-apps/duckduckgpt/
