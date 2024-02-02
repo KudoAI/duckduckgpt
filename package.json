@@ -4,7 +4,7 @@
     "eslint-plugin-userscripts": "^0.5.2"
   },
   "dependencies": {
-    "husky": "^9.0.7"
+    "husky": "^9.0.10"
   },
   "scripts": {
     "lint": "eslint .",
