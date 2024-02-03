@@ -1,9 +1,7 @@
 {
   "devDependencies": {
     "eslint": "^8.56.0",
-    "eslint-plugin-userscripts": "^0.5.2"
-  },
-  "dependencies": {
+    "eslint-plugin-userscripts": "^0.5.2",
     "husky": "^9.0.10"
   },
   "scripts": {
