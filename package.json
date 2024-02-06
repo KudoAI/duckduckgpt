@@ -1,10 +1,11 @@
 {
   "devDependencies": {
     "eslint": "^8.56.0",
+    "eslint-plugin-json-schema-validator": "^4.8.3",
     "eslint-plugin-userscripts": "^0.5.2",
     "husky": "^9.0.10"
   },
   "scripts": {
-    "lint": "eslint ."
+    "lint": "eslint --ext .js,.json ."
   }
 }
