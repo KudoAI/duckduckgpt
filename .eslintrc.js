@@ -14,9 +14,7 @@ module.exports = {
     'parserOptions': { 'ecmaVersion': 2022, 'sourceType': 'script' },
     'overrides': [
         { 'files': ['**/*.json'], 'extends': ['plugin:json-schema-validator/recommended'] },
-        {
-            'files': ['**/*.user.js'],
-            'extends': ['plugin:userscripts/recommended'],
+        { 'files': ['**/*.user.js'], 'extends': ['plugin:userscripts/recommended'],
             'rules': {
                 'userscripts/align-attributes': ['error', 3],
                 'userscripts/use-homepage-and-url': 'off'
