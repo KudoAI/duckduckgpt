@@ -19,7 +19,8 @@ module.exports = {
                 'userscripts/align-attributes': ['error', 3],
                 'userscripts/use-homepage-and-url': 'off'
             }
-        }
+        },
+        { 'files': ['**/*.yml'], 'extends': ['plugin:yml/standard'] }
     ],
     'env': { 'browser': true, 'node': true, 'es6': true, 'greasemonkey': true }
 };
