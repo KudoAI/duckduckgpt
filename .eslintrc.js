@@ -12,7 +12,7 @@ module.exports = {
         'no-inner-declarations': 'off', // allow function declarations anywhere
         'no-useless-escape': 'off' // allow all escape chars cause ESLint sucks at detecting truly useless ones
     },
-    'globals': { 'chatgpt': 'readonly', 'CryptoJS': 'readonly', 'GM_cookie': 'readonly' },
+    'globals': { 'chatgpt': 'readonly', 'CryptoJS': 'readonly', 'GM_cookie': 'readonly', 'ipv4': 'readonly' },
     'parserOptions': { 'ecmaVersion': 2022, 'sourceType': 'script' },
     'overrides': [
         { 'files': ['**/*.json'], 'extends': ['plugin:json-schema-validator/recommended'] },
