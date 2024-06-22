@@ -1,0 +1,137 @@
+name: Update usercount/clones shields in READMEs
+
+on:
+  schedule:
+    - cron: "42 6 * * 0,2,4" # every Sun/Tue/Thu @ 6:42a
+
+jobs:
+  update-usercount-clones-shields:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout KudoAI/duckduckgpt
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.REPO_SYNC_PAT }}
+          repository: KudoAI/duckduckgpt
+          path: KudoAI/duckduckgpt
+
+      - name: Fetch/sum user + clone counts
+        id: get-stats
+        run: |
+          expand_num() { # expand nums abbreviated w/ 'k' or 'm' suffix to integers
+            local num=$(echo "$1" | tr '[:upper:]' '[:lower:]') # convert to lowercase
+            if [[ $num =~ k$ ]] ; then
+              num="${num%k}" # remove 'k' suffix
+              num=$(awk "BEGIN { printf \"%.0f\", $num * 1000 }") # multiply by 1000
+            elif [[ $num =~ m$ ]] ; then
+              num="${num%m}" # remove 'm' suffix
+              num=$(awk "BEGIN { printf \"%.0f\", $num * 1000000 }") # multiply by 1000000
+            fi ; echo "$num"
+          }
+
+          format_total() {
+            local num=$1 ; first_digit="${num:0:1}" second_digit="${num:1:1}"
+            second_digit_rounded=$(( second_digit < 5 ? 0 : 5 ))
+            if (( num >= 1000000000 )) ; then # 1B+ w/ one decimal place
+              formatted_num="$(( num / 1000000000 ))"
+              remainder=$(( (num % 1000000000) / 100000000 ))
+              if (( remainder != 0 )) ; then formatted_num+=".$remainder" ; fi
+              formatted_num+="B+"
+            elif (( num >= 10000000 )) ; then # abbr 10,000,000+ to 999,000,000+
+              formatted_num=$(printf "%'.f+" $((( num / 1000000 ) * 1000000 )))
+            elif (( num >= 1000000 )) ; then # abbr 1,000,000+ to 9,900,000+
+              formatted_num="${first_digit},${second_digit}00,000+"
+            elif (( num >= 100000 )) ; then # abbr 100,000+ to 950,000+
+              formatted_num="${first_digit}${second_digit_rounded}0,000+"
+            elif (( num >= 10000 )) ; then # abbr 10,000+ to 90,000+
+              formatted_num="${first_digit}0,000+"
+            elif (( num >= 1000 )) ; then # abbr 1K to 9.9K
+              formatted_num="$(( num / 1000 ))"
+              remainder=$(( (num % 1000) / 100 ))
+              if (( remainder != 0 )) ; then formatted_num+=".$remainder" ; fi
+              formatted_num+="K"
+            else formatted_num="$num" ; fi # preserve <1K as is
+            echo "$formatted_num"
+          }
+
+          # Fetch Greasy Fork total user count
+          base_url="https://img.shields.io/greasyfork/dt/"
+          app_id="465051"
+          gf_users=$(curl -s "$base_url$app_id" |
+            sed -n 's/.*<title>installs: \([0-9.k]\+\)*<\/title>.*/\1/Ip')
+          gf_users=$(expand_num "$gf_users")
+          echo "Greasy Fork users: $gf_users"
+
+          # Fetch/calculate git clone count
+          biweekly_clones=$(curl -sSL \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.REPO_SYNC_PAT }}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/KudoAI/duckduckgpt/traffic/clones" |
+            sed -n -E '0,/.*"count": ([0-9]+).*/ s//\1/p')
+          total_clones=$((biweekly_clones * 2))
+          echo "Biweekly git clones: $biweekly_clones"
+          echo -e "\n-----\nTotal monthly git clones: $total_clones\n-----\n"
+
+          # Format totals
+          formatted_total_users=$(format_total "$gf_users")
+          echo "Formatted total users: $formatted_total_users"
+          formatted_total_clones=$(format_total "$total_clones")
+          echo "Formatted total monthly git clones: $formatted_total_clones"
+
+          # Expose as outputs for update step next
+          echo "total_users=$formatted_total_users" >> $GITHUB_OUTPUT
+          echo "total_clones=$formatted_total_clones" >> $GITHUB_OUTPUT
+
+      - name: Update README shields
+        id: update-shields
+        run: |
+          cd ${{ github.workspace }}/KudoAI/duckduckgpt
+
+          total_users="${{ steps.get-stats.outputs.total_users }}"
+          total_clones="${{ steps.get-stats.outputs.total_clones }}"
+
+          if [ "$total_users" == "0" ] ; then echo "Error getting total usercount"
+          else # perform update
+            for readme in $(find / -name "README.md") ; do
+              old_readme=$(<"$readme")
+              sed -i "s/\(badge\/[^-]*-\)[0-9.,km+]\+-/\1$total_users-/gI" "$readme"
+              new_readme=$(<"$readme")
+              if [ "$old_readme" != "$new_readme" ] ; then users_updated=true ; fi
+            done          
+            if [ "$users_updated" = true ] ; then echo "Usercount shields updated to $total_users"
+            else echo "Usercount shields already up-to-date" ; fi
+          fi
+
+          # Update git clones shield
+          if [ "$total_clones" == "0" ] ; then echo "Error getting total git clones"
+          else # perform update
+            for readme in $(find docs/ -name "README.md") ; do
+              old_readme=$(<"$readme")
+              sed -i -E "s|(badge/[^-]+-)[0-9.,km+]+(/[^?]+\?logo=github)|\1$total_clones\2|gI" "$readme"
+              new_readme=$(<"$readme")
+              if [ "$old_readme" != "$new_readme" ] ; then clones_updated=true ; fi
+            done
+            if [ "$clones_updated" = true ] ; then echo "Git clones shields updated to $total_clones"
+            else echo "Git clones shields already up-to-date" ; fi
+          fi
+
+          # Define commit msg for push step next
+          if [ "$users_updated" = true ] && [ "$clones_updated" = true ] ; then
+            multi_shield_types_updated=true ; fi
+          commit_msg="Updated "
+          [ "$users_updated" = true              ] && commit_msg+="usercount"
+          [ "$multi_shield_types_updated" = true ] && commit_msg+="/"
+          [ "$clones_updated" = true             ] && commit_msg+="clones"
+          commit_msg+=" shield counters in root READMEs"
+          echo "commit_msg=$commit_msg" >> $GITHUB_OUTPUT # expose as output
+
+      - name: Push to KudoAI/duckduckgpt
+        run: |
+          cd ${{ github.workspace }}/KudoAI/duckduckgpt
+          git config --global user.name "kudo-sync-bot"
+          git config --global user.email "auto-sync@kudoai.com"
+          git add .
+          git commit -n -m "${{ steps.update-shields.outputs.commit_msg }}" || true
+          git push
