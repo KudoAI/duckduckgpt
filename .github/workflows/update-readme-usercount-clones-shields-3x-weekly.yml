@@ -94,7 +94,7 @@ jobs:
 
           if [ "$total_users" == "0" ] ; then echo "Error getting total usercount"
           else # perform update
-            for readme in $(find / -name "README.md") ; do
+            for readme in $(find . -name "README.md") ; do
               old_readme=$(<"$readme")
               sed -i "s/\(badge\/[^-]*-\)[0-9.,km+]\+-/\1$total_users-/gI" "$readme"
               new_readme=$(<"$readme")
