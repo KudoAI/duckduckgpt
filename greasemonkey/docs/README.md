@@ -5,7 +5,7 @@
   </picture>
 </h1>
 
-<a href="https://greasyfork.org/scripts/459849-duckduckgpt"><img height=31 alt="[Greasy Fork]" src="https://img.shields.io/badge/Users-100,000+-blue?logo=weightsandbiases&logoColor=white&labelColor=464646&style=for-the-badge"></a>
+<a href="https://greasyfork.org/scripts/459849-duckduckgpt"><img height=31 alt="[Greasy Fork]" src="https://img.shields.io/badge/Users-10,000+-blue?logo=weightsandbiases&logoColor=white&labelColor=464646&style=for-the-badge"></a>
 <a href="https://github.com/KudoAI/duckduckgpt/blob/main/LICENSE.md"><img height=31 alt="[License: MIT]" src="https://img.shields.io/badge/License-MIT-orange.svg?logo=internetarchive&logoColor=white&labelColor=464646&style=for-the-badge">
 <a href="https://github.ddgpt.com/commits"><img height=31 alt="[GitHub commits]" src="https://img.shields.io/github/commit-activity/m/KudoAI/duckduckgpt?label=Commits&logo=github&logoColor=white&labelColor=464646&color=7bb7fc&style=for-the-badge">
 <img height=31 src="https://img.shields.io/badge/Clones-2.8K/month-869da0?logo=github&logoColor=white&labelColor=464646&style=for-the-badge">
@@ -131,11 +131,11 @@ When disabled, a ChatGPT account is required to fetch responses. If OpenAI API i
 [![](https://img.shields.io/badge/Follow%20company%2fkudo--ai-151-blue?logo=linkedin&style=social "Follow company/kudo-ai on LinkedIn")](https://linkedin.com/company/kudo-ai)
 [![](https://img.shields.io/github/followers/kudoai?label=Follow%20%40kudoai&style=social "Follow @kudoai on GitHub")](https://github.com/KudoAI)
 [![](https://img.shields.io/youtube/channel/subscribers/UCdwQlbPJW3RbkLcHh_DGb0g?label=Follow%20%40kudoailabs&style=social "Follow @kudoailabs on YouTube")](https://www.youtube.com/@kudoailabs?sub_confirmation=1)
-[![](https://img.shields.io/badge/Follow%20KudoAI-100,000+-blue?logo=medium&style=social "Follow KudoAI on Medium")](https://blog.kudoai.com?utm_source=duckduckgpt&utm_content=github_shield)
+[![](https://img.shields.io/badge/Follow%20KudoAI-6-blue?logo=medium&style=social "Follow KudoAI on Medium")](https://blog.kudoai.com?utm_source=duckduckgpt&utm_content=github_shield)
 <br>[![](https://img.shields.io/mastodon/follow/109387703022229926?domain=https%3A%2F%2Felonsucks.org&style=social "Follow @adam on Mastodon (elonsucks.org)")](https://elonsucks.org/@adam?utm_source=duckduckgpt&utm_content=github_shield)
-[![](https://img.shields.io/badge/Follow%20@adamllui-100,000+-blue?logo=x&style=social "Follow @adamllui on X")](https://x.com/intent/user?screen_name=adamllui)
-[![](https://img.shields.io/badge/Follow%20in%2fadamlui-100,000+-blue?logo=linkedin&style=social "Follow in/adamlui on LinkedIn")](https://linkedin.com/in/adamlui)
-[![](https://img.shields.io/badge/Follow%20@adamlui-100,000+-blue?logo=medium&style=social "Follow @adamlui on Medium")](https://adamlui.com?utm_source=duckduckgpt&utm_content=github_shield)
+[![](https://img.shields.io/badge/Follow%20@adamllui-2.2k-blue?logo=x&style=social "Follow @adamllui on X")](https://x.com/intent/user?screen_name=adamllui)
+[![](https://img.shields.io/badge/Follow%20in%2fadamlui-1.3k-blue?logo=linkedin&style=social "Follow in/adamlui on LinkedIn")](https://linkedin.com/in/adamlui)
+[![](https://img.shields.io/badge/Follow%20@adamlui-637-blue?logo=medium&style=social "Follow @adamlui on Medium")](https://adamlui.com?utm_source=duckduckgpt&utm_content=github_shield)
 [![](https://img.shields.io/youtube/channel/subscribers/UCgBMqK7SRL5R__3qM-YAcSg?label=Follow%20%40adamluitube&style=social "Follow @adamluitube on YouTube")](https://www.youtube.com/AdamLuiTube?sub_confirmation=1)
 [![](https://img.shields.io/github/followers/adamlui?label=Follow%20%40adamlui&style=social "Follow @adamlui on GitHub")](https://github.com/adamlui)
 <br><br>
