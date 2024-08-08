@@ -125,7 +125,7 @@ jobs:
           [ "$users_updated" = true              ] && commit_msg+="usercount"
           [ "$multi_shield_types_updated" = true ] && commit_msg+="/"
           [ "$clones_updated" = true             ] && commit_msg+="clones"
-          commit_msg+=" shield counters in root READMEs"
+          commit_msg+=" shield counters in READMEs"
           echo "commit_msg=$commit_msg" >> $GITHUB_OUTPUT # expose as output
 
       - name: Push to KudoAI/duckduckgpt
