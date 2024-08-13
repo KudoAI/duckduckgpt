@@ -169,7 +169,7 @@ jobs:
           git config --global user.name "kudo-sync-bot"
           git config --global user.email "auto-sync@kudoai.com"
           git add .
-          git commit -n -m "${{ steps.update-shields.outputs.commit_msg }}" || true
+          git commit -n -m "${{ steps.update-shields.outputs.commit_msg }} ↞ [auto-sync from `KudoAI/duckduckgpt`]" || true
           git push
 
       - name: Push changes to adamlui/userscripts
@@ -178,6 +178,6 @@ jobs:
           git config --global user.name "kudo-sync-bot"
           git config --global user.email "auto-sync@kudoai.com"
           git add .
-          git commit -n -m "${{ steps.update-shields.outputs.commit_msg }}" || true
+          git commit -n -m "${{ steps.update-shields.outputs.commit_msg }} ↞ [auto-sync from `KudoAI/duckduckgpt`]" || true
           git push
 
