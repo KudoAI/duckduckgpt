@@ -1,4 +1,4 @@
-name: Update usercount/clones shields in READMEs
+name: Update usercount/clones shields in READMEs, sync to adamlui/chatgpt-apps + adamlui/userscripts
 
 on:
   schedule:
@@ -15,6 +15,20 @@ jobs:
           token: ${{ secrets.REPO_SYNC_PAT }}
           repository: KudoAI/duckduckgpt
           path: KudoAI/duckduckgpt
+
+      - name: Checkout adamlui/chatgpt-apps
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.REPO_SYNC_PAT }}
+          repository: adamlui/chatgpt-apps
+          path: adamlui/chatgpt-apps
+
+      - name: Checkout adamlui/userscripts
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.REPO_SYNC_PAT }}
+          repository: adamlui/userscripts
+          path: adamlui/userscripts
 
       - name: Fetch/sum user + clone counts
         id: get-stats
@@ -118,7 +132,7 @@ jobs:
             else echo "Git clones shields already up-to-date" ; fi
           fi
 
-          # Define commit msg for push step next
+          # Define commit msg for push steps
           if [ "$users_updated" = true ] && [ "$clones_updated" = true ] ; then
             multi_shield_types_updated=true ; fi
           commit_msg="Updated "
@@ -128,6 +142,18 @@ jobs:
           commit_msg+=" shield counters in READMEs"
           echo "commit_msg=$commit_msg" >> $GITHUB_OUTPUT # expose as output
 
+      - name: Sync / to adamlui/chatgpt-apps/duckduckgpt/
+        run: |
+          rsync -avhr --delete --exclude={'.*','eslint*','package*json'} \
+            ${{ github.workspace }}/KudoAI/duckduckgpt/ \
+            ${{ github.workspace }}/adamlui/chatgpt-apps/duckduckgpt/
+
+      - name: Sync /greasemonkey/ to adamlui/userscripts/chatgpt/duckduckgpt/
+        run: |
+          rsync -avhr --delete \
+            ${{ github.workspace }}/KudoAI/duckduckgpt/greasemonkey/ \
+            ${{ github.workspace }}/adamlui/userscripts/chatgpt/duckduckgpt/
+
       - name: Push to KudoAI/duckduckgpt
         run: |
           cd ${{ github.workspace }}/KudoAI/duckduckgpt
@@ -136,3 +162,22 @@ jobs:
           git add .
           git commit -n -m "${{ steps.update-shields.outputs.commit_msg }}" || true
           git push
+
+      - name: Push changes to adamlui/chatgpt-apps
+        run: |
+          cd ${{ github.workspace }}/adamlui/chatgpt-apps
+          git config --global user.name "kudo-sync-bot"
+          git config --global user.email "auto-sync@kudoai.com"
+          git add .
+          git commit -n -m "${{ steps.update-shields.outputs.commit_msg }}" || true
+          git push
+
+      - name: Push changes to adamlui/userscripts
+        run: |
+          cd ${{ github.workspace }}/adamlui/userscripts
+          git config --global user.name "kudo-sync-bot"
+          git config --global user.email "auto-sync@kudoai.com"
+          git add .
+          git commit -n -m "${{ steps.update-shields.outputs.commit_msg }}" || true
+          git push
+
