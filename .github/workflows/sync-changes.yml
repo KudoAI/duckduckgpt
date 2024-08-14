@@ -94,7 +94,7 @@ jobs:
           git config --global user.name "kudo-sync-bot"
           git config --global user.email "auto-sync@kudoai.com"
           git add .
-          git commit -n -m "ESCAPED_MSG ↞ [auto-sync from \`${{ steps.sync_docs.outputs.sync_src }}\`]" || true
+          git commit -n -m "$ESCAPED_MSG ↞ [auto-sync from \`${{ steps.sync_docs.outputs.sync_src }}\`]" || true
           git push
 
       - name: Push changes to adamlui/chatgpt-apps
@@ -103,7 +103,7 @@ jobs:
           git config --global user.name "kudo-sync-bot"
           git config --global user.email "auto-sync@kudoai.com"
           git add .
-          git commit -n -m "ESCAPED_MSG ↞ [auto-sync from \`KudoAI/duckduckgpt\`]" || true
+          git commit -n -m "$ESCAPED_MSG ↞ [auto-sync from \`KudoAI/duckduckgpt\`]" || true
           git push
 
       - name: Push changes to adamlui/userscripts
@@ -112,5 +112,5 @@ jobs:
           git config --global user.name "kudo-sync-bot"
           git config --global user.email "auto-sync@kudoai.com"
           git add .
-          git commit -n -m ESCAPED_MSG ↞ [auto-sync from \`KudoAI/duckduckgpt\`]" || true
+          git commit -n -m "$ESCAPED_MSG ↞ [auto-sync from \`KudoAI/duckduckgpt\`]" || true
           git push
