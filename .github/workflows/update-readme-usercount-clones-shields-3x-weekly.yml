@@ -135,12 +135,12 @@ jobs:
           # Define commit msg for push steps
           if [ "$users_updated" = true ] && [ "$clones_updated" = true ] ; then
             multi_shield_types_updated=true ; fi
-          commit_msg="Updated "
-          [ "$users_updated" = true              ] && commit_msg+="usercount"
-          [ "$multi_shield_types_updated" = true ] && commit_msg+="/"
-          [ "$clones_updated" = true             ] && commit_msg+="clones"
-          commit_msg+=" shield counters in READMEs"
-          echo "commit_msg=$commit_msg" >> $GITHUB_OUTPUT # expose as output
+          commit_msg_intro="Updated "
+          [ "$users_updated" = true              ] && commit_msg_intro+="usercount"
+          [ "$multi_shield_types_updated" = true ] && commit_msg_intro+="/"
+          [ "$clones_updated" = true             ] && commit_msg_intro+="clones"
+          commit_msg_intro+=" shield counters"
+          echo "commit_msg_intro=$commit_msg_intro" >> $GITHUB_OUTPUT # expose as output
 
       - name: Sync / to adamlui/chatgpt-apps/duckduckgpt/
         run: |
@@ -163,20 +163,19 @@ jobs:
         run: |
           cd ${{ github.workspace }}/KudoAI/duckduckgpt
           git add .
-          git commit -n -m "${{ steps.update-shields.outputs.commit_msg }}" || true
+          git commit -n -m "${{ steps.update-shields.outputs.commit_msg_intro }} in READMEs" || true
           git push
 
       - name: Push changes to adamlui/chatgpt-apps
         run: |
           cd ${{ github.workspace }}/adamlui/chatgpt-apps
           git add .
-          git commit -n -m "${{ steps.update-shields.outputs.commit_msg }} ↞ [auto-sync from \`KudoAI/duckduckgpt\`]" || true
+          git commit -n -m "${{ steps.update-shields.outputs.commit_msg_intro }} in DuckDuckGPT READMEs" || true
           git push
 
       - name: Push changes to adamlui/userscripts
         run: |
           cd ${{ github.workspace }}/adamlui/userscripts
           git add .
-          git commit -n -m "${{ steps.update-shields.outputs.commit_msg }} ↞ [auto-sync from \`KudoAI/duckduckgpt\`]" || true
+          git commit -n -m "${{ steps.update-shields.outputs.commit_msg_intro }} in DuckDuckGPT READMEs" || true
           git push
-
