@@ -159,7 +159,7 @@ jobs:
           git config --global user.name "kudo-sync-bot"
           git config --global user.email "auto-sync@kudoai.com"
 
-      - name: Push to KudoAI/duckduckgpt
+      - name: Push changes to KudoAI/duckduckgpt
         run: |
           cd ${{ github.workspace }}/KudoAI/duckduckgpt
           git add .
