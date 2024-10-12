@@ -155,11 +155,14 @@ jobs:
           rsync -avhr --delete \
             ${{ github.workspace }}/KudoAI/duckduckgpt/greasemonkey/ \
             ${{ github.workspace }}/adamlui/userscripts/chatgpt/duckduckgpt/
-
-      - name: Init committer name/email
+      
+      - name: Config committer
         run: |
+          gpg --batch --import <(echo "${{ secrets.GPG_PRIVATE_KEY }}")
+          git config --global commit.gpgsign true
           git config --global user.name "kudo-sync-bot"
           git config --global user.email "auto-sync@kudoai.com"
+          git config --global user.signingkey  "${{ secrets.GPG_PRIVATE_ID }}"
 
       - name: Push changes to KudoAI/duckduckgpt
         run: |
