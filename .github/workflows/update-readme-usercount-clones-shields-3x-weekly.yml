@@ -1,4 +1,4 @@
-name: Update usercount/clones shields in READMEs, sync to adamlui/chatgpt-apps + adamlui/userscripts
+name: Update usercount/clones shields in READMEs, sync to adamlui/ai-apps + adamlui/userscripts
 
 on:
   schedule:
@@ -18,12 +18,12 @@ jobs:
           repository: KudoAI/duckduckgpt
           path: KudoAI/duckduckgpt
 
-      - name: Checkout adamlui/chatgpt-apps
+      - name: Checkout adamlui/ai-apps
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.REPO_SYNC_PAT }}
-          repository: adamlui/chatgpt-apps
-          path: adamlui/chatgpt-apps
+          repository: adamlui/ai-apps
+          path: adamlui/ai-apps
 
       - name: Checkout adamlui/userscripts
         uses: actions/checkout@v4
@@ -144,11 +144,11 @@ jobs:
           commit_msg_intro+=" shield counters"
           echo "commit_msg_intro=$commit_msg_intro" >> $GITHUB_OUTPUT # expose as output
 
-      - name: Sync / to adamlui/chatgpt-apps/duckduckgpt/
+      - name: Sync / to adamlui/ai-apps/duckduckgpt/
         run: |
           rsync -avhr --delete --exclude={'.*','eslint*','package*json'} \
             ${{ github.workspace }}/KudoAI/duckduckgpt/ \
-            ${{ github.workspace }}/adamlui/chatgpt-apps/duckduckgpt/
+            ${{ github.workspace }}/adamlui/ai-apps/duckduckgpt/
 
       - name: Sync /greasemonkey/ to adamlui/userscripts/chatgpt/duckduckgpt/
         run: |
@@ -171,9 +171,9 @@ jobs:
           git commit -n -m "${{ steps.update-shields.outputs.commit_msg_intro }} in READMEs" || true
           git push
 
-      - name: Push changes to adamlui/chatgpt-apps
+      - name: Push changes to adamlui/ai-apps
         run: |
-          cd ${{ github.workspace }}/adamlui/chatgpt-apps
+          cd ${{ github.workspace }}/adamlui/ai-apps
           git add .
           git commit -n -m "${{ steps.update-shields.outputs.commit_msg_intro }} in DuckDuckGPT READMEs" || true
           git push
