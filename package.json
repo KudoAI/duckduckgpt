@@ -1,4 +1,9 @@
 {
+  "author": {
+    "name": "KudoAI & contributors",
+    "email": "opensource@kudoai.com",
+    "url": "https://www.kudoai.com"
+  },
   "homepage": "https://www.duckduckgpt.com",
   "funding": "http://github.com/sponsors/KudoAI",
   "devDependencies": {
