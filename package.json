@@ -1,5 +1,6 @@
 {
   "homepage": "https://www.duckduckgpt.com",
+  "funding": "http://github.com/sponsors/KudoAI",
   "devDependencies": {
     "@adamlui/scss-to-css": "^1.10.12",
     "eslint": "^9.12.0",
