@@ -5,6 +5,7 @@
     "url": "https://www.kudoai.com"
   },
   "homepage": "https://www.duckduckgpt.com",
+  "license": "MIT",
   "funding": "http://github.com/sponsors/KudoAI",
   "devDependencies": {
     "@adamlui/scss-to-css": "^1.10.12",
