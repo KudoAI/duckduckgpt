@@ -8,7 +8,7 @@
   "license": "MIT",
   "funding": "http://github.com/sponsors/KudoAI",
   "devDependencies": {
-    "@adamlui/scss-to-css": "^1.10.15",
+    "@adamlui/scss-to-css": "^1.10.16",
     "eslint": "^9.13.0",
     "eslint-plugin-json": "^4.0.1",
     "husky": "^9.1.6"
