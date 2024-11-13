@@ -7,17 +7,17 @@
   "homepage": "https://www.duckduckgpt.com",
   "license": "MIT",
   "funding": "http://github.com/sponsors/KudoAI",
-  "devDependencies": {
-    "@adamlui/scss-to-css": "^1.10.17",
-    "eslint": "^9.14.0",
-    "eslint-plugin-json": "^4.0.1",
-    "husky": "^9.1.6"
-  },
   "scripts": {
     "build:css": "scss-to-css",
     "lint": "eslint . --cache",
     "lint:all": "eslint .",
     "lint:fix": "eslint . --fix --cache",
     "lint:fix-all": "eslint . --fix"
+  },
+  "devDependencies": {
+    "@adamlui/scss-to-css": "^1.10.17",
+    "eslint": "^9.14.0",
+    "eslint-plugin-json": "^4.0.1",
+    "husky": "^9.1.6"
   }
 }
