@@ -111,12 +111,12 @@ jobs:
         run: |
           cd ${{ github.workspace }}/adamlui/ai-apps
           git add .
-          git commit -n -m "$ESCAPED_MSG ↞ [auto-sync from KudoAI/duckduckgpt]" || true
+          git commit -n -m "$ESCAPED_MSG ↞ [auto-sync from https://github.com/KudoAI/duckduckgpt]" || true
           git push
 
       - name: Push changes to adamlui/userscripts
         run: |
           cd ${{ github.workspace }}/adamlui/userscripts
           git add .
-          git commit -n -m "$ESCAPED_MSG ↞ [auto-sync from KudoAI/duckduckgpt]" || true
+          git commit -n -m "$ESCAPED_MSG ↞ [auto-sync from https://github.com/KudoAI/duckduckgpt]" || true
           git push
