@@ -8,6 +8,7 @@
   "license": "MIT",
   "funding": "http://github.com/sponsors/KudoAI",
   "scripts": {
+    "prepare": "husky",
     "lint": "eslint . --cache",
     "lint:all": "eslint .",
     "lint:fix": "eslint . --fix --cache",
