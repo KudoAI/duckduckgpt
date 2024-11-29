@@ -3,7 +3,7 @@ name: Sync ** to adamlui/ai-apps/duckduckgpt/, then greasemonkey/ to adamlui/use
 on:
   push:
     branches: [main]
-    paths: ["**", "!.*", "!package*json", "!eslint.config*"]
+    paths: ["**", "!.*", "!package*.json", "!eslint.config*"]
 
 jobs:
   build:
@@ -74,7 +74,7 @@ jobs:
 
       - name: Sync ** to adamlui/ai-apps/duckduckgpt/
         run: |
-          rsync -avhr --delete --exclude={'.*','eslint*','package*json'} \
+          rsync -avhr --delete --exclude={'.*','eslint*','package*.json'} \
             ${{ github.workspace }}/KudoAI/duckduckgpt/ \
             ${{ github.workspace }}/adamlui/ai-apps/duckduckgpt/
 
