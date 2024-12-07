@@ -74,7 +74,7 @@ jobs:
 
       - name: Sync ** to adamlui/ai-apps/duckduckgpt/
         run: |
-          rsync -avhr --delete --exclude={'.*','eslint*','package*.json'} \
+          rsync -avhr --delete --exclude={'.*'} \
             ${{ github.workspace }}/KudoAI/duckduckgpt/ \
             ${{ github.workspace }}/adamlui/ai-apps/duckduckgpt/
 
