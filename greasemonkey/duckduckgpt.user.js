@@ -148,7 +148,7 @@
 // @description:zu         Yengeza izimpendulo ze-AI ku-DuckDuckGo (inikwa amandla yi-GPT-4o!)
 // @author                 KudoAI
 // @namespace              https://kudoai.com
-// @version                2024.12.6.8
+// @version                2024.12.15.12
 // @license                MIT
 // @icon                   https://media.ddgpt.com/images/icons/duckduckgpt/icon48.png?af89302
 // @icon64                 https://media.ddgpt.com/images/icons/duckduckgpt/icon64.png?af89302
@@ -189,8 +189,8 @@
 // @resource ddgptLSlogo   https://cdn.jsdelivr.net/gh/KudoAI/duckduckgpt@edc8ee5/media/images/logos/duckduckgpt/lightmode/logo697x122.png.b64#sha256-7O4AxPinoZ6h36KHuJVa4vwfTEOYTwT+lKiDbf/jjkg=
 // @resource ddgptDSlogo   https://cdn.jsdelivr.net/gh/KudoAI/duckduckgpt@edc8ee5/media/images/logos/duckduckgpt/darkmode/logo697x122.png.b64#sha256-lSd4M3RPT4+SjjBk8PKGFoyM9p3rZHgxt0NgoKqQkiM=
 // @resource hljsCSS       https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/dark.min.css#sha256-v0N76BFFkH0dCB8bUr4cHSVN8A/zCaOopMuSmJWV/5w=
-// @resource brsCSS        https://assets.aiwebextensions.com/styles/css/black-rising-stars.min.css?v=542104c#sha256-GQLnVMub4cpV5A59pvnDe8peGrW1v49u1UbDHHTGBBI=
-// @resource wrsCSS        https://assets.aiwebextensions.com/styles/css/white-rising-stars.min.css?v=542104c#sha256-UCMygYN1+KOj8pQJonn7CRZ2b+npvyrXJlnarlJGIh4=
+// @resource brsCSS        https://assets.aiwebextensions.com/styles/rising-stars/css/black.min.css?v=891df10#sha256-XXTVJUEWrx/FwnEXbj5DcnIjwJtFAEAp0CdT6pV1+n8=
+// @resource wrsCSS        https://assets.aiwebextensions.com/styles/rising-stars/css/white.min.css?v=891df10#sha256-7epqkWDhCgDP7Lv/ASLvlqbOn4D5GpnGolOUl65e9j8=
 // @grant                  GM_getValue
 // @grant                  GM_setValue
 // @grant                  GM_deleteValue
@@ -236,7 +236,8 @@
 
     // Init APP data
     const app = {
-        name: 'DuckDuckGPT', version: GM_info.script.version, symbol: '🐤', configKeyPrefix: 'duckDuckGPT',
+        name: 'DuckDuckGPT', version: GM_info.script.version, symbol: '🐤',
+        configKeyPrefix: 'duckDuckGPT', cssPrefix: 'ddgpt',
         chatgptJSver: /chatgpt\.js@([\d.]+)/.exec(GM_info.scriptMetaStr)[1],
         urls: {
             app: 'https://www.duckduckgpt.com',
@@ -252,7 +253,7 @@
             },
             support: 'https://support.ddgpt.com'
         },
-        latestAssetCommitHash: '380412b' // for cached messages.json
+        latestAssetCommitHash: '6ec1ce9' // for cached messages.json
     }
     app.urls.assetHost = app.urls.gitHub.replace('github.com', 'cdn.jsdelivr.net/gh') + `@${app.latestAssetCommitHash}`
     app.urls.update = app.urls.greasyFork.replace('https://', 'https://update.')
@@ -304,6 +305,7 @@
         tooltip_shrink: 'Shrink',
         tooltip_close: 'Close',
         tooltip_copy: 'Copy',
+        tooltip_regen: 'Regenerate',
         tooltip_reply: 'Reply',
         tooltip_code: 'Code',
         tooltip_sendRelatedQuery: 'Send related query',
@@ -562,15 +564,12 @@
     log.debug(`Success! config = ${log.prettifyObj(config)}`)
 
     // Init UI props
-    log.debug('Initializing UI properties...')
     env.ui = {
         app: { scheme: config.scheme || ( chatgpt.isDarkMode() ? 'dark' : 'light' )},
         site: { isCentered: !!document.documentElement.classList.toString().includes('center') }
     }
-    log.debug(`Success! ui = '${log.prettifyObj(env.ui)}`)
 
     // Init API props
-    log.debug('Initializing API properties...')
     const apis = {
         'AIchatOS': {
             endpoint: 'https://api.binjie.fun/api/generateStream',
@@ -615,13 +614,10 @@
             method: 'POST', streamable: true
         }
     }
-    log.debug(`Success! apis = ${log.prettifyObj(apis)}`)
 
     // Init INPUT EVENTS
-    log.debug('Initializing input events...')
     const inputEvents = {} ; ['down', 'move', 'up'].forEach(action =>
           inputEvents[action] = ( window.PointerEvent ? 'pointer' : env.browser.isMobile ? 'touch' : 'mouse' ) + action)
-    log.debug(`Success! inputEvents = ${log.prettifyObj(inputEvents)}`)
 
     // Init ALERTS
     Object.assign(app, { alerts: {
@@ -667,12 +663,9 @@
         },
 
         refresh() {
-            log.caller = 'menu.refresh()'
-            log.debug('Refreshing toolbar menu...')
             if (typeof GM_unregisterMenuCommand == 'undefined') {
                 log.debug('GM_unregisterMenuCommand not supported.') ; return }
             for (const id of menu.ids) { GM_unregisterMenuCommand(id) } menu.register()
-            log.debug('Success! Menu refreshed')
         }
     }
 
@@ -736,7 +729,7 @@
         alerts = alerts.flat() // flatten array args nested by spread operator
         appDiv.textContent = ''
         const alertP = document.createElement('p')
-        alertP.id = 'ddgpt-alert' ; alertP.className = 'no-user-select'
+        alertP.id = `${app.cssPrefix}-alert` ; alertP.className = 'no-user-select'
 
         alerts.forEach((alert, idx) => { // process each alert for display
             let msg = app.alerts[alert] || alert // use string verbatim if not found in app.alerts
@@ -812,7 +805,7 @@
 
     const modals = {
         stack: [], // of types of undismissed modals
-        class: `${app.name.replace(/ /g, '-').toLowerCase()}-modal`,
+        class: `${app.cssPrefix}-modal`,
 
         alert(title = '', msg = '', btns = '', checkbox = '', width = '') { // generic one from chatgpt.alert()
             const alertID = chatgpt.alert(title, msg, btns, checkbox, width),
@@ -821,11 +814,24 @@
             return alert
         },
 
+        open(modalType, modalSubType) { // custom ones
+            const modal = modalSubType ? modals[modalType][modalSubType]()
+                        : (modals[modalType].show || modals[modalType])()
+            if (settings.controls[modalType]?.type != 'prompt') { // add to stack
+                this.stack.unshift(modalSubType ? `${modalType}_${modalSubType}` : modalType)
+                log.debug(`Modal stack: ${JSON.stringify(modals.stack)}`)
+            }
+            this.init(modal) // add classes/listeners/hack bg/glowup btns
+            this.observeRemoval(modal, modalType, modalSubType) // to maintain stack for proper nav
+            if (!modals.handlers.key.added) { // add key listener to dismiss modals
+                document.addEventListener('keydown', modals.handlers.key) ; modals.handlers.key.added = true }
+        },
+
         init(modal) {
+            if (!this.styles) this.stylize() // to init/append stylesheet
 
             // Add classes
-            modal.classList.add(this.class)
-            modal.parentNode.classList.add(`${this.class}-bg`, 'no-user-select')
+            modal.classList.add(this.class) ; modal.parentNode.classList.add(`${this.class}-bg`)
 
             // Add listeners
             modal.onwheel = modal.ontouchmove = event => event.preventDefault() // disable wheel/swipe scrolling
@@ -843,25 +849,162 @@
             if (env.ui.app.scheme == 'dark' && !config.fgAnimationsDisabled) toggle.btnGlow()
         },
 
-        open(modalType, modalSubType) { // custom ones
-            const modal = modalSubType ? modals[modalType][modalSubType]()
-                        : (modals[modalType].show || modals[modalType])()
-            if (settings.controls[modalType]?.type != 'prompt') { // add to stack
-                this.stack.unshift(modalSubType ? `${modalType}_${modalSubType}` : modalType)
-                log.debug(`Modal stack: ${JSON.stringify(modals.stack)}`)
+        stylize() {
+            if (!this.styles) {
+                this.styles = document.createElement('style') ; this.styles.id = `${this.class}-styles`
+                document.head.append(this.styles)
             }
-            this.init(modal) // add classes/listeners/hack bg/glowup btns
-            this.observeRemoval(modal, modalType, modalSubType) // to maintain stack for proper nav
-        },
+            this.styles.innerText = (
+                '@keyframes modal-zoom-fade-out {'
+                  + '0% { opacity: 1 } 50% { opacity: 0.25 ; transform: scale(1.05) }'
+                  + '100% { opacity: 0 ; transform: scale(1.35) }}'
+              + '.chatgpt-modal > div {'
+                  + 'padding: 20px 25px 24px 25px !important ;' // increase alert padding
+                  + 'background-color: white !important ; color: black }'
+              + '.chatgpt-modal p { margin: -8px 0 -14px 4px ; font-size: 1.55rem }' // pos/size modal msg
+              + `.chatgpt-modal a { color: #${ env.ui.app.scheme == 'dark' ? '00cfff' : '1e9ebb' } !important }`
+              + '.modal-buttons {'
+                  + `margin: 24px -5px -3px ${ env.browser.isMobile ? -5 : -15 }px !important ; width: 100% }`
+              + '.chatgpt-modal button {' // modal buttons
+                  + 'font-size: 1rem ; text-transform: uppercase ; min-width: 121px ;'
+                  + `padding: ${ env.browser.isMobile ? '7px' : '4px 10px' } !important ;`
+                  + 'cursor: pointer ; border-radius: 0 !important ; height: 39px ;'
+                  + 'border: 1px solid ' + ( env.ui.app.scheme == 'dark' ? 'white' : 'black' ) + '!important ;'
+                  + `${ env.ui.app.scheme == 'dark' ? 'background: none ; color: white' : '' }}`
+              + '.primary-modal-btn { background: black !important ; color: white !important }'
+              + '.chatgpt-modal button:hover { background-color: #9cdaff !important ; color: black !important }'
+              + ( env.ui.app.scheme == 'dark' ? // darkmode chatgpt.alert() styles
+                  ( '.chatgpt-modal > div, .chatgpt-modal button:not(.primary-modal-btn) {'
+                      + 'background-color: black !important ; color: white }'
+                  + '.primary-modal-btn { background: hsl(186 100% 69%) !important ; color: black !important }'
+                  + '.chatgpt-modal a { color: #00cfff !important }'
+                  + '.chatgpt-modal button:hover {'
+                      + 'background-color: #00cfff !important ; color: black !important }' ) : '' )
+              + `.${modals.class} { display: grid ; place-items: center }` // for centered icon/logo
+              + '[class*="modal-close-btn"] {'
+                  + 'position: absolute !important ; float: right ; top: 14px !important ; right: 16px !important ;'
+                  + 'cursor: pointer ; width: 33px ; height: 33px ; border-radius: 20px }'
+              + `[class*="modal-close-btn"] path {${ env.ui.app.scheme == 'dark' ? 'stroke: white ; fill: white'
+                                                                             : 'stroke: #9f9f9f ; fill: #9f9f9f' }}`
+              + ( env.ui.app.scheme == 'dark' ?  // invert dark mode hover paths
+                    '[class*="modal-close-btn"]:hover path { stroke: black ; fill: black }' : '' )
+              + '[class*="modal-close-btn"]:hover { background-color: #f2f2f2 }' // hover underlay
+              + '[class*="modal-close-btn"] svg { margin: 11.5px }' // center SVG for hover underlay
+              + '[class*="-modal"] h2 {'
+                  + 'font-weight: bold ; line-height: 32px ; padding: 0 ; margin: 9px 0 14px !important ;'
+                  + `${ env.browser.isMobile ? 'text-align: center' // center on mobile
+                                             : 'justify-self: start' }}` // left-align on desktop
+              + '[class*="-modal"] p { justify-self: start ; font-size: 20px }'
+              + '[class*="-modal"] button { font-size: 13px }'
+              + '[class*="-modal-bg"] {'
+                  + 'position: fixed ; top: 0 ; left: 0 ; width: 100% ; height: 100% ;' // expand to full view-port
+                  + 'transition: background-color .25s ease !important ;' // speed to show bg dim
+                  + 'display: flex ; justify-content: center ; align-items: center ; z-index: 9999 }' // align
+              + '[class*="-modal-bg"].animated > div {'
+                  + 'z-index: 13456 ; opacity: 0.98 ; transform: translateX(0) translateY(0) }'
+              + '[class$="-modal"] {' // native modals + chatgpt.alert()s
+                  + 'z-index: 13456 ; position: absolute ;' // to be click-draggable
+                  + 'opacity: 0 ;' // to fade-in
+                  + `background-image: linear-gradient(180deg, ${
+                       env.ui.app.scheme == 'dark' ? '#99a8a6 -200px, black 200px' : '#b6ebff -296px, white 171px' }) ;`
+                  + `border: 1px solid ${ env.ui.app.scheme == 'dark' ? 'white' : '#b5b5b5' } !important ;`
+                  + `color: ${ env.ui.app.scheme == 'dark' ? 'white' : 'black' } ;`
+                  + 'transform: translateX(-3px) translateY(7px) ;' // offset to move-in from
+                  + 'transition: opacity 0.65s cubic-bezier(.165,.84,.44,1),' // for fade-ins
+                              + 'transform 0.55s cubic-bezier(.165,.84,.44,1) !important }' // for move-ins
+              + ( config.fgAnimationsDisabled || env.browser.isMobile ? '' : (
+                    '[class$="-modal"] button { transition: transform 0.15s ease }'
+                  + '[class$="-modal"] button:hover { transform: scale(1.055) }' ))
 
-        hide(modal) {
-            log.caller = 'modals.hide()'
-            log.debug(`Dismissing div#${modal?.id}...`)
-            const modalContainer = modal?.parentNode
-            if (!modalContainer) return
-            modalContainer.style.animation = 'modal-zoom-fade-out .135s ease-out'
-            setTimeout(() => { modalContainer.remove() ; log.debug(`Success! div#${modal?.id} dismissed`)
-                }, 105) // delay for fade-out
+              // Glowing modal btns
+              + ':root { --glow-color: hsl(186 100% 69%); }'
+              + '.glowing-btn {'
+                  + 'perspective: 2em ; font-weight: 900 ; animation: border-flicker 2s linear infinite ;'
+                  + '-webkit-box-shadow: inset 0 0 0.5em 0 var(--glow-color), 0 0 0.5em 0 var(--glow-color) ;'
+                  + 'box-shadow: inset 0 0 0.5em 0 var(--glow-color), 0 0 0.5em 0 var(--glow-color) ;'
+                  + '-moz-box-shadow: inset 0 0 0.5em 0 var(--glow-color), 0 0 0.5em 0 var(--glow-color) }'
+              + '.glowing-txt {'
+                  + 'animation: text-flicker 3s linear infinite ;'
+                  + '-webkit-text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em var(--glow-color) ;'
+                  + '-moz-text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em var(--glow-color) ;'
+                  + 'text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em var(--glow-color) }'
+              + '.faulty-letter {'
+                  + 'opacity: 0.5 ; animation: faulty-flicker 2s linear infinite }'
+                  + ( !env.browser.isMobile ? 'background: var(--glow-color) ;'
+                        + 'transform: translateY(120%) rotateX(95deg) scale(1, 0.35)' : '' ) + '}'
+              + '.glowing-btn::after {'
+                  + 'content: "" ; position: absolute ; top: 0 ; bottom: 0 ; left: 0 ; right: 0 ;'
+                  + 'opacity: 0 ; z-index: -1 ; box-shadow: 0 0 2em 0.2em var(--glow-color) ;'
+                  + 'background-color: var(--glow-color) ; transition: opacity 100ms linear }'
+              + '.glowing-btn:hover { color: rgba(0, 0, 0, 0.8) ; text-shadow: none ; animation: none }'
+              + '.glowing-btn:hover .glowing-txt { animation: none }'
+              + '.glowing-btn:hover .faulty-letter { animation: none ; text-shadow: none ; opacity: 1 }'
+              + '.glowing-btn:hover:before { filter: blur(1.5em) ; opacity: 1 }'
+              + '.glowing-btn:hover:after { opacity: 1 }'
+              + '@keyframes faulty-flicker {'
+                  + '0% { opacity: 0.1 } 2% { opacity: 0.1 } 4% { opacity: 0.5 } 19% { opacity: 0.5 }'
+                  + '21% { opacity: 0.1 } 23% { opacity: 1 } 80% { opacity: 0.5 } 83% { opacity: 0.4 }'
+                  + '87% { opacity: 1 }}'
+              + '@keyframes text-flicker {'
+                  + '0% { opacity: 0.1 } 2% { opacity: 1 } 8% { opacity: 0.1 } 9% { opacity: 1 }'
+                  + '12% { opacity: 0.1 } 20% { opacity: 1 } 25% { opacity: 0.3 } 30% { opacity: 1 }'
+                  + '70% { opacity: 0.7 } 72% { opacity: 0.2 } 77% { opacity: 0.9 } 100% { opacity: 0.9 }}'
+              + '@keyframes border-flicker {'
+                  + '0% { opacity: 0.1 } 2% { opacity: 1 } 4% { opacity: 0.1 } 8% { opacity: 1 }'
+                  + '70% { opacity: 0.7 } 100% { opacity: 1 }}'
+
+              // Settings modal
+              + `#${app.cssPrefix}-settings {`
+                  + `min-width: ${ env.browser.isPortrait ? 288 : 698 }px ; max-width: 75vw ;`
+                  + 'word-wrap: break-word ; border-radius: 15px ; box-shadow: 0 30px 60px rgba(0, 0, 0, .12) ;'
+                  + `${ env.ui.app.scheme == 'dark' ? 'stroke: white ; fill: white' : 'stroke: black ; fill: black' }}` // icon color
+              + `#${app.cssPrefix}-settings-title {`
+                  + 'font-weight: bold ; line-height: 19px ; text-align: center ; margin: 0 3px -3px 0 }'
+              + `#${app.cssPrefix}-settings-title h4 {`
+                  + `font-size: ${ env.browser.isPortrait ? 26 : 31 }px ; font-weight: bold ; margin-top: -39px }`
+              + `#${app.cssPrefix}-settings ul {`
+                  + 'list-style: none ; padding: 0 ; margin-bottom: 2px ;' // hide bullets, close bottom gap
+                  + `width: ${ env.browser.isPortrait ? 100 : 50 }% }` // set width based on column cnt
+              + `#${app.cssPrefix}-settings li {`
+                  + `color: ${ env.ui.app.scheme == 'dark' ? 'rgb(255, 255, 255, 0.65)' : 'rgba(0, 0, 0, 0.45)' } ;` // for text
+                  + `fill: ${ env.ui.app.scheme == 'dark' ? 'rgb(255, 255, 255, 0.65)' : 'rgba(0, 0, 0, 0.45)' } ;` // for icons
+                  + `stroke: ${ env.ui.app.scheme == 'dark' ? 'rgb(255, 255, 255, 0.65)' : 'rgba(0, 0, 0, 0.45)' } ;` // for icons
+                  + 'height: 25px ; font-size: 14.5px ; transition: transform 0.1s ease ;'
+                  + `padding: 4px 10px ; border-bottom: 1px dotted ${ env.ui.app.scheme == 'dark' ? 'white' : 'black' } ;` // add settings separators
+                  + 'border-radius: 3px }' // make highlight strips slightly rounded
+              + `#${app.cssPrefix}-settings li.active {`
+                  + `color: ${ env.ui.app.scheme == 'dark' ? 'rgb(255, 255, 255)' : 'rgba(0, 0, 0)' } ;` // for text
+                  + `fill: ${ env.ui.app.scheme == 'dark' ? 'rgb(255, 255, 255)' : 'rgba(0, 0, 0)' } ;` // for icons
+                  + `stroke: ${ env.ui.app.scheme == 'dark' ? 'rgb(255, 255, 255)' : 'rgba(0, 0, 0)' }}` // for icons
+              + `#${app.cssPrefix}-settings li label { padding-right: 20px }` // right-pad labels so toggles don't hug
+              + `#${app.cssPrefix}-settings li:last-of-type { border-bottom: none }` // remove last bottom-border
+              + `#${app.cssPrefix}-settings li, #${app.cssPrefix}-settings li label { cursor: pointer }` // add finger on hover
+              + `#${app.cssPrefix}-settings li:hover {`
+                  + 'opacity: 1 ;'
+                  + 'background: rgba(100, 149, 237, 0.88) ; color: white ; fill: white ; stroke: white ;'
+                  + `${ config.fgAnimationsDisabled || env.browser.isMobile ? '' : 'transform: scale(1.22)' }}` // add zoom
+              + `#${app.cssPrefix}-settings li > input { float: right }` // pos toggles
+              + '#scheme-menu-entry > span { margin: 0 -2px }' // align Scheme status
+              + '#scheme-menu-entry > span > svg {' // v-align/left-pad Scheme status icon
+                  + 'position: relative ; top: 3px ; margin-left: 4px }'
+              + ( config.fgAnimationsDisabled ? '' // spin cycle arrows icon when scheme is Auto
+                  : ( '#scheme-menu-entry svg:has([d^="M204-318q-22"]),'
+                        + '.chatgpt-notif svg:has([d^="M204-318q-22"]) { animation: rotation 5s linear infinite }' ))
+              + '@keyframes rotation { from { transform: rotate(0deg) } to { transform: rotate(360deg) }}'
+              + `#about-menu-entry span { color: ${ env.ui.app.scheme == 'dark' ? '#28ee28' : 'green' }}`
+              + '#about-menu-entry > span {' // outer About status span
+                  + `width: ${ env.browser.isPortrait ? '15vw' : '92px' } ; height: 20px ; overflow: hidden ;`
+                  + `${ config.fgAnimationsDisabled ? '' : ( // fade edges
+                            'mask-image: linear-gradient('
+                                + 'to right, transparent, black 20%, black 89%, transparent) ;'
+                  + '-webkit-mask-image: linear-gradient('
+                                + 'to right, transparent, black 20%, black 89%, transparent)' )}}`
+              + '#about-menu-entry > span > div {'
+                  + `text-wrap: nowrap ; ${
+                        config.fgAnimationsDisabled ? '' : 'animation: ticker linear 60s infinite' }}`
+              + '@keyframes ticker { 0% { transform: translateX(100%) } 100% { transform: translateX(-2000%) }}'
+              + `.about-em { color: ${ env.ui.app.scheme == 'dark' ? 'white' : 'green' } !important }`
+            )
         },
 
         observeRemoval(modal, modalType, modalSubType) { // to maintain stack for proper nav
@@ -879,6 +1022,16 @@
                     obs.disconnect()
                 }})
             }).observe(modalBG.parentNode, { childList: true, subtree: true })
+        },
+
+        hide(modal) {
+            log.caller = 'modals.hide()'
+            log.debug(`Dismissing div#${modal?.id}...`)
+            const modalContainer = modal?.parentNode
+            if (!modalContainer) return
+            modalContainer.style.animation = 'modal-zoom-fade-out .135s ease-out'
+            setTimeout(() => { modalContainer.remove() ; log.debug(`Success! div#${modal?.id} dismissed`)
+                }, 105) // delay for fade-out
         },
 
         handlers: {
@@ -1118,7 +1271,7 @@
             function schemeNotify(scheme) {
 
                 // Show notification
-                notify(`${app.msgs.menuLabel_colorScheme}:`
+                notify(`${app.msgs.menuLabel_colorScheme}: `
                       + ( scheme == 'light' ? app.msgs.scheme_light || 'Light'
                         : scheme == 'dark'  ? app.msgs.scheme_dark  || 'Dark'
                                             : app.msgs.menuLabel_auto ).toUpperCase() )
@@ -1126,9 +1279,7 @@
                 // Append scheme icon
                 const notifs = document.querySelectorAll('.chatgpt-notif')
                 const notif = notifs[notifs.length -1]
-                const schemeIcon = icons[env.ui.app.scheme == 'light' ? 'sun'
-                                               : scheme == 'dark' ? 'moon'
-                                                                  : 'arrowsCycle'].create()
+                const schemeIcon = icons[scheme == 'light' ? 'sun' : scheme == 'dark' ? 'moon' : 'arrowsCycle'].create()
                 schemeIcon.style.cssText = 'width: 23px ; height: 23px ; position: relative ;'
                                          + 'top: 3px ; margin-left: 6px'
                 notif.append(schemeIcon)
@@ -1144,7 +1295,7 @@
 
                 // Init master elems
                 const settingsContainer = document.createElement('div'),
-                      settingsModal = document.createElement('div') ; settingsModal.id = 'ddgpt-settings'
+                      settingsModal = document.createElement('div') ; settingsModal.id = `${app.cssPrefix}-settings`
                       settingsContainer.append(settingsModal)
 
                 // Init settings keys
@@ -1159,12 +1310,13 @@
                 settingsIcon.style.cssText = 'width: 65px ; position: relative ; top: -32px ; margin-bottom: 4px ;'
                                            + 'filter: drop-shadow(5px 5px 15px rgba(0, 0, 0, 0.3))'
                 // Init title
-                const settingsTitleDiv = document.createElement('div') ; settingsTitleDiv.id = 'ddgpt-settings-title'
+                const settingsTitleDiv = document.createElement('div')
+                settingsTitleDiv.id = `${app.cssPrefix}-settings-title`
                 const settingsTitleH4 = document.createElement('h4')
                 settingsTitleH4.textContent = app.msgs.menuLabel_settings
-                const settingsTitleIcon = icons.sliders.create()
+                const settingsTitleIcon = icons.cogwheel.create()
                 settingsTitleIcon.style.cssText = 'width: 21px ; height: 21px ; margin-right: 3px ;'
-                                                + 'position: relative ; top: 2.5px ; right: 3px'
+                                                + 'position: relative ; top: 1.5px ; right: 3px'
                 settingsTitleH4.prepend(settingsTitleIcon) ; settingsTitleDiv.append(settingsTitleH4)
 
                 // Init settings lists
@@ -1318,7 +1470,7 @@
 
                 // Create close button
                 const closeBtn = document.createElement('div')
-                closeBtn.classList.add('ddgpt-modal-close-btn', 'no-mobile-tap-outline')
+                closeBtn.classList.add(`${app.cssPrefix}-modal-close-btn`, 'no-mobile-tap-outline')
                 closeBtn.title = app.msgs.tooltip_close
                 const closeSVG = icons.x.create() ; closeBtn.append(closeSVG)
 
@@ -1333,7 +1485,7 @@
                 return settingsContainer
             },
 
-            get() { return document.getElementById('ddgpt-settings') },
+            get() { return document.getElementById(`${app.cssPrefix}-settings`) },
 
             show() {
                 log.caller = 'modals.settings.show()'
@@ -1343,7 +1495,7 @@
                 log.caller = 'modals.settings.show()'
                 if (env.browser.isMobile) { // scale 93% to viewport sides
                     log.debug('Scaling 93% to viewport sides...')
-                    const settingsModal = settingsContainer.querySelector('#ddgpt-settings'),
+                    const settingsModal = settingsContainer.querySelector(`#${app.cssPrefix}-settings`),
                           scaleRatio = 0.93 * window.innerWidth / settingsModal.offsetWidth
                     settingsModal.style.transform = `scale(${scaleRatio})`
                 }
@@ -1391,11 +1543,11 @@
 
                 // Show modal
                 const updateAvailModal = modals.alert(`🚀 ${app.msgs.alert_updateAvail}!`, // title
-                    `${app.msgs.alert_newerVer} ${app.msgs.appName} `
+                    `${app.msgs.alert_newerVer} ${app.name} `
                         + `(v${app.latestVer}) ${app.msgs.alert_isAvail}!  `
                         + '<a target="_blank" rel="noopener" style="font-size: 1.1rem" href="'
                             + app.urls.update.replace(/.+\/([^/]+)meta\.js/,
-                                `${app.urls.gitHub}/blob/main/greasemonkey/$1user.js`)
+                                `${app.urls.gitHub}/commits/main/greasemonkey/$1user.js`)
                         + `">${app.msgs.link_viewChanges}</a>`,
                     function update() { // button
                         GM_openInTab(app.urls.update.replace('meta.js', 'user.js') + '?t=' + Date.now(),
@@ -1437,7 +1589,7 @@
 
         pin: {
             clickHandler(event) {
-                const pinMenu = event.target.closest('#pin-menu'),
+                const pinMenu = event.target.closest(`#${app.cssPrefix}-pin-menu`),
                       itemLabel = event.target.textContent,
                       prevOffsetTop = appDiv.offsetTop
 
@@ -1453,8 +1605,9 @@
             },
 
             createAppend() {
-                const pinMenu = document.createElement('div') ; pinMenu.id = 'pin-menu'
-                pinMenu.classList.add('ddgpt-menu', 'btn-tooltip', 'fade-in-less', 'no-user-select')
+                const pinMenu = document.createElement('div') ; pinMenu.id = `${app.cssPrefix}-pin-menu`
+                pinMenu.classList.add(
+                    `${app.cssPrefix}-menu`, `${app.cssPrefix}-btn-tooltip`, 'fade-in-less', 'no-user-select')
                 menus.pin.update(pinMenu) ; appDiv.append(pinMenu)
                 return pinMenu
             },
@@ -1463,8 +1616,9 @@
                 pinMenu.textContent = ''
 
                 // Init core elems
-                const pinMenuUL = document.querySelector('#pin-menu ul') || document.createElement('ul'),
-                      pinMenuItems = []
+                const pinMenuUL = document.querySelector(`#${app.cssPrefix}-pin-menu ul`)
+                               || document.createElement('ul')
+                const pinMenuItems = []
                 const pinMenulabels = [
                     `${app.msgs.menuLabel_pinTo}...`, app.msgs.menuLabel_top,
                     app.msgs.menuLabel_sidebar, app.msgs.menuLabel_bottom ]
@@ -1482,10 +1636,10 @@
                 for (let i = 0 ; i < 4 ; i++) {
                     pinMenuItems.push(document.createElement('li'))
                     pinMenuItems[i].textContent = pinMenulabels[i]
-                    pinMenuItems[i].className = 'ddgpt-menu-item'
+                    pinMenuItems[i].className = `${app.cssPrefix}-menu-item`
                     if (i == 0) { // format header item
                         pinMenuItems[i].innerHTML = `<b>${pinMenulabels[i]}</b>`
-                        pinMenuItems[i].classList.add('ddgpt-menu-header') // to not apply hover fx from appStyle
+                        pinMenuItems[i].classList.add(`${app.cssPrefix}-menu-header`) // to not apply hover fx from app.styles
                         pinMenuItems[i].style.cssText = 'margin-bottom: 1px ; border-bottom: 1px dotted white'
                     } else if (i == 1) pinMenuItems[i].style.marginTop = '3px' // top-pad first non-header item
                     pinMenuItems[i].style.paddingRight = '24px' // make room for checkmark
@@ -1504,7 +1658,7 @@
             },
 
             toggle(event) { // visibility
-                const pinMenu = document.getElementById('pin-menu') || menus.pin.createAppend()
+                const pinMenu = document.getElementById(`${app.cssPrefix}-pin-menu`) || menus.pin.createAppend()
                 if (!menus.pin.topPos)
                      menus.pin.topPos = ( event.clientY || event.touches?.[0]?.clientY ) < 195 ? 53 : -85
                 if (!menus.pin.rightPos)
@@ -1544,7 +1698,7 @@
         arrowsCycle: {
             create() {
                 const svg = create.svgElem('svg', {
-                    id: 'arrows-cycle', width: 13, height: 13, viewBox: '197 -924 573 891' })
+                    width: 13, height: 13, viewBox: '197 -924 573 891', style: 'transform: rotate(14deg)' })
                 const svgPath = create.svgElem('path', { stroke: 'none',
                     d: 'M204-318q-22-38-33-78t-11-82q0-134 93-228t227-94h7l-64-64 56-56 160 160-160 160-56-56 64-64h-7q-100 0-170 70.5T240-478q0 26 6 51t18 49l-60 60ZM481-40 321-200l160-160 56 56-64 64h7q100 0 170-70.5T720-482q0-26-6-51t-18-49l60-60q22 38 33 78t11 82q0 134-93 228t-227 94h-7l64 64-56 56Z' })
                 svg.append(svgPath) ; return svg
@@ -1632,7 +1786,7 @@
         checkmark: {
             create() {
                 const svg = create.svgElem('svg', {
-                    id: 'checkmark-icon', width: 10, height: 10, viewBox: '0 0 20 20' })
+                    id: `${app.cssPrefix}-checkmark-icon`, width: 10, height: 10, viewBox: '0 0 20 20' })
                 const svgPath = create.svgElem('path', { stroke: 'none', d: 'M0 11l2-2 5 5L18 3l2 2L7 18z' })
                 svg.append(svgPath) ; return svg
             }
@@ -1664,6 +1818,16 @@
                 const svg = create.svgElem('svg', { width: 20, height: 20, viewBox: '0 0 16 16' }),
                       svgPath = create.svgElem('path', { stroke: 'none', d: 'M15 11L8 6.39 1 11V8.61L8 4l7 4.61z' })
                 svg.append(svgPath) ; return svg
+            }
+        },
+
+        cogwheel: {
+            create() {
+                const svg = create.svgElem('svg', { width: 17, height: 17, viewBox: '0 0 24 24' })
+                svg.append(
+                    create.svgElem('path', { 'fill-rule': 'evenodd',
+                        d: 'M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z' }))
+                return svg
             }
         },
 
@@ -1778,38 +1942,6 @@
                 const svg = create.svgElem('svg', { width: 15, height: 15, viewBox: '0 0 15 15' }),
                       svgPath = create.svgElem('path', { stroke: '', d: 'M4.10876 14L9.46582 1H10.8178L5.46074 14H4.10876Z' })
                 svg.append(svgPath) ; return svg
-            }
-        },
-
-        sliders: {
-            create() {
-                const svg = create.svgElem('svg', { width: 19, height: 19, viewBox: '0 0 25 25' })
-
-                // Top track
-                svg.append(create.svgElem('line', { stroke: '', 'stroke-width': 2, 'stroke-linecap': 'round',
-                    x1: 2, y1: 5.5, x2: 12, y2: 5.5 }))
-                svg.append(create.svgElem('circle', { stroke: '', fill: 'none', 'stroke-width': 1.5,
-                    cx: 18, cy: 5.5, r: 3 }))
-                svg.append(create.svgElem('line', { stroke: '', 'stroke-width': 2, 'stroke-linecap': 'round',
-                    x1: 21, y1: 5.5, x2: 23, y2: 5.5 }))
-
-                // Middle track
-                svg.append(create.svgElem('line', { stroke: '', 'stroke-width': 2, 'stroke-linecap': 'round',
-                    x1: 2, y1: 12.5, x2: 4, y2: 12.5 }))
-                svg.append(create.svgElem('circle', { stroke: '', fill: 'none', 'stroke-width': 1.5,
-                    cx: 8, cy: 12.5, r: 3 }))
-                svg.append(create.svgElem('line', { stroke: '', 'stroke-width': 2, 'stroke-linecap': 'round',
-                    x1: 14, y1: 12.5, x2: 23, y2: 12.5 }))
-
-                // Bottom track
-                svg.append(create.svgElem('line', { stroke: '', 'stroke-width': 2, 'stroke-linecap': 'round',
-                    x1: 2, y1: 19.5, x2: 8, y2: 19.5 }))
-                svg.append(create.svgElem('circle', { stroke: '', fill: 'none', 'stroke-width': 1.5,
-                    cx: 14.5, cy: 19.5, r: 3 }))
-                svg.append(create.svgElem('line', { stroke: '', 'stroke-width': 2, 'stroke-linecap': 'round',
-                    x1: 17, y1: 19.5, x2: 23, y2: 19.5 }))
-
-                return svg
             }
         },
 
@@ -1938,14 +2070,14 @@
 
             create() {
                 const ddgptLogo = document.createElement('img')
-                ddgptLogo.id = 'ddgpt-logo' ; ddgptLogo.className = 'no-mobile-tap-outline'
+                ddgptLogo.id = `${app.cssPrefix}-logo` ; ddgptLogo.className = 'no-mobile-tap-outline'
                 logos.ddgpt.update(ddgptLogo)
                 return ddgptLogo
             },
 
             update(...targetLogos) {
                 targetLogos = targetLogos.flat() // flatten array args nested by spread operator
-                if (targetLogos.length == 0) targetLogos = document.querySelectorAll('#ddgpt-logo')
+                if (targetLogos.length == 0) targetLogos = document.querySelectorAll(`#${app.cssPrefix}-logo`)
                 targetLogos.forEach(logo =>
                     logo.src = GM_getResourceText(`ddgpt${ env.ui.app.scheme == 'dark' ? 'DS' : 'LS' }logo`))
             }
@@ -1959,7 +2091,7 @@
         appBottomPos() { appDiv.style.bottom = `${ config.minimized ? 61 - appDiv.offsetHeight : -7 }px` },
 
         chatbarWidth() {
-            const chatbar = appDiv.querySelector('#app-chatbar')
+            const chatbar = appDiv.querySelector(`#${app.cssPrefix}-chatbar`)
             if (chatbar) chatbar.style.width = `${
                 config.widerSidebar && !config.anchored ? 85.6 : config.expanded ? 86.9 : 82.6 }%`
         },
@@ -1974,7 +2106,7 @@
         },
 
         rqVisibility() {
-            const relatedQueriesDiv = appDiv.querySelector('.related-queries')
+            const relatedQueriesDiv = appDiv.querySelector(`.${app.cssPrefix}-related-queries`)
             if (relatedQueriesDiv) { // update visibility based on latest setting
                 relatedQueriesDiv.style.display = config.rqDisabled || config.anchored ? 'none' : 'flex'
             }
@@ -1999,14 +2131,12 @@
         style: {
             app() {
                 const isStarryDM = env.ui.app.scheme == 'dark' && !config.bgAnimationsDisabled
-                appStyle.innerText = (
+                modals.stylize() // update modal styles
+                app.styles.innerText = (
                     ':root {' // color vars
                       + '--app-bg-color-light-scheme: #ffffff ; --app-bg-color-dark-scheme: #282828 ;'
-                      + '--pre-bg-color-light-scheme: #e7e7e7cf ; --pre-bg-color-dark-scheme: #3a3a3a ;'
+                      + '--pre-bg-color-light-scheme: #e7e7e799 ; --pre-bg-color-dark-scheme: #3a3a3a ;'
                       + '--font-color-light-scheme: #282828 ; --font-color-dark-scheme: #f2f2f2 }'
-                  + '@keyframes modal-zoom-fade-out {'
-                      + '0% { opacity: 1 } 50% { opacity: 0.25 ; transform: scale(1.05) }'
-                      + '100% { opacity: 0 ; transform: scale(1.35) }}'
                   + '@keyframes btn-zoom-fade-out {'
                       + '0% { opacity: 1 } 50% { opacity: 0.65 ; transform: scale(1.85) }'
                       + '75% { opacity: 0.05 ; transform: scale(3.15) } 100% { opacity: 0 ; transform: scale(5.85) }}'
@@ -2014,12 +2144,12 @@
                       + '-webkit-user-select: none ; -moz-user-select: none ;'
                       + '-ms-user-select: none ; user-select: none }'
                   + '.no-mobile-tap-outline { outline: none ; -webkit-tap-highlight-color: transparent }'
-                  + '#ddgpt * { scrollbar-width: thin }' // make scrollbars thin in Firefox
+                  + `#${app.cssPrefix} * { scrollbar-width: thin }` // make scrollbars thin in Firefox
                   + '.cursor-overlay {' // for fontSizeSlider.createAppend() drag listeners
                       // ...to show resize cursor everywhere
                       + 'position: fixed ; top: 0 ; left: 0 ; width: 100% ; height: 100% ;'
                       + 'z-index: 9999 ; cursor: ew-resize }'
-                  + '#ddgpt {'
+                  + `#${app.cssPrefix} {`
                       + 'z-index: 5555 ; padding: 17px 26px 16px ; flex-basis: 0 ;'
                       + `border: ${ env.ui.app.scheme == 'dark' ? 'none' : '1px solid #dadce0' } ; border-radius: 8px ;`
                       + 'flex-grow: 1 ; word-wrap: break-word ; white-space: pre-wrap ;'
@@ -2034,70 +2164,78 @@
                             'transition: bottom 0.1s cubic-bezier(0, 0, 0.2, 1),' // smoothen Anchor Y minimize/restore
                                       + 'width 0.167s cubic-bezier(0, 0, 0.2, 1),' // smoothen Anchor X expand/shrink
                                       + 'opacity 0.5s ease, transform 0.5s ease ;' : '' ) + '}' // smoothen 1st fade-in
-                  + '#ddgpt:hover { box-shadow: 0 9px 28px rgba(0, 0, 0, 0.09) ; transition: box-shadow 0.15s ease }'
-                  + '#ddgpt p { margin: 0 ; ' + ( env.ui.app.scheme == 'dark' ? 'color: #ccc } ' : ' } ' )
-                  + `#ddgpt .alert-link { color: ${ env.ui.app.scheme == 'light' ? '#190cb0' : 'white ; text-decoration: underline' }}`
-                  + '.app-name, .app-name:hover {'
+                  + `#${app.cssPrefix}:hover {`
+                      + 'box-shadow: 0 9px 28px rgba(0, 0, 0, 0.09) ; transition: box-shadow 0.15s ease }'
+                  + `#${app.cssPrefix} p { margin: 0 ; ${ env.ui.app.scheme == 'dark' ? 'color: #ccc' : '' }}`
+                  + `#${app.cssPrefix} .alert-link {`
+                      + `color: ${ env.ui.app.scheme == 'light' ? '#190cb0' : 'white ; text-decoration: underline' }}`
+                  + `.${app.cssPrefix}-name, .${app.cssPrefix}-name:hover {`
                       + 'font-size: 1.5rem ; font-weight: 700 ; text-decoration: none ;'
                       + `color: ${ env.ui.app.scheme == 'dark' ? 'white' : 'black' }}`
                   + '.kudoai { margin-left: 6px ; color: #aaa } '
                   + '.kudoai a, .kudoai a:visited { color: #aaa ; text-decoration: none !important } '
                   + `.kudoai a:hover { color: ${ env.ui.app.scheme == 'dark' ? 'white' : 'black' }}`
-                  + '#corner-btns { float: right ; margin-top: 2px }'
-                  + '.corner-btn {'
+                  + `#${app.cssPrefix}-div-corner-btns { float: right ; margin-top: 2px }`
+                  + `.${app.cssPrefix}-div-corner-btn {`
                       + 'float: right ; cursor: pointer ; position: relative ; top: 4px ;'
                       + `${ env.ui.app.scheme == 'dark' ? 'fill: white ; stroke: white'
-                                                    : 'fill: #adadad ; stroke: #adadad' };` // color
+                                                        : 'fill: #adadad ; stroke: #adadad' };` // color
                       + 'transition: transform 0.15s ease,' // for hover zooms
-                                  + 'opacity 0.3s ease-in-out, visibility 0.3s ease-in-out }' // for re-appearances from btn-zoom-fade-out ends
-                  + '.corner-btn:hover {'
-                      + `${ env.ui.app.scheme == 'dark' ? 'fill: #d9d9d9 ; stroke: #d9d9d9' : 'fill: black ; stroke: black' } ;`
+                          + 'opacity 0.1s ease-in-out }' // for appDiv.onmouseover + btn-zoom-fade-out shows
+                  + `.${app.cssPrefix}-div-corner-btn:hover {`
+                      + `${ env.ui.app.scheme == 'dark' ? 'fill: #d9d9d9 ; stroke: #d9d9d9'
+                                                        : 'fill: black ; stroke: black' } ;`
                       + `${ config.fgAnimationsDisabled || env.browser.isMobile ? '' : 'transform: scale(1.285)' }}`
-                  + '.corner-btn:active {'
-                      + `${ env.ui.app.scheme == 'dark' ? 'fill: #999999 ; stroke: #999999' : 'fill: #638ed4 ; stroke: #638ed4' } }`
-                  + ( config.bgAnimationsDisabled ? '' : ( '#ddgpt-logo, .corner-btn svg, .standby-btn'
-                      + `{ filter: drop-shadow(${ env.ui.app.scheme == 'dark' ? '#7171714d 10px' : '#aaaaaa21 7px' } 7px 3px) }` ))
-                  + '#ddgpt .loading { color: #b6b8ba ; animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite }'
-                  + '#ddgpt.sidebar-free { margin-left: 60px ; height: fit-content }'
-                  + '#font-size-slider-track {'
+                  + `.${app.cssPrefix}-div-corner-btn:active {`
+                      + `${ env.ui.app.scheme == 'dark' ? 'fill: #999999 ; stroke: #999999'
+                                                        : 'fill: #638ed4 ; stroke: #638ed4' }}`
+                  + ( config.bgAnimationsDisabled ? '' : (
+                        `#${app.cssPrefix}-logo, .${app.cssPrefix}-div-corner-btn svg, .${app.cssPrefix}-standby-btn {`
+                          + `filter: drop-shadow(${ env.ui.app.scheme == 'dark' ? '#7171714d 10px'
+                                                                                : '#aaaaaa21 7px' } 7px 3px) }` ))
+                  + `#${app.cssPrefix} .loading {`
+                      + 'color: #b6b8ba ; animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite }'
+                  + `#${app.cssPrefix}.sidebar-free { margin-left: 60px ; height: fit-content }`
+                  + `#${app.cssPrefix}-font-size-slider-track {`
                       + 'width: 98% ; height: 7px ; margin: -6px auto -13px ; padding: 15px 0 ;'
                       + 'background-color: #ccc ; box-sizing: content-box; background-clip: content-box ;'
                       + '-webkit-background-clip: content-box }'
-                  + '#font-size-slider-track::before {' // to add finger cursor to unpadded core only
+                  + `#${app.cssPrefix}-font-size-slider-track::before {` // to add finger cursor to unpadded core only
                       + 'content: "" ; position: absolute ; top: 10px ; left: 0 ; right: 0 ;'
                       + 'height: calc(100% - 20px) ; cursor: pointer }'
-                  + '#font-size-slider-tip {'
+                  + `#${app.cssPrefix}-font-size-slider-tip {`
                       + 'z-index: 1 ; position: absolute ; bottom: 20px ;'
                       + 'border-left: 4.5px solid transparent ; border-right: 4.5px solid transparent ;'
                       + 'border-bottom: 16px solid #ccc }'
-                  + '#font-size-slider-thumb {'
+                  + `#${app.cssPrefix}-font-size-slider-thumb {`
                       + 'z-index: 2 ; width: 10px ; height: 25px ; border-radius: 30% ; position: relative ;'
                       + 'top: -7.65px ; transition: transform 0.05s ease ;'
                       + `background-color: ${ env.ui.app.scheme == 'dark' ? 'white' : '#4a4a4a' } ;`
                       + 'box-shadow: rgba(0, 0, 0, 0.21) 1px 1px 9px 0 ; cursor: ew-resize }'
                   + ( config.fgAnimationsDisabled || env.browser.isMobile ?
-                        '' : '#font-size-slider-thumb:hover { transform: scale(1.125) }' )
-                  + '.standby-btn {'
+                        '' : `#${app.cssPrefix}-font-size-slider-thumb:hover { transform: scale(1.125) }` )
+                  + `.${app.cssPrefix}-standby-btn {`
                       + 'width: 100% ; margin: 9px 0 9px ; padding: 11px 0 ; cursor: pointer ;'
                       + `background-color: #f0f0f0${ config.bgAnimationsDisabled ? '' : '00' } ;`
                       + `color: ${ isStarryDM ? 'white' : 'black' } ; transition: transform 0.15s ease ;`
                       + `border-radius: 4px ; border: 1px solid ${ isStarryDM ? '#fff' : '#888' } }`
-                  + '.standby-btn:hover {'
+                  + `.${app.cssPrefix}-standby-btn:hover {`
                       + `${ env.ui.app.scheme == 'dark' ? 'background: white ; color: black'
-                                                    : 'background: black ; color: white' };`
+                                                        : 'background: black ; color: white' };`
                       + `${ config.fgAnimationsDisabled || env.browser.isMobile ? ''
                             : 'transform: scaleX(1.015) scaleY(1.03)' }}`
-                  + '.reply-tip {'
+                  + `.${app.cssPrefix}-reply-tip {`
                       + 'content: "" ; position: relative ; border: 7px solid transparent ;'
-                      + 'float: left ; left: 9px ; margin: 34px -14px 0 0 ;' // positioning
+                      + 'float: left ; left: 9px ; margin: 33px -14px 0 0 ;' // positioning
                       + 'border-bottom-style: solid ; border-bottom-width: 16px ; border-top: 0 ; border-bottom-color:'
                           + `${ // hide reply tip for terminal aesthetic
                                 isStarryDM ? '#0000' : `var(--pre-bg-color-${env.ui.app.scheme}-scheme)` }}`
-                  + '#ddgpt pre { background-color: inherit }' // override DDG's unattractive thicc light border
-                  + '#ddgpt > pre {'
+                  + `#${app.cssPrefix} pre { background-color: inherit }` // override DDG's unattractive thicc light border
+                  + `#${app.cssPrefix} > pre {`
                       + `font-size: ${config.fontSize}px ; white-space: pre-wrap ; min-width: 0 ;`
                       + `line-height: ${ config.fontSize * config.lineHeightRatio }px ; overscroll-behavior: contain ;`
-                      + 'margin: .99rem 0 7px 0 ; padding: 1.25em 1.25em 0 1.25em ; border-radius: 10px ; overflow: auto ;'
+                      + 'margin: .99rem 0 7px 0 ; padding: 1.25em 1.25em 0 1.25em ;'
+                      + 'border-radius: 10px ; overflow: auto ;'
                       + ( config.bgAnimationsDisabled ? // classic opaque bg
                             `background: var(--pre-bg-color-${env.ui.app.scheme}-scheme) ;`
                           + `color: var(--font-color-${env.ui.app.scheme}-scheme)`
@@ -2107,35 +2245,33 @@
                                     + 'color: var(--font-color-light-scheme) ; border: none' } ;` )
                       + ( !config.fgAnimationsDisabled ? // smoothen Anchor mode vertical expand/shrink
                             'transition: max-height 0.167s cubic-bezier(0, 0, 0.2, 1) ;' : '' ) + '}'
-                  + '#ddgpt > pre a, #ddgpt > pre a:visited { color: #4495d4 }'
-                  + `#ddgpt pre a:hover { color: ${ env.ui.app.scheme == 'dark' ? 'white' : '#ea7a28' }}`
+                  + `#${app.cssPrefix} > pre a, #ddgpt > pre a:visited { color: #4495d4 }`
+                  + `#${app.cssPrefix} pre a:hover { color: ${ env.ui.app.scheme == 'dark' ? 'white' : '#ea7a28' }}`
                   + '@keyframes pulse { 0%, to { opacity: 1 } 50% { opacity: .5 }}'
-                  + '#ddgpt section.loading { padding-left: 5px }' // left-pad loading status when sending replies
-                  + '#ddgpt + footer { margin: 2px 0 25px ; position: relative }'
-                  + `#ddgpt + footer * { color: ${ env.ui.app.scheme == 'dark' ? '#ccc' : '#666' } !important }`
-                  + '#copy-btn { float: right ; cursor: pointer }'
-                  + `pre > #copy-btn > svg { margin: -5px -6px 0 0 ; height: 15px ; width: 15px ; ${
-                        env.ui.app.scheme == 'dark' ? 'fill: white' : '' }}`
-                  + 'code #copy-btn { position: relative ; top: -6px ; right: -9px }'
-                  + 'code #copy-btn > svg { height: 13px ; width: 13px ; fill: white }'
-                  + '#app-chatbar {'
+                  + `#${app.cssPrefix} section.loading { padding-left: 5px }` // left-pad loading status when sending replies
+                  + `.${app.cssPrefix}-reply-corner-btns {`
+                      + `float: right ; fill: ${ env.ui.app.scheme == 'dark' ? 'white' : '#6f6f6f' }}`
+                  + `code #${app.cssPrefix}-copy-btn { position: relative ; top: -6px ; right: -9px }`
+                  + `code #${app.cssPrefix}-copy-btn > svg { height: 13px ; width: 13px ; fill: white }`
+                  + `#${app.cssPrefix}-chatbar {`
                       + `border: solid 1px ${ env.ui.app.scheme == 'dark' ?
                             ( config.bgAnimationsDisabled ? '#777' : '#aaa' ) : '#638ed4' } ;`
                       + 'border-radius: 12px 13px 12px 0 ; margin: 3px 0 15px 0 ; padding: 13px 57px 9px 10px ;'
                       + 'font-size: 0.92rem ; height: 19px ; width: 82.6% ; max-height: 200px ; resize: none ; '
                       + `position: relative ; z-index: 555 ; color: #${ env.ui.app.scheme == 'dark' ? 'eee' : '222' } ;`
-                      + `background: ${ env.ui.app.scheme == 'dark' ? `#515151${ config.bgAnimationsDisabled ? '' : '9e' }`
-                                                                : '#eeeeee9e' } ;`
+                      + `background: ${ env.ui.app.scheme == 'light' ? '#eeeeee9e'
+                            : `#515151${ config.bgAnimationsDisabled ? '' : '9e' }` } ;`
                       + `${ env.ui.app.scheme == 'light' ? 'box-shadow: 0 1px 2px rgba(15,17,17,.1) inset' : '' }}`
-                  + '.related-queries {'
+                  + `#${app.cssPrefix}-chatbar:focus-visible { outline: -webkit-focus-ring-color auto 1px }`
+                  + `.${app.cssPrefix}-related-queries {`
                       + 'display: flex ; flex-wrap: wrap ; width: 100% ; position: relative ; overflow: visible ;'
                       + `${ env.browser.isFF ? 'top: -20px ; margin: -3px 0 -10px' : 'top: -25px ; margin: -7px 0 -15px' }}`
-                  + '.related-query {'
+                  + `.${app.cssPrefix}-related-query {`
                       + 'font-size: 0.88em ; cursor: pointer ;'
-                      + 'box-sizing: border-box ; width: fit-content ; max-width: 100% ;' // confine to .related-queries
+                      + 'box-sizing: border-box ; width: fit-content ; max-width: 100% ;' // confine to outer div
                       + 'margin: 4px 4px 8px 0 ; padding: 4px 10px 5px 10px ;'
                       + `color: ${ env.ui.app.scheme == 'dark' ? ( config.bgAnimationsDisabled ? '#ccc' : '#f2f2f2' )
-                                                           : '#767676' } ;`
+                                                               : '#767676' } ;`
                       + `background: ${
                              config.bgAnimationsDisabled ? ( env.ui.app.scheme == 'dark' ? '#404040' : '#dadada12' )
                                                          : ( env.ui.app.scheme == 'dark' ? '#595858d6' : '#fbfbfbb0' )} ;`
@@ -2146,188 +2282,52 @@
                             `${ config.bgAnimationsDisabled ? 10 : 18 }px -8px lightgray`
                                 : '8px -6px rgba(169, 169, 169, 0.75)' };`
                       + `${ config.fgAnimationsDisabled ? '' : 'transition: transform 0.1s ease !important' }}`
-                  + '.related-query:hover, .related-query:focus {'
+                  + `.${app.cssPrefix}-related-query:hover, .${app.cssPrefix}-related-query:focus {`
                       + ( config.fgAnimationsDisabled || env.browser.isMobile ? ''
                             : 'transform: scale(1.055) !important ;' )
                       + `background: ${ env.ui.app.scheme == 'dark' ? '#a2a2a270'
                             : '#dae5ffa3 ; color: #000000a8 ; border-color: #a3c9ff' }}`
-                  + '.related-query svg {' // related query icon
+                  + `.${app.cssPrefix}-related-query svg {` // related query icon
                       + 'position: relative ; top: 4px ; margin-right: 6px ;'
                       + `color: ${ env.ui.app.scheme == 'dark' ? '#aaa' : '#c1c1c1' }}`
                   + '.fade-in { opacity: 0 ; transform: translateY(10px) }'
                   + '.fade-in-less { opacity: 0 ; transition: opacity 0.2s ease }'
                   + '.fade-in.active, .fade-in-less.active { opacity: 1 ; transform: translateY(0) }'
-                  + '.chatbar-btn {'
+                  + `.${app.cssPrefix}-chatbar-btn {`
                       + 'z-index: 560 ; border: none ; float: right ; position: relative ; background: none ; cursor: pointer ;'
                       + `bottom: ${ env.browser.isFF ? 50 : 55 }px ;`
                       + `${ env.ui.app.scheme == 'dark' ? 'color: #aaa ; fill: #aaa ; stroke: #aaa'
                                                     : 'color: lightgrey ; fill: lightgrey ; stroke: lightgrey' }}`
-                  + '.chatbar-btn:hover {'
+                  + `.${app.cssPrefix}-chatbar-btn:hover {`
                       + `${ env.ui.app.scheme == 'dark' ? 'color: white ; fill: white ; stroke: white'
-                                                    : 'color: #638ed4 ; fill: #638ed4 ; stroke: #638ed4' }}`
+                                                        : 'color: #638ed4 ; fill: #638ed4 ; stroke: #638ed4' }}`
                   + ( // rendered markdown styles
-                        '#ddgpt > pre h1 { font-size: 24px } #ddgpt > pre h2 { font-size: 22px } #ddgpt > pre h3 { font-size: 20px }' // size headings
-                      + '#ddgpt > pre h1, #ddgpt > pre h2, #ddgpt > pre h3 { margin-bottom: -15px }' // reduce gap after headings
-                      + '#ddgpt > pre ol { margin: -11px 0 -20px }' // reduce v-padding
-                      + '#ddgpt > pre ol > li { margin: -10px 0 0 1.6em ; list-style: decimal }' // reduce v-padding, show number markers
-                      + '#ddgpt > pre ol > li::marker { font-size: 0.9em }' // shrink number markers
-                      + '#ddgpt > pre ul { margin: -28px 0 -21px }' // reduce v-padding
-                      + '#ddgpt > pre ul > li { margin: -10px 0 0 1.2em ; list-style: inside }' ) // reduce v-padding, show bullets
+                        `#${app.cssPrefix} > pre h1 { font-size: 1.8em }`
+                      + `#${app.cssPrefix} > pre h2 { font-size: 1.65em }`
+                      + `#${app.cssPrefix} > pre h3 { font-size: 1.4em }`
+                      + `#${app.cssPrefix} > pre h1, #${app.cssPrefix} > pre h2, #${app.cssPrefix} > pre h3 {`
+                          + 'margin-bottom: -15px }' // reduce gap after headings
+                      + `#${app.cssPrefix} > pre ol { margin: -11px 0 -20px }` // reduce v-padding
+                      + `#${app.cssPrefix} > pre ol > li { margin: -10px 0 0 1.6em ; list-style: decimal }` // reduce v-padding, show number markers
+                      + `#${app.cssPrefix} > pre ol > li::marker { font-size: 0.9em }` // shrink number markers
+                      + `#${app.cssPrefix} > pre ul { margin: -28px 0 -21px }` // reduce v-padding
+                      + `#${app.cssPrefix} > pre ul > li { margin: -10px 0 0 1.2em ; list-style: inside }` ) // reduce v-padding, show bullets
                   + '.katex-html { display: none } ' // hide unrendered math
+                  + `#${app.cssPrefix} + footer {`
+                      + 'display: grid ; width: 100% ; margin: 2px 0 25px ; position: relative }'
+                  + `#${app.cssPrefix} + footer * {`
+                      + `color: ${ env.ui.app.scheme == 'dark' ? '#ccc' : '#666' } !important }`
                   + '.chatgpt-notif { fill: white ; stroke: white ; color: white ; padding: 7.5px 14px 6.5px 11.5px !important }'
                   + '.notif-close-btn { display: none !important }' // hide notif close btn
-                  + '.chatgpt-modal > div {'
-                      + 'padding: 20px 25px 24px 25px !important ;' // increase alert padding
-                      + 'background-color: white !important ; color: black }'
-                  + '.chatgpt-modal p { margin: -8px 0 -14px 4px ; font-size: 1.55rem }' // pos/size modal msg
-                  + `.chatgpt-modal a { color: #${ env.ui.app.scheme == 'dark' ? '00cfff' : '1e9ebb' } !important }`
-                  + '.modal-buttons'
-                      + `{ margin: 24px -5px -3px ${ env.browser.isMobile ? -5 : -15 }px !important ; width: 100% }`
-                  + '.chatgpt-modal button {' // modal buttons
-                      + 'font-size: 1rem ; text-transform: uppercase ; min-width: 121px ;'
-                      + `padding: ${ env.browser.isMobile ? '7px' : '4px 10px' } !important ;`
-                      + 'cursor: pointer ; border-radius: 0 !important ; height: 39px ;'
-                      + 'border: 1px solid ' + ( env.ui.app.scheme == 'dark' ? 'white' : 'black' ) + '!important ;'
-                      + `${ env.ui.app.scheme == 'dark' ? 'background: none ; color: white' : '' }}`
-                  + '.primary-modal-btn { background: black !important ; color: white !important }'
-                  + '.chatgpt-modal button:hover { background-color: #9cdaff !important ; color: black !important }'
-                  + ( env.ui.app.scheme == 'dark' ? // darkmode chatgpt.alert() styles
-                      ( '.chatgpt-modal > div, .chatgpt-modal button:not(.primary-modal-btn) {'
-                          + 'background-color: black !important ; color: white }'
-                      + '.primary-modal-btn { background: hsl(186 100% 69%) !important ; color: black !important }'
-                      + '.chatgpt-modal a { color: #00cfff !important }'
-                      + '.chatgpt-modal button:hover {'
-                          + 'background-color: #00cfff !important ; color: black !important }' ) : '' )
-                  + '[class*="-modal-bg"] {'
-                      + 'position: fixed ; top: 0 ; left: 0 ; width: 100% ; height: 100% ;' // expand to full view-port
-                      + 'transition: background-color .15s ease ;' // speed to show bg dim
-                      + 'display: flex ; justify-content: center ; align-items: center ; z-index: 9999 }' // align
-                  + '[class*="-modal-bg"].animated > div {'
-                      + 'z-index: 13456 ; opacity: 0.98 ; transform: translateX(0) translateY(0) }'
-                  + '[class$="-modal"] {' // native modals + chatgpt.alert()s
-                      + 'z-index: 13456 ; position: absolute ;' // to be click-draggable
-                      + 'opacity: 0 ;' // to fade-in
-                      + `background-image: linear-gradient(180deg, ${
-                           env.ui.app.scheme == 'dark' ? '#99a8a6 -200px, black 200px' : '#b6ebff -296px, white 171px' }) ;`
-                      + `border: 1px solid ${ env.ui.app.scheme == 'dark' ? 'white' : '#b5b5b5' } !important ;`
-                      + `color: ${ env.ui.app.scheme == 'dark' ? 'white' : 'black' } ;`
-                      + 'transform: translateX(-3px) translateY(7px) ;' // offset to move-in from
-                      + 'transition: opacity 0.65s cubic-bezier(.165,.84,.44,1),' // for fade-ins
-                                  + 'transform 0.55s cubic-bezier(.165,.84,.44,1) !important }' // for move-ins
-                  + ( config.fgAnimationsDisabled || env.browser.isMobile ? '' : (
-                        '[class$="-modal"] button { transition: transform 0.15s ease }'
-                      + '[class$="-modal"] button:hover { transform: scale(1.055) }' ))
-                  + '.ddgpt-menu {'
+                  + `.${app.cssPrefix}-menu {`
                       + 'position: absolute ; z-index: 2250 ;'
                       + 'padding: 3.5px 5px !important ; font-family: "Source Sans Pro", sans-serif ; font-size: 12px }'
-                  + '.ddgpt-menu ul { margin: 0 ; padding: 0 ; list-style: none }'
-                  + '.ddgpt-menu-item { padding: 0 5px ; line-height: 20.5px }'
-                  + '.ddgpt-menu-item:not(.ddgpt-menu-header):hover {'
+                  + `.${app.cssPrefix}-menu ul { margin: 0 ; padding: 0 ; list-style: none }`
+                  + `.${app.cssPrefix}-menu-item { padding: 0 5px ; line-height: 20.5px }`
+                  + `.${app.cssPrefix}-menu-item:not(.${app.cssPrefix}-menu-header):hover {`
                       + 'cursor: pointer ; background: white ; color: black ; fill: black }'
-                  + '#checkmark-icon { fill: #b3f96d } .ddgpt-menu-item:hover #checkmark-icon { fill: green }'
-
-                  // Glowing modal btns
-                  + ':root { --glow-color: hsl(186 100% 69%); }'
-                  + '.glowing-btn {'
-                      + 'perspective: 2em ; font-weight: 900 ; animation: border-flicker 2s linear infinite ;'
-                      + '-webkit-box-shadow: inset 0 0 0.5em 0 var(--glow-color), 0 0 0.5em 0 var(--glow-color) ;'
-                      + 'box-shadow: inset 0 0 0.5em 0 var(--glow-color), 0 0 0.5em 0 var(--glow-color) ;'
-                      + '-moz-box-shadow: inset 0 0 0.5em 0 var(--glow-color), 0 0 0.5em 0 var(--glow-color) }'
-                  + '.glowing-txt {'
-                      + 'animation: text-flicker 3s linear infinite ;'
-                      + '-webkit-text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em var(--glow-color) ;'
-                      + '-moz-text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em var(--glow-color) ;'
-                      + 'text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3), 0 0 0.45em var(--glow-color) }'
-                  + '.faulty-letter {'
-                      + 'opacity: 0.5 ; animation: faulty-flicker 2s linear infinite }'
-                      + ( !env.browser.isMobile ? 'background: var(--glow-color) ;'
-                            + 'transform: translateY(120%) rotateX(95deg) scale(1, 0.35)' : '' ) + '}'
-                  + '.glowing-btn::after {'
-                      + 'content: "" ; position: absolute ; top: 0 ; bottom: 0 ; left: 0 ; right: 0 ;'
-                      + 'opacity: 0 ; z-index: -1 ; box-shadow: 0 0 2em 0.2em var(--glow-color) ;'
-                      + 'background-color: var(--glow-color) ; transition: opacity 100ms linear }'
-                  + '.glowing-btn:hover { color: rgba(0, 0, 0, 0.8) ; text-shadow: none ; animation: none }'
-                  + '.glowing-btn:hover .glowing-txt { animation: none }'
-                  + '.glowing-btn:hover .faulty-letter { animation: none ; text-shadow: none ; opacity: 1 }'
-                  + '.glowing-btn:hover:before { filter: blur(1.5em) ; opacity: 1 }'
-                  + '.glowing-btn:hover:after { opacity: 1 }'
-                  + '@keyframes faulty-flicker {'
-                      + '0% { opacity: 0.1 } 2% { opacity: 0.1 } 4% { opacity: 0.5 } 19% { opacity: 0.5 }'
-                      + '21% { opacity: 0.1 } 23% { opacity: 1 } 80% { opacity: 0.5 } 83% { opacity: 0.4 }'
-                      + '87% { opacity: 1 }}'
-                  + '@keyframes text-flicker {'
-                      + '0% { opacity: 0.1 } 2% { opacity: 1 } 8% { opacity: 0.1 } 9% { opacity: 1 }'
-                      + '12% { opacity: 0.1 } 20% { opacity: 1 } 25% { opacity: 0.3 } 30% { opacity: 1 }'
-                      + '70% { opacity: 0.7 } 72% { opacity: 0.2 } 77% { opacity: 0.9 } 100% { opacity: 0.9 }}'
-                  + '@keyframes border-flicker {'
-                      + '0% { opacity: 0.1 } 2% { opacity: 1 } 4% { opacity: 0.1 } 8% { opacity: 1 }'
-                      + '70% { opacity: 0.7 } 100% { opacity: 1 }}'
-
-                  // chatgpt.alert() + DDGPT modals
-                  + `.${modals.class} { display: grid ; place-items: center }` // for centered icon/logo
-                  + '[class*="modal-close-btn"] {'
-                      + 'position: absolute !important ; float: right ; top: 14px !important ; right: 16px !important ;'
-                      + 'cursor: pointer ; width: 33px ; height: 33px ; border-radius: 20px }'
-                  + `[class*="modal-close-btn"] path {${ env.ui.app.scheme == 'dark' ? 'stroke: white ; fill: white'
-                                                                                 : 'stroke: #9f9f9f ; fill: #9f9f9f' }}`
-                  + ( env.ui.app.scheme == 'dark' ?  // invert dark mode hover paths
-                        '[class*="modal-close-btn"]:hover path { stroke: black ; fill: black }' : '' )
-                  + '[class*="modal-close-btn"]:hover { background-color: #f2f2f2 }' // hover underlay
-                  + '[class*="modal-close-btn"] svg { margin: 11.5px }' // center SVG for hover underlay
-                  + '[class*="-modal"] h2 { font-weight: bold ; line-height: 32px ; padding: 0 ; margin: 9px 0 14px !important ;'
-                      + `${ env.browser.isMobile ? 'text-align: center' // center on mobile
-                                                 : 'justify-self: start' }}` // left-align on desktop
-                  + '[class*="-modal"] p { justify-self: start ; font-size: 20px }'
-                  + '[class*="-modal"] button { font-size: 13px }'
-
-                  // Settings modal
-                  + '#ddgpt-settings {'
-                      + `min-width: ${ env.browser.isPortrait ? 288 : 698 }px ; max-width: 75vw ;`
-                      + 'word-wrap: break-word ; border-radius: 15px ; box-shadow: 0 30px 60px rgba(0, 0, 0, .12) ;'
-                      + `${ env.ui.app.scheme == 'dark' ? 'stroke: white ; fill: white' : 'stroke: black ; fill: black' }}` // icon color
-                  + '#ddgpt-settings-title { font-weight: bold ; line-height: 19px ; text-align: center ; margin: 0 3px -3px 0 }'
-                  + '#ddgpt-settings-title h4 {'
-                      + `font-size: ${ env.browser.isPortrait ? 26 : 31 }px ; font-weight: bold ; margin-top: -39px }`
-                  + '#ddgpt-settings ul {'
-                      + 'list-style: none ; padding: 0 ; margin-bottom: 2px ;' // hide bullets, close bottom gap
-                      + `width: ${ env.browser.isPortrait ? 100 : 50 }% }` // set width based on column cnt
-                  + '#ddgpt-settings li {'
-                      + `color: ${ env.ui.app.scheme == 'dark' ? 'rgb(255, 255, 255, 0.65)' : 'rgba(0, 0, 0, 0.45)' } ;` // for text
-                      + `fill: ${ env.ui.app.scheme == 'dark' ? 'rgb(255, 255, 255, 0.65)' : 'rgba(0, 0, 0, 0.45)' } ;` // for icons
-                      + `stroke: ${ env.ui.app.scheme == 'dark' ? 'rgb(255, 255, 255, 0.65)' : 'rgba(0, 0, 0, 0.45)' } ;` // for icons
-                      + 'height: 25px ; font-size: 14.5px ; transition: transform 0.1s ease ;'
-                      + `padding: 4px 10px ; border-bottom: 1px dotted ${ env.ui.app.scheme == 'dark' ? 'white' : 'black' } ;` // add settings separators
-                      + 'border-radius: 3px }' // make highlight strips slightly rounded
-                  + '#ddgpt-settings li.active {'
-                      + `color: ${ env.ui.app.scheme == 'dark' ? 'rgb(255, 255, 255)' : 'rgba(0, 0, 0)' } ;` // for text
-                      + `fill: ${ env.ui.app.scheme == 'dark' ? 'rgb(255, 255, 255)' : 'rgba(0, 0, 0)' } ;` // for icons
-                      + `stroke: ${ env.ui.app.scheme == 'dark' ? 'rgb(255, 255, 255)' : 'rgba(0, 0, 0)' }}` // for icons
-                  + '#ddgpt-settings li label { padding-right: 20px }' // right-pad labels so toggles don't hug
-                  + '#ddgpt-settings li:last-of-type { border-bottom: none }' // remove last bottom-border
-                  + '#ddgpt-settings li, #ddgpt-settings li label { cursor: pointer }' // add finger on hover
-                  + '#ddgpt-settings li:hover {'
-                      + 'opacity: 1 ;'
-                      + 'background: rgba(100, 149, 237, 0.88) ; color: white ; fill: white ; stroke: white ;'
-                      + `${ config.fgAnimationsDisabled || env.browser.isMobile ? '' : 'transform: scale(1.22)' }}` // add zoom
-                  + '#ddgpt-settings li > input { float: right }' // pos toggles
-                  + '#scheme-menu-entry > span { margin: 0 -2px }' // align Scheme status
-                  + '#scheme-menu-entry > span > svg {' // v-align/left-pad Scheme status icon
-                      + 'position: relative ; top: 3px ; margin-left: 4px }'
-                  + ( config.fgAnimationsDisabled ? '' : '#arrows-cycle { animation: rotation 5s linear infinite }' )
-                  + '@keyframes rotation { from { transform: rotate(0deg) } to { transform: rotate(360deg) }}'
-                  + `#about-menu-entry span { color: ${ env.ui.app.scheme == 'dark' ? '#28ee28' : 'green' }}`
-                  + '#about-menu-entry > span {' // outer About status span
-                      + `width: ${ env.browser.isPortrait ? '15vw' : '92px' } ; height: 20px ; overflow: hidden ;`
-                      + `${ config.fgAnimationsDisabled ? '' : ( // fade edges
-                                'mask-image: linear-gradient('
-                                    + 'to right, transparent, black 20%, black 89%, transparent) ;'
-                      + '-webkit-mask-image: linear-gradient('
-                                    + 'to right, transparent, black 20%, black 89%, transparent)' )}}`
-                  + '#about-menu-entry > span > div {'
-                      + `text-wrap: nowrap ; ${
-                            config.fgAnimationsDisabled ? '' : 'animation: ticker linear 60s infinite' }}`
-                  + '@keyframes ticker { 0% { transform: translateX(100%) } 100% { transform: translateX(-2000%) }}'
-                  + `.about-em { color: ${ env.ui.app.scheme == 'dark' ? 'white' : 'green' } !important }`
+                  + `#${app.cssPrefix}-checkmark-icon { fill: #b3f96d }`
+                  + `.${app.cssPrefix}-menu-item:hover #${app.cssPrefix}-checkmark-icon { fill: green }`
                 )
             },
 
@@ -2341,7 +2341,7 @@
                 // Update 'by KudoAI' visibility based on corner space available
                 const kudoAIspan = appDiv.querySelector('.kudoai')
                 if (kudoAIspan) {
-                    const visibleBtnCnt = [...appDiv.querySelectorAll('.corner-btn')]
+                    const visibleBtnCnt = [...appDiv.querySelectorAll(`.${app.cssPrefix}-div-corner-btn`)]
                         .filter(btn => getComputedStyle(btn).display != 'none').length
                     kudoAIspan.style.display = visibleBtnCnt <= (
                         config.anchored && config.expanded ? 10
@@ -2351,7 +2351,7 @@
 
                 // Update <pre> max-height for various mode toggles
                 const answerPre = appDiv.querySelector('pre'),
-                      relatedQueries = appDiv.querySelector('.related-queries'),
+                      relatedQueries = appDiv.querySelector(`.${app.cssPrefix}-related-queries`),
                       shorterPreHeight = window.innerHeight - relatedQueries?.offsetHeight - 245,
                       longerPreHeight = window.innerHeight - 255
                 if (answerPre) answerPre.style.maxHeight = (
@@ -2365,7 +2365,8 @@
 
     // Define UI functions
 
-    function fillStarryBG(targetNode) { // requires https://assets.aiwebextensions.com/styles/css/<black|white>-rising-stars.min.css
+    function fillStarryBG(targetNode) { // requires https://assets.aiwebextensions.com/styles/rising-stars/css/<black|white>.min.css
+        if (targetNode.querySelector('[id*="stars"]')) return
         const starsDivsContainer = document.createElement('div')
         starsDivsContainer.style.cssText = 'position: absolute ; top: 0 ; left: 0 ;' // hug targetNode's top-left corner
           + 'height: 100% ; width: 100% ; border-radius: 15px ; overflow: clip ;' // bound innards exactly by targetNode
@@ -2384,23 +2385,28 @@
         appDiv() {
             appDiv.addEventListener(inputEvents.down, event => { // to dismiss visible font size slider
                 if (event.button != 0) return // prevent non-left-click dismissal
-                if (document.getElementById('font-size-slider-track') // slider is visible
+                if (document.getElementById(`${app.cssPrefix}-font-size-slider-track`) // slider is visible
                     && !event.target.closest('[id*="font-size"]') // not clicking slider elem
                     && getComputedStyle(event.target).cursor != 'pointer') // ...or other interactive elem
                         fontSizeSlider.toggle('off')
             })
+            appDiv.onmouseover = appDiv.onmouseout = event =>
+                appDiv.querySelectorAll(`.${app.cssPrefix}-div-corner-btn`).forEach(btn => {
+                    if (/about|settings|chevron/.test(btn.id)) return
+                    btn.style.opacity = event.type == 'mouseover' ? 1 : 0
+                })
         },
 
-        cornerBtns() {
-            appDiv.querySelectorAll('.corner-btn').forEach(btn => { // from right to left
-                if (btn.id == 'chevron-btn') btn.onclick = () => {
-                    if (appDiv.querySelector('#font-size-slider-track')?.classList.contains('active'))
+        appDivCornerBtns() {
+            appDiv.querySelectorAll(`.${app.cssPrefix}-div-corner-btn`).forEach(btn => { // from right to left
+                if (btn.id.endsWith('chevron-btn')) btn.onclick = () => {
+                    if (appDiv.querySelector(`#${app.cssPrefix}-font-size-slider-track`)?.classList.contains('active'))
                         fontSizeSlider.toggle('off')
                     toggle.minimized()
                 }
-                else if (btn.id == 'about-btn') btn.onclick = () => modals.open('about')
-                else if (btn.id == 'settings-btn') btn.onclick = () => modals.open('settings')
-                else if (btn.id == 'speak-btn') btn.onclick = () => {
+                else if (btn.id.endsWith('about-btn')) btn.onclick = () => modals.open('about')
+                else if (btn.id.endsWith('settings-btn')) btn.onclick = () => modals.open('settings')
+                else if (btn.id.endsWith('speak-btn')) btn.onclick = () => {
                     const wholeAnswer = appDiv.querySelector('pre').textContent
                     const cjsSpeakOptions = { voice: 2, pitch: 1, speed: 1.5 }
                     const sgtDialectMap = [
@@ -2451,11 +2457,11 @@
                                 }).catch(() => chatgpt.speak(wholeAnswer, cjsSpeakOptions))
                     }}})
                 }
-                else if (btn.id == 'font-size-btn') btn.onclick = () => fontSizeSlider.toggle()
-                else if (btn.id == 'pin-btn') btn.onmouseover = btn.onmouseout = menus.pin.toggle
-                else if (btn.id == 'wsb-btn') btn.onclick = () => toggle.sidebar('wider')
-                else if (btn.id == 'arrows-btn') btn.onclick = () => toggle.expandedMode()
-                if (!env.browser.isMobile && btn.id != 'pin-btn') // add hover listeners for tooltips
+                else if (btn.id.endsWith('font-size-btn')) btn.onclick = () => fontSizeSlider.toggle()
+                else if (btn.id.endsWith('pin-btn')) btn.onmouseover = btn.onmouseout = menus.pin.toggle
+                else if (btn.id.endsWith('wsb-btn')) btn.onclick = () => toggle.sidebar('wider')
+                else if (btn.id.endsWith('arrows-btn')) btn.onclick = () => toggle.expandedMode()
+                if (!env.browser.isMobile && !btn.id.endsWith('pin-btn')) // add hover listeners for tooltips
                     btn.onmouseover = btn.onmouseout = toggle.tooltip
                 if (/about|settings|speak/.test(btn.id)) btn.onmouseup = () => { // add zoom/fade-out to select buttons
                     if (config.fgAnimationsDisabled) return
@@ -2476,7 +2482,7 @@
             replyForm.onkeydown = event => {
                 if (event.key == 'Enter' || event.keyCode == 13) {
                     if (event.ctrlKey) { // add newline
-                        const chatTextarea = appDiv.querySelector('#app-chatbar'),
+                        const chatTextarea = appDiv.querySelector(`#${app.cssPrefix}-chatbar`),
                               caretPos = chatTextarea.selectionStart,
                               textBefore = chatTextarea.value.substring(0, caretPos),
                               textAfter = chatTextarea.value.substring(caretPos)
@@ -2489,7 +2495,7 @@
             // Add form submit listener
             listenerize.replySection.submitHandler = function(event) {
                 event.preventDefault()
-                const chatTextarea = appDiv.querySelector('#app-chatbar')
+                const chatTextarea = appDiv.querySelector(`#${app.cssPrefix}-chatbar`)
 
                 // No reply, change placeholder + focus chatbar
                 if (chatTextarea.value.trim() == '') {
@@ -2509,7 +2515,9 @@
                     get.reply(msgChain)
 
                     // Hide/remove elems
-                    appDiv.querySelector('.related-queries')?.remove() // remove related queries
+                    appDiv.querySelector(`.${app.cssPrefix}-related-queries`)?.remove() // remove related queries
+                    if (!env.browser.isMobile) // hide chatbar button tooltips
+                        tooltipDiv.style.opacity = 0
 
                     // Show loading status
                     const replySection = appDiv.querySelector('section')
@@ -2523,7 +2531,7 @@
             replyForm.onsubmit = listenerize.replySection.submitHandler
 
             // Add chatbar autosizer
-            const chatTextarea = appDiv.querySelector('#app-chatbar'),
+            const chatTextarea = appDiv.querySelector(`#${app.cssPrefix}-chatbar`),
                   { paddingTop, paddingBottom } = getComputedStyle(chatTextarea),
                   vOffset = parseInt(paddingTop) + parseInt(paddingBottom)
             let prevLength = chatTextarea.value.length
@@ -2540,8 +2548,8 @@
             chatTextarea.oninput = listenerize.replySection.chatbarAutoSizer
 
             // Add button listeners
-            appDiv.querySelectorAll('.chatbar-btn').forEach(btn => {
-                if (btn.id == 'shuffle-btn') btn.onclick = () => {
+            appDiv.querySelectorAll(`.${app.cssPrefix}-chatbar-btn`).forEach(btn => {
+                if (btn.id.endsWith('shuffle-btn')) btn.onclick = () => {
                     const randQAprompt = 'Generate a single random question on any topic then answer it. '
                                        + 'Don\'t talk about Canberra, Tokyo, blue whales, photosynthesis, oceans, '
                                            + 'deserts, mindfulness meditation, the Fibonacci sequence, the liver, '
@@ -2570,15 +2578,16 @@
             // Create/ID/classify slider elems
             fontSizeSlider.cursorOverlay = document.createElement('div')
             fontSizeSlider.cursorOverlay.classList.add('cursor-overlay') // for resize cursor
-            const slider = document.createElement('div') ; slider.id = 'font-size-slider-track'
+            const slider = document.createElement('div') ; slider.id = `${app.cssPrefix}-font-size-slider-track`
             slider.className = 'fade-in-less' ; slider.style.display = 'none'
-            const sliderThumb = document.createElement('div') ; sliderThumb.id = 'font-size-slider-thumb'
+            const sliderThumb = document.createElement('div')
+            sliderThumb.id = `${app.cssPrefix}-font-size-slider-thumb`
             sliderThumb.title = Math.floor(config.fontSize *10) /10 + 'px' // font size tooltip
-            const sliderTip = document.createElement('div') ; sliderTip.id = 'font-size-slider-tip'
+            const sliderTip = document.createElement('div') ; sliderTip.id = `${app.cssPrefix}-font-size-slider-tip`
 
             // Assemble/insert elems
             slider.append(sliderThumb, sliderTip)
-            appDiv.insertBefore(slider, appDiv.querySelector('.btn-tooltip,' // desktop
+            appDiv.insertBefore(slider, appDiv.querySelector(`.${app.cssPrefix}-btn-tooltip,` // desktop
                                                            + 'pre')) // mobile
             // Init thumb pos
             setTimeout(() => {
@@ -2644,16 +2653,17 @@
 
         toggle(state = '') {
             log.caller = `fontSizeSlider.toggle(${ state ? `'${state}'` : '' })`
-            const slider = document.getElementById('font-size-slider-track') || fontSizeSlider.createAppend(),
-                  replyTip = appDiv.querySelector('.reply-tip'),
-                  sliderTip = document.getElementById('font-size-slider-tip')
+            const slider = document.getElementById(`${app.cssPrefix}-font-size-slider-track`)
+                         || fontSizeSlider.createAppend()
+            const replyTip = appDiv.querySelector(`.${app.cssPrefix}-reply-tip`)
+            const sliderTip = document.getElementById(`${app.cssPrefix}-font-size-slider-tip`)
 
             // Show slider
             if (state == 'on' || (!state && slider.style.display == 'none')) {
                 log.debug('Showing Font Size slider...')
 
                 // Position slider tip
-                const btnSpan = document.getElementById('font-size-btn'),
+                const btnSpan = document.getElementById(`${app.cssPrefix}-font-size-btn`),
                       rects = { appDiv: appDiv.getBoundingClientRect(), btnSpan: btnSpan.getBoundingClientRect() }
                 sliderTip.style.right = `${
                     rects.appDiv.right - ( rects.btnSpan.left + rects.btnSpan.right )/2 -35.5 }px`
@@ -2680,7 +2690,7 @@
 
         anchorMode(state = '') {
             log.caller = `toggle.anchorMode(${ state ? `'${state}'` : '' })`
-            const prevState = config.anchored // for restraining notif if no change from #pin-menu 'Sidebar' click
+            const prevState = config.anchored // for restraining notif if no change from Pin menu 'Sidebar' click
             if (state == 'on' || !state && !config.anchored) {
                 log.debug('Toggling Anchor Mode on...')
                 settings.save('anchored', true)
@@ -2729,7 +2739,7 @@
             log.caller = 'toggle.autoGet()'
             log.debug(`Toggling Auto-Get ${ config.autoGet ?  'OFF' : 'ON' }...`)
             settings.save('autoGet', !config.autoGet)
-            if (appDiv.querySelector('.standby-btn')) show.reply.standbyBtnClickHandler()
+            if (appDiv.querySelector(`.${app.cssPrefix}-standby-btn`)) show.reply.standbyBtnClickHandler()
             if (config.autoGet) // disable Prefix/Suffix mode if enabled
                 ['prefix', 'suffix'].forEach(manualMode => {
                     if (config[manualMode + 'Enabled']) toggle.manualGet(manualMode) })
@@ -2789,12 +2799,12 @@
             const toMinimize = state == 'on' || !state && !config.minimized
             log.debug(`${ toMinimize ? 'Mimizing' : 'Restoring' } ${app.name}...`)
             settings.save('minimized', toMinimize)
-            const chevronBtn = appDiv.querySelector('#chevron-btn')
+            const chevronBtn = appDiv.querySelector(`#${app.cssPrefix}-chevron-btn`)
             if (chevronBtn) { // update icon
                 const chevronSVG = icons[`chevron${ config.minimized ? 'Up' : 'Down' }`].create()
                 chevronBtn.firstChild.remove() ; chevronBtn.append(chevronSVG)
                 chevronBtn.onclick = () => {
-                    if (appDiv.querySelector('#font-size-slider-track')?.classList.contains('active'))
+                    if (appDiv.querySelector(`#${app.cssPrefix}-font-size-slider-track`)?.classList.contains('active'))
                         fontSizeSlider.toggle('off')
                     toggle.minimized()
                 }
@@ -2821,7 +2831,7 @@
                         !streamingToggle.checked && config.proxyAPIenabled && !config.streamingDisabled)
                             modals.settings.toggle.switch(streamingToggle)
             }
-            if (appDiv.querySelector('#ddgpt-alert')) location.reload() // re-send query if user alerted
+            if (appDiv.querySelector(`#${app.cssPrefix}-alert`)) location.reload() // re-send query if user alerted
             else {
                 log.caller = 'toggle.proxyMode()'
                 log.debug(`Success! config.proxyAPIenabled = ${config.proxyAPIenabled}`)
@@ -2833,7 +2843,7 @@
             log.debug(`Toggling Related Queries ${ config.rqDisabled ? 'ON' : 'OFF' }...`)
             settings.save('rqDisabled', !config.rqDisabled)
             update.rqVisibility()
-            if (!config.rqDisabled && !appDiv.querySelector('.related-queries')) // get related queries for 1st time
+            if (!config.rqDisabled && !appDiv.querySelector(`.${app.cssPrefix}-related-queries`)) // get related queries for 1st time
                 get.related(stripQueryAugments(msgChain)[msgChain.length - 1].content)
                     .then(queries => show.related(queries))
                     .catch(err => { log.error(err.message) ; api.tryNew(get.related) })
@@ -2846,7 +2856,7 @@
             log.caller = `toggle.sidebar('${mode}'${ state ? `, '${state}'` : '' })`
             const configKeyName = mode + 'Sidebar',
                   toToggleOn = state == 'on' || !state && !config[configKeyName],
-                  prevStickyState = config.stickySidebar // for hiding notif if no change from #pin-menu Sidebar-click
+                  prevStickyState = config.stickySidebar // for hiding notif if no change from Pin menu 'Sidebar' click
             log.debug(`Toggling ${log.toTitleCase(mode)} Sidebar ${ toToggleOn ? 'ON' : 'OFF' }`)
             if (state == 'on' || !state && !config[configKeyName]) { // toggle on
                 if (mode == 'sticky' && config.anchored) toggle.anchorMode()
@@ -2915,8 +2925,9 @@
         },
 
         tooltip(event) {
-            const btnElem = event.currentTarget, btnType = btnElem.id.replace(/-btn$/, ''),
-                  cornerBtnTypes = ['chevron', 'about', 'settings', 'speak', 'font-size', 'pin', 'wsb', 'arrows']
+            const btnElem = event.currentTarget, btnType = /[^-]+-([\w-]+)-btn/.exec(btnElem.id)[1],
+                  appCornerBtnTypes = ['chevron', 'about', 'settings', 'speak', 'font-size', 'pin', 'wsb', 'arrows'],
+                  replyCornerBtnTypes = ['copy', 'regen']
 
             // Update text
             tooltipDiv.innerText = (
@@ -2927,13 +2938,14 @@
               : btnType == 'speak' ? app.msgs.tooltip_playAnswer
               : btnType == 'font-size' ? app.msgs.tooltip_fontSize
               : btnType == 'wsb' ? (( config.widerSidebar ? `${app.msgs.prefix_exit} ` :  '' )
-                               + ( app.msgs.menuLabel_widerSidebar ))
+                                 + ( app.msgs.menuLabel_widerSidebar ))
               : btnType == 'arrows' ? ( config.expanded ? `${app.msgs.tooltip_shrink}`
                                                         : `${app.msgs.tooltip_expand}` )
-              : btnType == 'copy' ? ( btnElem.firstChild.id == 'copy-icon' ? `${app.msgs.tooltip_copy} ${
-                  ( btnElem.parentNode.tagName == 'PRE' ? app.msgs.tooltip_reply
-                                                        : app.msgs.tooltip_code ).toLowerCase() }`
-                                                                           : `${app.msgs.notif_copiedToClipboard}!` )
+              : btnType == 'copy' ? ( btnElem.firstChild.id.endsWith('copy-icon') ?
+                    `${app.msgs.tooltip_copy} ${
+                        app.msgs[`tooltip_${ btnElem.closest('code') ? 'code' : 'reply' }`].toLowerCase()}`
+                  : `${app.msgs.notif_copiedToClipboard}!` )
+              : btnType == 'regen' ? `${app.msgs.tooltip_regen} ${app.msgs.tooltip_reply.toLowerCase()}`
               : btnType == 'send' ? app.msgs.tooltip_sendReply
               : btnType == 'shuffle' ? app.msgs.tooltip_askRandQuestion : '' )
 
@@ -2941,7 +2953,10 @@
             const elems = { appDiv, btnElem, tooltipDiv },
                   rects = {} ; Object.keys(elems).forEach(key => rects[key] = elems[key].getBoundingClientRect())
             tooltipDiv.style.top = `${
-                cornerBtnTypes.includes(btnType) ? -15 : rects.btnElem.top - rects.appDiv.top -36 }px`
+                appCornerBtnTypes.includes(btnType) ? -17
+              : replyCornerBtnTypes.includes(btnType) && !event.currentTarget.closest('code') ? 45
+              : rects.btnElem.top - rects.appDiv.top -36 - ( event.currentTarget.closest('code') ? 5 : 0 )
+            }px`
             tooltipDiv.style.right = `${
                 rects.appDiv.right - ( rects.btnElem.left + rects.btnElem.right )/2 - rects.tooltipDiv.width/2 }px`
 
@@ -3140,7 +3155,7 @@
                 config.openAIkey = await Promise.race(
                     [session.getOAItoken(), new Promise(reject => setTimeout(reject, 3000))])
 
-            // Try diff API after 6-9s of no response
+            // Try diff API after 7-10s of no response
             else {
                 const iniAPI = get.reply.api
                 setTimeout(() => {
@@ -3149,7 +3164,7 @@
                         && get.reply.api == iniAPI // not already trying diff API from err
                         && get.reply.triedAPIs.length != Object.keys(apis).length -1 // untried APIs remain
                     ) api.tryNew(get.reply, 'timeout')
-                }, config.streamingDisabled ? 9000 : 6000)
+                }, config.streamingDisabled ? 10000 : 7000)
             }
 
             // Get/show answer from AI
@@ -3255,7 +3270,7 @@
                         api.tryNew(caller)
                     else { // text was shown
                         caller.status = 'done' ; caller.attemptCnt = null
-                        show.copyBtns() ; api.clearTimedOut(caller.triedAPIs)
+                        show.replyCornerBtns() ; api.clearTimedOut(caller.triedAPIs)
                     } return
                 }
                 let chunk = new TextDecoder('utf8').decode(new Uint8Array(value))
@@ -3358,12 +3373,12 @@
                     if (caller.status != 'done') {
                         log.debug('Response text', respText)
                         const failMatch = failFlagsAndURLs.exec(respText)
-                        if (failMatch || /^(?:\{|event:)/.test(respText)) {
+                        if (!respText || failMatch || /^(?:\{|event:)/.test(respText)) {
                             if (failMatch) log.error('Fail flag detected', `'${failMatch[0]}'`)
                             api.tryNew(caller)
                         } else {
                             caller.status = 'done' ; api.clearTimedOut(caller.triedAPIs) ; caller.attemptCnt = null
-                            if (caller == get.reply) { show.reply(respText) ; show.copyBtns() }
+                            if (caller == get.reply) { show.reply(respText) ; show.replyCornerBtns() }
                             else resolve(arrayify(respText))
                 }}}
 
@@ -3390,42 +3405,65 @@
 
     const show = {
 
-        copyBtns() {
-            if (document.getElementById('copy-btn')) return
+        replyCornerBtns() {
+            if (document.getElementById(`${app.cssPrefix}-copy-btn`)) return
+            const baseBtnStyles = 'float: right ; cursor: pointer ;'
 
-            appDiv.querySelectorAll('#ddgpt > pre, code').forEach(parentElem => {
+            // Add top parent div
+            const cornerBtnsDiv = document.createElement('div')
+            cornerBtnsDiv.className = `${app.cssPrefix}-reply-corner-btns`
+            appDiv.querySelector('pre').prepend(cornerBtnsDiv)
+
+            // Add Copy buttons
+            appDiv.querySelectorAll(`#${app.cssPrefix} > pre, code`).forEach(parentElem => {
                 const copyBtn = document.createElement('btn'),
                       copySVG = icons.copy.create(parentElem)
-                copyBtn.id = 'copy-btn' ; copySVG.id = 'copy-icon'
-                copyBtn.className = 'no-mobile-tap-outline'
+                copyBtn.id = `${app.cssPrefix}-copy-btn` ; copySVG.id = `${app.cssPrefix}-copy-icon`
+                copyBtn.className = 'no-mobile-tap-outline' ; copyBtn.style.cssText = baseBtnStyles
                 copyBtn.append(copySVG) ; let elemToPrepend = copyBtn
 
                 // Wrap code button in div for v-offset
                 if (parentElem.tagName == 'CODE') {
                     elemToPrepend = document.createElement('div')
-                    elemToPrepend.style.height = '11px'
+                    elemToPrepend.style.cssText = 'height: 11px ; margin: 2px 3px 0 0'
                     elemToPrepend.append(copyBtn)
                 }
 
                 // Add listeners
                 if (!env.browser.isMobile) copyBtn.onmouseover = copyBtn.onmouseout = toggle.tooltip
                 copyBtn.onclick = event => { // copy text, update icon + tooltip status
-                    const copySVG = copyBtn.querySelector('#copy-icon')
-                    if (!copySVG) return // since clicking on copied icon
+                    const copySVG = copyBtn.querySelector(`#${app.cssPrefix}-copy-icon`)
+                    if (!copySVG) return // since clicking on Copied icon
                     const textContainer = (
                         copyBtn.parentNode.tagName == 'PRE' ? copyBtn.parentNode // reply container
                                                             : copyBtn.parentNode.parentNode ) // code container
                     const textToCopy = textContainer.textContent.replace(/^>> /, '').trim()
-                    const checkmarksSVG = icons.checkmarkDouble.create() ; checkmarksSVG.id = 'copied-icon'
-                    copyBtn.replaceChild(checkmarksSVG, copySVG) // change to copied icon
+                    const checkmarksSVG = icons.checkmarkDouble.create()
+                    checkmarksSVG.style.marginLeft = '1px' // set same left boundary as Copy icon to not shift other ones
+                    copyBtn.replaceChild(checkmarksSVG, copySVG) // change to Copied icon
                     setTimeout(() => copyBtn.replaceChild(copySVG, checkmarksSVG), 1355) // change back to copy icon
                     navigator.clipboard.writeText(textToCopy) // copy text to clipboard
                     if (!env.browser.isMobile) toggle.tooltip(event) // show copied status in tooltip
                 }
 
                 // Prepend button
-                parentElem.prepend(elemToPrepend)
+                const parentToInsertInto = parentElem.tagName == 'CODE' ? parentElem : cornerBtnsDiv
+                parentToInsertInto.prepend(elemToPrepend)
             })
+
+            // Add Regenerate button
+            const regenBtn = document.createElement('btn') ; regenBtn.id = `${app.cssPrefix}-regen-btn`
+            regenBtn.className = 'no-mobile-tap-outline'
+            regenBtn.style.cssText = baseBtnStyles + 'position: relative ; top: 1px ; margin: 0 9px 0 5px'
+            const regenSVG = icons.arrowsCycle.create();
+            ['width', 'height'].forEach(attr => regenSVG.setAttribute(attr, 17))
+            regenBtn.append(regenSVG) ; cornerBtnsDiv.append(regenBtn)
+            if (!env.browser.isMobile) regenBtn.onmouseover = regenBtn.onmouseout = toggle.tooltip
+            regenBtn.onclick = () => {
+                get.reply(msgChain) ; appAlert('waitingResponse')
+                if (!env.browser.isMobile) tooltipDiv.style.opacity = 0 // or tooltip shows on next reply
+                show.reply.chatbarFocused = false ; show.reply.userInteracted = true
+            }
         },
 
         reply(answer) {
@@ -3439,44 +3477,49 @@
                 const appHeaderLogo = logos.ddgpt.create()
                 appHeaderLogo.width = 181 ; appHeaderLogo.style.margin = '-7px 0'
                 const appTitleAnchor = create.anchor(app.urls.app, appHeaderLogo)
-                appTitleAnchor.classList.add('app-name', 'no-user-select')
+                appTitleAnchor.classList.add(`${app.cssPrefix}-name`, 'no-user-select')
                 appDiv.append(appTitleAnchor)
 
                 // Create/append corner buttons div
                 const cornerBtnsDiv = document.createElement('div')
-                cornerBtnsDiv.id = 'corner-btns' ; cornerBtnsDiv.className = 'no-mobile-tap-outline'
+                cornerBtnsDiv.id = `${app.cssPrefix}-div-corner-btns`
+                cornerBtnsDiv.className = 'no-mobile-tap-outline'
                 appDiv.append(cornerBtnsDiv)
 
                 // Create/append Chevron button
                 if (!env.ui.site.isCentered && !env.browser.isMobile) {
                     var chevronBtn = document.createElement('btn'),
                         chevronSVG = icons[`chevron${ config.minimized ? 'Up' : 'Down' }`].create()
-                    chevronBtn.id = 'chevron-btn' // for toggle.tooltip()
-                    chevronBtn.className = 'corner-btn' ; chevronBtn.style.margin = '-1.5px 1px 0 11px'
-                    chevronBtn.style.display = 'none' // to activate from anchorStyles only
+                    chevronBtn.id = `${app.cssPrefix}-chevron-btn` // for toggle.tooltip()
+                    chevronBtn.className = `${app.cssPrefix}-div-corner-btn`
+                    chevronBtn.style.margin = '-1.5px 1px 0 11px' // position
+                    chevronBtn.style.display = 'none' // show when config.anchored only
                     chevronBtn.append(chevronSVG) ; cornerBtnsDiv.append(chevronBtn)
                 }
 
                 // Create/append About button
                 const aboutBtn = document.createElement('btn'),
                       aboutSVG = icons.questionMarkCircle.create()
-                aboutBtn.id = 'about-btn' // for toggle.tooltip()
-                aboutBtn.className = 'corner-btn'
+                aboutBtn.id = `${app.cssPrefix}-about-btn` // for toggle.tooltip()
+                aboutBtn.className = `${app.cssPrefix}-div-corner-btn`
                 aboutBtn.append(aboutSVG) ; cornerBtnsDiv.append(aboutBtn)
 
                 // Create/append Settings button
                 const settingsBtn = document.createElement('btn'),
-                      settingsSVG = icons.sliders.create()
-                settingsBtn.id = 'settings-btn' // for toggle.tooltip()
-                settingsBtn.className = 'corner-btn' ; settingsBtn.style.margin = '0 10.5px 0 0.5px'
+                      settingsSVG = icons.cogwheel.create()
+                settingsBtn.id = `${app.cssPrefix}-settings-btn` // for toggle.tooltip()
+                settingsBtn.className = `${app.cssPrefix}-div-corner-btn`
+                settingsBtn.style.margin = '0 10.5px 0 0.5px' // position
                 settingsBtn.append(settingsSVG) ; cornerBtnsDiv.append(settingsBtn)
 
                 // Create/append Speak button
                 if (answer != 'standby') {
                     var speakerBtn = document.createElement('btn'),
                         speakerSVG = icons.speaker.create()
-                    speakerBtn.id = 'speak-btn' // for toggle.tooltip()
-                    speakerBtn.className = 'corner-btn' ; speakerBtn.style.margin = '-2px 8px 0 0'
+                    speakerBtn.id = `${app.cssPrefix}-speak-btn` // for toggle.tooltip()
+                    speakerBtn.className = `${app.cssPrefix}-div-corner-btn`
+                    speakerBtn.style.margin = '-2px 8px 0 0' // position
+                    speakerBtn.style.opacity = 0 // show when appDiv.onmouseover only
                     speakerBtn.append(speakerSVG) ; cornerBtnsDiv.append(speakerBtn)
                 }
 
@@ -3484,8 +3527,10 @@
                 if (answer != 'standby') {
                     var fontSizeBtn = document.createElement('btn'),
                         fontSizeSVG = icons.fontSize.create()
-                    fontSizeBtn.id = 'font-size-btn' // for toggle.tooltip()
-                    fontSizeBtn.className = 'corner-btn' ; fontSizeBtn.style.marginRight = '10px'
+                    fontSizeBtn.id = `${app.cssPrefix}-font-size-btn` // for toggle.tooltip()
+                    fontSizeBtn.className = `${app.cssPrefix}-div-corner-btn`
+                    fontSizeBtn.style.marginRight = '10px' // position
+                    fontSizeBtn.style.opacity = 0 // show when appDiv.onmouseover only
                     fontSizeBtn.append(fontSizeSVG) ; cornerBtnsDiv.append(fontSizeBtn)
                 }
 
@@ -3493,43 +3538,49 @@
                 if (!env.ui.site.isCentered && !env.browser.isMobile) {
                     var pinBtn = document.createElement('btn'),
                         pinSVG = icons.pin.create()
-                    pinBtn.id = 'pin-btn' // for toggle.sidebar() + toggle.tooltip()
-                    pinBtn.className = 'corner-btn' ; pinBtn.style.margin = '1px 9px 0 0'
+                    pinBtn.id = `${app.cssPrefix}-pin-btn` // for toggle.sidebar() + toggle.tooltip()
+                    pinBtn.className = `${app.cssPrefix}-div-corner-btn`
+                    pinBtn.style.margin = '1px 9px 0 0' // position
+                    pinBtn.style.opacity = 0 // show when appDiv.onmouseover only
                     pinBtn.append(pinSVG) ; cornerBtnsDiv.append(pinBtn)
 
                 // Create/append Wider Sidebar button
                     var wsbBtn = document.createElement('btn'),
                         wsbSVG = icons.widescreen.create()
-                    wsbBtn.id = 'wsb-btn' // for toggle.sidebar() + toggle.tooltip()
-                    wsbBtn.className = 'corner-btn' ; wsbBtn.style.margin = `${ env.browser.isFF ? 0.5 : 0 }px 13.5px 0 0`
+                    wsbBtn.id = `${app.cssPrefix}-wsb-btn` // for toggle.sidebar() + toggle.tooltip()
+                    wsbBtn.className = `${app.cssPrefix}-div-corner-btn`
+                    wsbBtn.style.margin = `${ env.browser.isFF ? 0.5 : 0 }px 13.5px 0 0` // position
+                    wsbBtn.style.opacity = 0 // show when appDiv.onmouseover only
                     wsbBtn.append(wsbSVG) ; cornerBtnsDiv.append(wsbBtn)
 
                 // Create/append Expand/Shrink button
                     var arrowsBtn = document.createElement('btn'),
                         arrowsSVG = icons.arrowsDiagonal.create()
                     arrowsSVG.style.transform = 'rotate(-7deg)' // tilt slightly to hint expansions often horizontal
-                    arrowsBtn.id = 'arrows-btn' // for toggle.tooltip()
-                    arrowsBtn.className = 'corner-btn' ; arrowsBtn.style.margin = '0.5px 12px 0 0'
-                    arrowsBtn.style.display = 'none' // to activate from anchorStyles only
+                    arrowsBtn.id = `${app.cssPrefix}-arrows-btn` // for toggle.tooltip()
+                    arrowsBtn.className = `${app.cssPrefix}-div-corner-btn`
+                    arrowsBtn.style.margin = '0.5px 12px 0 0' // position
+                    arrowsBtn.style.display = 'none' // show when config.anchored only
+                    arrowsBtn.style.opacity = 0 // show when appDiv.onmouseover only
                     arrowsBtn.append(arrowsSVG) ; cornerBtnsDiv.append(arrowsBtn)
                 }
 
                 // Add tooltips
                 if (!env.browser.isMobile) appDiv.append(tooltipDiv)
 
-                // Add corner button listeners
-                listenerize.cornerBtns()
+                // Add app div corner button listeners
+                listenerize.appDivCornerBtns()
 
                 // Create/append 'by KudoAI'
                 const kudoAIspan = document.createElement('span')
                 kudoAIspan.classList.add('kudoai', 'no-user-select') ; kudoAIspan.textContent = 'by '
                 kudoAIspan.append(create.anchor(app.urls.publisher, 'KudoAI'))
-                appDiv.querySelector('.app-name').insertAdjacentElement('afterend', kudoAIspan)
+                appDiv.querySelector(`.${app.cssPrefix}-name`).insertAdjacentElement('afterend', kudoAIspan)
 
                 // Show standby state if prefix/suffix mode on
                 if (answer == 'standby') {
                     const standbyBtn = document.createElement('button')
-                    standbyBtn.classList.add('standby-btn', 'no-mobile-tap-outline')
+                    standbyBtn.classList.add(`${app.cssPrefix}-standby-btn`, 'no-mobile-tap-outline')
                     standbyBtn.textContent = app.msgs.btnLabel_sendQueryToApp || `Send search query to ${app.name}`
                     appDiv.append(standbyBtn)
                     show.reply.standbyBtnClickHandler = function() {
@@ -3544,16 +3595,16 @@
                 // Otherwise create/append answer bubble
                 } else {
                     const answerPre = document.createElement('pre'),
-                          balloonTipSpan = document.createElement('span')
-                    balloonTipSpan.className = 'reply-tip'
-                    appDiv.append(balloonTipSpan, answerPre)
+                          replyTipSpan = document.createElement('span')
+                    replyTipSpan.className = `${app.cssPrefix}-reply-tip`
+                    appDiv.append(replyTipSpan, answerPre)
                 }
 
                 update.style.tweaks() // show/hide 'by KudoAI', update pre-height based on mode
             }
 
             // Build reply section if missing
-            if (!appDiv.querySelector('#app-chatbar')) {
+            if (!appDiv.querySelector(`#${app.cssPrefix}-chatbar`)) {
 
                 // Init/clear reply section content/classes
                 const replySection = appDiv.querySelector('section') || document.createElement('section')
@@ -3563,8 +3614,7 @@
                 const replyForm = document.createElement('form'),
                       continueChatDiv = document.createElement('div'),
                       chatTextarea = document.createElement('textarea')
-                continueChatDiv.className = 'continue-chat'
-                chatTextarea.id = 'app-chatbar' ; chatTextarea.rows = '1'
+                chatTextarea.id = `${app.cssPrefix}-chatbar` ; chatTextarea.rows = '1'
                 chatTextarea.placeholder = ( answer == 'standby' ? app.msgs.placeholder_askSomethingElse
                                                                  : app.msgs.tooltip_sendReply ) + '...'
                 continueChatDiv.append(chatTextarea)
@@ -3573,9 +3623,10 @@
 
                 // Create/append chatbar buttons
                 ['send', 'shuffle'].forEach(btnType => {
-                    const btnElem = document.createElement('button')
-                    btnElem.id = `${btnType}-btn` ; btnElem.classList.add('chatbar-btn', 'no-mobile-tap-outline')
-                    btnElem.style.right = `${ btnType == 'send' ? ( env.browser.isFF ? 8 : 7 ) : ( env.browser.isFF ? 11.5 : 9.5 )}px`
+                    const btnElem = document.createElement('button') ; btnElem.id = `${app.cssPrefix}-${btnType}-btn`
+                    btnElem.classList.add(`${app.cssPrefix}-chatbar-btn`, 'no-mobile-tap-outline')
+                    btnElem.style.right = `${ btnType == 'send' ? ( env.browser.isFF ? 8 : 7 )
+                                                                : ( env.browser.isFF ? 8.5 : 7 )}px` // Shuffle btn
                     btnElem.append(icons[btnType == 'send' ? 'arrowUp' : 'arrowsTwistedRight'].create())
                     continueChatDiv.append(btnElem)
                 })
@@ -3624,7 +3675,8 @@
                 // Auto-scroll if active
                 if (config.autoScroll && !env.browser.isMobile && config.proxyAPIenabled && !config.streamingDisabled) {
                     if (config.stickySidebar || config.anchored) answerPre.scrollTop = answerPre.scrollHeight
-                    else window.scrollBy({ top: appDiv.querySelector('#app-chatbar').getBoundingClientRect().bottom - window.innerHeight +12 })
+                    else window.scrollBy({ top: appDiv.querySelector(`#${app.cssPrefix}-chatbar`)
+                        .getBoundingClientRect().bottom - window.innerHeight +12 })
                 }
             }
 
@@ -3636,7 +3688,7 @@
                         || ( appDiv.offsetHeight < window.innerHeight - appDiv.getBoundingClientRect().top )))
                     // ...or Anchored if AF disabled & user interacted
                     || (config.autoFocusChatbarDisabled && config.anchored && show.reply.userInteracted))
-            ) { appDiv.querySelector('#app-chatbar').focus() ; show.reply.chatbarFocused = true }
+            ) { appDiv.querySelector(`#${app.cssPrefix}-chatbar`).focus() ; show.reply.chatbarFocused = true }
 
             // Update styles
             if (config.anchored) update.appBottomPos() // restore minimized/restored state if anchored
@@ -3651,7 +3703,7 @@
                 setTimeout(() => show.related(queries), 500, queries) ; return }
 
             // Re-get.related() if current reply is question to suggest answers
-            const currentReply = appDiv.querySelector('#ddgpt > pre')?.textContent.trim()
+            const currentReply = appDiv.querySelector(`#${app.cssPrefix} > pre`)?.textContent.trim()
             if (show.reply.src != 'shuffle' && !get.related.replyIsQuestion && /[?？]/.test(currentReply)) {
                 log.debug('Re-getting related queries to answer reply question...')
                 get.related.replyIsQuestion = true
@@ -3660,11 +3712,11 @@
             }
 
             // Show the queries
-            else if (queries && !appDiv.querySelector('.related-queries')) {
+            else if (queries && !appDiv.querySelector(`.${app.cssPrefix}-related-queries`)) {
 
                 // Create/classify/append parent div
                 const relatedQueriesDiv = document.createElement('div')
-                relatedQueriesDiv.className = 'related-queries'
+                relatedQueriesDiv.className = `${app.cssPrefix}-related-queries`
                 appDiv.append(relatedQueriesDiv)
 
                 // Fill each child div, add attributes + icon + listener
@@ -3674,7 +3726,8 @@
 
                     // Add attributes
                     relatedQueryDiv.title = app.msgs.tooltip_sendRelatedQuery
-                    relatedQueryDiv.classList.add('related-query', 'fade-in', 'no-user-select', 'no-mobile-tap-outline')
+                    relatedQueryDiv.classList.add(
+                        `${app.cssPrefix}-related-query`, 'fade-in', 'no-user-select', 'no-mobile-tap-outline')
                     relatedQueryDiv.setAttribute('tabindex', 0)
                     relatedQueryDiv.textContent = query
 
@@ -3711,36 +3764,35 @@
 
     // Run MAIN routine
 
-    log.debug('Registering toolbar menu...') ; menu.register() ; log.debug('Success! Menu registered')
+    menu.register()
 
-    // Create/ID/classify/listenerize DDGPT container
-    const appDiv = document.createElement('div') ; appDiv.id = 'ddgpt'
+    // Create/ID/classify/listenerize/stylize APP container
+    const appDiv = document.createElement('div') ; appDiv.id = app.cssPrefix
     appDiv.classList.add('fade-in') ; listenerize.appDiv()
-
-    // Stylize APP elems
-    const appStyle = create.style() ; update.style.app() ; document.head.append(appStyle);
+    app.styles = create.style() ; update.style.app() ; document.head.append(app.styles);
     ['brs', 'wrs', 'hljs'].forEach(cssType => // black rising stars, white rising stars, code highlighting
         document.head.append(create.style(GM_getResourceText(`${cssType}CSS`))))
 
     // Stylize SITE elems
-    const tweaksStyle = create.style(),
-          wsbStyles = 'section[data-area="mainline"] { max-width: 590px !important }' // max before centered mode changes
-                    + 'section[data-area="sidebar"] { min-width: 530px !important ; flex-basis: 530px !important }',
-          ssbStyles = '#ddgpt { position: sticky ; top: 14px }'
-                    + '#ddgpt ~ * { display: none }' // hide sidebar contents
-                    + 'body, div.site-wrapper { overflow: clip }', // replace `overflow: hidden` to allow stickiness
-          anchorStyles = '#ddgpt { position: fixed ; bottom: -7px ; right: 35px ; width: 388px }'
-                       + '[class*="feedback"], .related-queries, #wsb-btn  { display: none }'
-                       + '#chevron-btn, #arrows-btn { display: block !important }',
-          expandedStyles = '#ddgpt { width: 528px }'
+    const tweaksStyle = create.style()
+    const wsbStyles = 'section[data-area="mainline"] { max-width: 590px !important }' // max before centered mode changes
+                    + 'section[data-area="sidebar"] { min-width: 530px !important ; flex-basis: 530px !important }'
+    const ssbStyles = `#${app.cssPrefix} { position: sticky ; top: 14px }`
+                    + `#${app.cssPrefix} ~ * { display: none }` // hide sidebar contents
+                    + 'body, div.site-wrapper { overflow: clip }' // replace `overflow: hidden` to allow stickiness
+    const anchorStyles = `#${app.cssPrefix} { position: fixed ; bottom: -7px ; right: 35px ; width: 388px }`
+                       + `[class*="feedback"], .${app.cssPrefix}-related-queries, #wsb-btn  { display: none }`
+                       + `#${app.cssPrefix}-chevron-btn, #${app.cssPrefix}-arrows-btn { display: block !important }`
+    const expandedStyles = `#${app.cssPrefix} { width: 528px }`
     update.style.tweaks() ; document.head.append(tweaksStyle)
 
     // Create/stylize TOOLTIPs
     if (!env.browser.isMobile) {
-        var tooltipDiv = document.createElement('div') ; tooltipDiv.classList.add('btn-tooltip', 'no-user-select')
-        document.head.append(create.style('.btn-tooltip {'
+        var tooltipDiv = document.createElement('div')
+        tooltipDiv.classList.add(`${app.cssPrefix}-btn-tooltip`, 'no-user-select')
+        document.head.append(create.style(`.${app.cssPrefix}-btn-tooltip {`
             + 'background-color:' // bubble style
-                + 'rgba(0, 0, 0, 0.64) ; padding: 4px 6px ; border-radius: 6px ; border: 1px solid #d9d9e3 ;'
+                + 'rgba(0, 0, 0, 0.64) ; padding: 5px 6px 3px ; border-radius: 6px ; border: 1px solid #d9d9e3 ;'
             + 'font-size: 0.87em ; color: white ; fill: white ; stroke: white ;' // font/icon style
             + 'position: absolute ;' // for update.tooltip() calcs
             + 'box-shadow: 3px 5px 16px 0 rgb(0 0 0 / 21%) ;' // drop shadow
@@ -3758,22 +3810,23 @@
     appFooter.append(footerContent)
 
     // APPEND DDGPT + footer to DDG
-    const appElems = [appFooter, appDiv],
-          appDivContainerSelector = env.browser.isMobile || env.ui.site.isCentered ? '[data-area*="mainline"]' : '[class*="sidebar"]'
-    const appDivContainer = await new Promise(resolve => {
-        const container = document.querySelector(appDivContainerSelector)
-        if (container) resolve(container)
+    const appElems = [appDiv, appFooter]
+    const appDivParentSelector = env.browser.isMobile || env.ui.site.isCentered ? '[data-area*="mainline"]'
+                                                                                : '[class*="sidebar"]'
+    const appDivParent = await new Promise(resolve => {
+        const appDivParent = document.querySelector(appDivParentSelector)
+        if (appDivParent) resolve(appDivParent)
         else new MutationObserver((_, obs) => {
-            const container = document.querySelector(appDivContainerSelector)
-            if (container) { obs.disconnect() ; resolve(container) }
+            const appDivParent = document.querySelector(appDivParentSelector)
+            if (appDivParent) { obs.disconnect() ; resolve(appDivParent) }
         }).observe(document.body, { childList: true, subtree: true })
     })
-    appElems.forEach(elem => appDivContainer.prepend(elem))
-    appElems.reverse().forEach((elem, idx) => // fade in staggered
+    appDivParent.prepend(...appElems)
+    appElems.forEach((elem, idx) => // fade in staggered
         setTimeout(() => elem.classList.add('active'), idx * 550 - 200))
 
-    // REPLACE appDivContainer max-width w/ min-width for better UI
-    if (!env.browser.isMobile) Object.assign(appDivContainer.style, { maxWidth: '', minWidth: '448px' })
+    // REPLACE appDivParent max-width w/ min-width for better UI
+    if (!env.browser.isMobile) Object.assign(appDivParent.style, { maxWidth: '', minWidth: '448px' })
 
     // Check for active TEXT CAMPAIGNS to replace footer CTA
     get.json('https://cdn.jsdelivr.net/gh/KudoAI/ads-library/advertisers/index.json',
@@ -3898,9 +3951,6 @@
                     .catch(err => { log.error(err.message) ; api.tryNew(get.related) })
     } else { appAlert('waitingResponse') ; get.reply(msgChain) }
 
-    // Add key listener to DISMISS modals
-    document.addEventListener('keydown', modals.handlers.key)
-
     // Observe for DDG SCHEME CHANGES to update DDGPT scheme if auto-scheme mode
     new MutationObserver(handleSchemeChange).observe( // class changes from DDG appearance settings
         document.documentElement, { attributes: true, attributeFilter: ['class'] })
@@ -3909,5 +3959,13 @@
         const newScheme = chatgpt.isDarkMode() ? 'dark' : 'light'
         if (newScheme != env.ui.app.scheme) update.scheme(newScheme)
     }
+
+    // Observe sidebar for need to RAISE DDGPT as other extensions inject into it
+    const sidebarObserver = new MutationObserver(() => {
+        if (appDivParent.firstChild != appDiv) {
+            appDivParent.prepend(...appElems) ; sidebarObserver.disconnect() }
+    })
+    sidebarObserver.observe(appDivParent, { subtree: true, childList: true })
+    setTimeout(() => sidebarObserver.disconnect(), 5000) // don't observe forever
 
 })()
