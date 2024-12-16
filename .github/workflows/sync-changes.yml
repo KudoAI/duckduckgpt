@@ -3,7 +3,7 @@ name: Sync ** to adamlui/ai-apps/duckduckgpt/, then greasemonkey/ to adamlui/use
 on:
   push:
     branches: [main]
-    paths: ["**", "!.*", "!package*.json", "!eslint.config*"]
+    paths: ["**", "!.*"]
 
 jobs:
   build:
