@@ -1,4 +1,4 @@
-name: Sync ** to adamlui/ai-apps/duckduckgpt/, then greasemonkey/ to adamlui/userscripts/chatgpt/duckduckgpt/
+name: Sync ** to adamlui/ai-web-extensions/duckduckgpt/, then greasemonkey/ to adamlui/userscripts/chatgpt/duckduckgpt/
 
 on:
   push:
@@ -25,12 +25,12 @@ jobs:
           path: KudoAI/duckduckgpt
           fetch-depth: 2
 
-      - name: Checkout adamlui/ai-apps
+      - name: Checkout adamlui/ai-web-extensions
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.REPO_SYNC_PAT }}
-          repository: adamlui/ai-apps
-          path: adamlui/ai-apps
+          repository: adamlui/ai-web-extensions
+          path: adamlui/ai-web-extensions
 
       - name: Checkout adamlui/userscripts
         uses: actions/checkout@v4
@@ -75,11 +75,11 @@ jobs:
           # Expose sync src for commit msg in self-push step
           echo "SYNC_SRC=$sync_src" >> $GITHUB_ENV
 
-      - name: Sync ** to adamlui/ai-apps/duckduckgpt/
+      - name: Sync ** to adamlui/ai-web-extensions/duckduckgpt/
         run: |
           rsync -avhr --delete --exclude '.*' \
             ${{ github.workspace }}/KudoAI/duckduckgpt/ \
-            ${{ github.workspace }}/adamlui/ai-apps/duckduckgpt/
+            ${{ github.workspace }}/adamlui/ai-web-extensions/duckduckgpt/
 
       - name: Sync greasemonkey/ to adamlui/userscripts/chatgpt/duckduckgpt/
         run: |
@@ -111,9 +111,9 @@ jobs:
           git commit -n -m "$ESCAPED_MSG ↞ [auto-sync from ${{ env.SYNC_SRC }}/]" || true
           git push
 
-      - name: Push changes to adamlui/ai-apps
+      - name: Push changes to adamlui/ai-web-extensions
         run: |
-          cd ${{ github.workspace }}/adamlui/ai-apps
+          cd ${{ github.workspace }}/adamlui/ai-web-extensions
           git add .
           git commit -n -m "$ESCAPED_MSG ↞ [auto-sync from https://github.com/KudoAI/duckduckgpt]" || true
           git push
