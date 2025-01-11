@@ -104,6 +104,7 @@ jobs:
           git config --global user.signingkey "${{ secrets.GPG_PRIVATE_ID }}"
 
       - name: Push changes to KudoAI/duckduckgpt
+        if: env.SYNC_SRC
         run: |
           cd ${{ github.workspace }}/KudoAI/duckduckgpt
           git add .
