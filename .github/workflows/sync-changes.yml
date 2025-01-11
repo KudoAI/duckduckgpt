@@ -108,7 +108,7 @@ jobs:
         run: |
           cd ${{ github.workspace }}/KudoAI/duckduckgpt
           git add .
-          git commit -n -m "$ESCAPED_MSG ↞ [auto-sync from ${{ env.SYNC_SRC }}]" || true
+          git commit -n -m "$ESCAPED_MSG ↞ [auto-sync from ${{ env.SYNC_SRC }}/]" || true
           git push
 
       - name: Push changes to adamlui/ai-apps
