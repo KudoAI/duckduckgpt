@@ -14,9 +14,9 @@ export default [
         languageOptions: {
             ecmaVersion: 'latest', sourceType: 'script',
             globals: {
-                ...globals.browser, ...globals.greasemonkey,
-                chatgpt: 'readonly', CryptoJS: 'readonly', GM_cookie: 'readonly', hljs: 'readonly',
-                ipv4: 'readonly', marked: 'readonly', renderMathInElement: 'readonly'
+                ...globals.browser, ...globals.greasemonkey, chatgpt: 'readonly', CryptoJS: 'readonly',
+                cryptoUtils: 'readonly', GM_cookie: 'readonly', hljs: 'readonly', ipv4: 'readonly', marked: 'readonly',
+                renderMathInElement: 'readonly'
             }
         },
         plugins: { 'import': importPlugin, 'js-styles': stylisticJS, regexp },
