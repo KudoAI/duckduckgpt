@@ -148,7 +148,7 @@
 // @description:zu         Yengeza izimpendulo ze-AI ku-DuckDuckGo (inikwa amandla yi-GPT-4o!)
 // @author                 KudoAI
 // @namespace              https://kudoai.com
-// @version                2025.1.30.7
+// @version                2025.1.30.8
 // @license                MIT
 // @icon                   https://assets.ddgpt.com/images/icons/duckduckgpt/icon48.png?v=06af076
 // @icon64                 https://assets.ddgpt.com/images/icons/duckduckgpt/icon64.png?v=06af076
@@ -3989,8 +3989,8 @@
         'change', () => requestAnimationFrame(handleSchemePrefChange))
     function handleSchemePrefChange() {
         if (config.scheme) return // since light/dark hard-set
-        const newScheme = getScheme()
-        if (newScheme != env.ui.app.scheme) update.scheme(newScheme)
+        const displayedScheme = getScheme()
+        if (env.ui.app.scheme != displayedScheme) update.scheme(displayedScheme)
     }
 
     // Observe sidebar for need to RAISE DDGPT as other extensions inject into it
