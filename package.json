@@ -12,7 +12,8 @@
     "lint": "eslint . --cache",
     "lint:all": "eslint .",
     "lint:fix": "eslint . --fix --cache",
-    "lint:fix-all": "eslint . --fix"
+    "lint:fix-all": "eslint . --fix",
+    "translate": "py greasemonkey/utils/translate-en-messages.py"
   },
   "devDependencies": {
     "@eslint/json": "^0.10.0",
