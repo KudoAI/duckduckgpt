@@ -6,7 +6,10 @@
   },
   "homepage": "https://www.duckduckgpt.com",
   "license": "MIT",
-  "funding": "http://github.com/sponsors/KudoAI",
+  "funding": {
+    "type": "github",
+    "url": "http://github.com/sponsors/KudoAI"
+  },
   "scripts": {
     "prepare": "husky",
     "lint": "eslint . --cache",
