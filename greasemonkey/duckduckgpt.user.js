@@ -148,7 +148,7 @@
 // @description:zu         Yengeza izimpendulo ze-AI ku-DuckDuckGo (inikwa amandla yi-GPT-4o!)
 // @author                 KudoAI
 // @namespace              https://kudoai.com
-// @version                2025.2.24.2
+// @version                2025.2.24.3
 // @license                MIT
 // @icon                   https://assets.ddgpt.com/images/icons/duckduckgpt/icon48.png?v=06af076
 // @icon64                 https://assets.ddgpt.com/images/icons/duckduckgpt/icon64.png?v=06af076
@@ -3067,10 +3067,9 @@
             appDiv.classList.toggle(mode, config[configKeyName])
             update.answerPreMaxHeight() ; update.bylineVisibility() ; update.chatbarWidth()
             if (mode == 'wider') icons.widescreen.update() // toggle icons everywhere
-            if (modals.settings.get()) { // update visual state of Settings toggle
-                const stickySidebarToggle = document.querySelector('[id*=sticky] input')
-                if (stickySidebarToggle.checked != config.stickySidebar)
-                    modals.settings.toggle.switch(stickySidebarToggle)
+            if (modals.settings.get()) { // update visual state of Settings toggles
+                const sidebarToggle = document.querySelector(`[id*=${mode}] input`)
+                if (sidebarToggle.checked ^ config[`${mode}Sidebar`]) modals.settings.toggle.switch(sidebarToggle)
             }
 
             // Notify of mode change
