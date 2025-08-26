@@ -1,0 +1,27 @@
+name: Sync changes to GitLab
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    if: (github.repository == 'KudoAI/duckduckgpt')
+    runs-on: ubuntu-latest
+    env:
+      TZ: PST8PDT
+
+    steps:
+
+      - name: Checkout KudoAI/duckduckgpt
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Push changes to gitlab.com/kudoai/duckduckgpt
+        run: |
+          git push --force -o ci.skip \
+            https://oauth2:${{ secrets.GITLAB_SYNC_PAT }}@gitlab.com/kudoai/duckduckgpt.git main
