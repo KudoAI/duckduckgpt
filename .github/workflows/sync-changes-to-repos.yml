@@ -20,6 +20,7 @@ jobs:
       - name: Checkout KudoAI/duckduckgpt
         uses: actions/checkout@v5
         with:
+          token: ${{ secrets.REPO_SYNC_PAT }}
           path: KudoAI/duckduckgpt
           fetch-depth: 2
 
