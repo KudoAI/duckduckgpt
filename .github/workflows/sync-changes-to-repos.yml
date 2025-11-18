@@ -18,21 +18,21 @@ jobs:
     steps:
 
       - name: Checkout KudoAI/duckduckgpt
-        uses: actions/checkout@v5.0.0
+        uses: actions/checkout@v5.0.1
         with:
           token: ${{ secrets.REPO_SYNC_PAT }}
           path: KudoAI/duckduckgpt
           fetch-depth: 2
 
       - name: Checkout adamlui/ai-web-extensions
-        uses: actions/checkout@v5.0.0
+        uses: actions/checkout@v5.0.1
         with:
           token: ${{ secrets.REPO_SYNC_PAT }}
           repository: adamlui/ai-web-extensions
           path: adamlui/ai-web-extensions
 
       - name: Checkout adamlui/userscripts
-        uses: actions/checkout@v5.0.0
+        uses: actions/checkout@v5.0.1
         with:
           token: ${{ secrets.REPO_SYNC_PAT }}
           repository: adamlui/userscripts
