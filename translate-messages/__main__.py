@@ -1,4 +1,4 @@
-import os, json, sys
+import json, os, sys
 from lib import data, init, log
 from translate import Translator
 
