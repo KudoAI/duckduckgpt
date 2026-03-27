@@ -30,7 +30,7 @@ jobs:
       - name: Validate links
         uses: lycheeverse/lychee-action@v2.8.0
         with:
-          # Check all files, ignore ok/redir/blocked/rate-limited, exclude commonly down domains
+          # Check all files, ignore ok/redir/blocked/rate-limited/LinkedIn-anti-botted, exclude commonly down domains
           args: >-
             . --no-progress
             --accept 200..299,300..399,403,429,999
