@@ -148,7 +148,7 @@
 // @description:zu         Yengeza izimpendulo ze-AI ku-DuckDuckGo (inikwa amandla yi-GPT-4o!)
 // @author                 KudoAI
 // @namespace              https://kudoai.com
-// @version                2026.7.25
+// @version                2026.7.25.1
 // @license                MIT
 // @icon                   https://cdn.jsdelivr.net/gh/KudoAI/duckduckgpt@e73859f/assets/images/icons/app/icon48.png
 // @icon64                 https://cdn.jsdelivr.net/gh/KudoAI/duckduckgpt@e73859f/assets/images/icons/app/icon64.png
@@ -192,12 +192,12 @@
 // @connect                duckduckgpt.com
 // @connect                fanyi.sogou.com
 // @connect                raw.githubusercontent.com
-// @require                https://cdn.jsdelivr.net/npm/@kudoai/chatgpt.js@4.15.1/dist/chatgpt.min.js#sha256-RglS1MscMHGDI7nq1v0OXEHoEw8stDxErRzSuILzCrQ=
+// @require                https://cdn.jsdelivr.net/npm/@kudoai/chatgpt.js@4.15.4/dist/chatgpt.min.js#sha256-uSGAiSKI+zr3VwqnXcNtqPpNcYP05pbhPnkBduc+opo=
 // @require                https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js#sha256-dppVXeVTurw1ozOPNE3XqhYmDJPOosfbKQcHyQSE58w=
 // @require                https://cdn.jsdelivr.net/npm/json5@2.2.3/dist/index.min.js#sha256-S7ltnVPzgKyAGBlBG4wQhorJqYTehj5WQCrADCKJufE=
 // @require                https://cdn.jsdelivr.net/gh/adamlui/ai-web-extensions@c826a8d/assets/js/chatbot/components/buttons.js#sha256-sG6XO88LsnYSTG8eLRWkjYmbCvwNXb7shtWDTT/u39c=
 // @require                https://cdn.jsdelivr.net/gh/adamlui/ai-web-extensions@5526ca8/assets/js/chatbot/components/icons.js#sha256-nAcuQD4FVFzUN1pS6pOjw2V3IvkDwYV+P3m5IN8nsdo=
-// @require                https://cdn.jsdelivr.net/gh/adamlui/ai-web-extensions@5045b1d/assets/js/chatbot/components/menus.js#sha256-13HZm6QRq/dxVbeR2RmeiYmovD8XP/FTwiercFv4nm8=
+// @require                https://cdn.jsdelivr.net/gh/adamlui/ai-web-extensions@5370501/assets/js/chatbot/components/menus.js#sha256-+orBTJluGvmEHuIJk7S4+8uRFgyrBBmz/3PUa8nFEV8=
 // @require                https://cdn.jsdelivr.net/gh/adamlui/ai-web-extensions@30ce038/assets/js/chatbot/components/replyBubble.js#sha256-zN/oMInc63biUtC+qNfP48vntQiEw2zyCIVszeBxLmg=
 // @require                https://cdn.jsdelivr.net/gh/adamlui/ai-web-extensions@5526ca8/assets/js/chatbot/components/tooltip.js#sha256-/xPw7DnS8F9dBH/s0ffMrErweHgFBeKpkUM4tUDy4vo=
 // @require                https://cdn.jsdelivr.net/gh/adamlui/ai-web-extensions@5526ca8/assets/js/chatbot/lib/api.js#sha256-QWYRzWP0rroFkj5fkNSgLah1lSq1LJXl7OHhOH7rfwo=
