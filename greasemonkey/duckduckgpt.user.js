@@ -148,7 +148,7 @@
 // @description:zu         Yengeza izimpendulo ze-AI ku-DuckDuckGo (inikwa amandla yi-GPT-4o!)
 // @author                 KudoAI
 // @namespace              https://kudoai.com
-// @version                2026.7.24
+// @version                2026.7.25
 // @license                MIT
 // @icon                   https://cdn.jsdelivr.net/gh/KudoAI/duckduckgpt@e73859f/assets/images/icons/app/icon48.png
 // @icon64                 https://cdn.jsdelivr.net/gh/KudoAI/duckduckgpt@e73859f/assets/images/icons/app/icon64.png
@@ -318,9 +318,9 @@
         url: `${app.urls.aiwebAssets}/data/katex-delimiters.json`
     }))
     app.apis = Object.assign(Object.create(null), await new Promise(resolve => env.xhr({
-        method: 'GET', onload: ({ responseText }) => resolve(Object.fromEntries(
-            Object.entries(JSON5.parse(responseText)).filter(([, api]) => !api.disabled))),
-        url: `${app.urls.aiwebAssets}/data/ai-chat-apis.json5`
+        method: 'GET', url: `${app.urls.aiwebAssets}/data/ai-chat-apis.json5`,
+        onload: ({ responseText }) => resolve(Object.fromEntries(
+            Object.entries(JSON5.parse(responseText)).filter(([, api]) => !api.disabled)))
     })))
     app.apis.AIchatOS.userID = `#/chat/${Date.now()}`
     app.inputEvents = {} ; ['down', 'move', 'up'].forEach(action =>
@@ -941,7 +941,8 @@
                                             * boostPercent -1 // reduced to boosted entries needed
                         for (let i = 0 ; i < entriesNeeded ; i++) boostedList.push([name, data]) // saturate list
                         boostedListLength += entriesNeeded // update for subsequent calculations
-                }})
+                    }
+                })
                 return boostedList
             }
         },
@@ -959,7 +960,7 @@
             ['sm', 'med', 'lg'].forEach(size =>
                 document.querySelectorAll(`[id*=particles-${size}]`).forEach(particlesDiv =>
                     particlesDiv.id = app.config.bgAnimationsDisabled ? `particles-${size}-off`
-                    : `${ env.ui.app.scheme == 'dark' ? 'white' : 'gray' }-particles-${size}`))
+                        : `${ env.ui.app.scheme == 'dark' ? 'white' : 'gray' }-particles-${size}`))
         },
 
         rqVisibility() {
@@ -1047,11 +1048,12 @@
             if (getComputedStyle(app.div).transitionProperty.includes('width')) // update byline visibility
                 app.div.addEventListener('transitionend', function onTransitionEnd(event) { // ...after width transition
                     if (event.propertyName == 'width') {
-                        update.bylineVisibility() ; app.div.removeEventListener('transitionend', onTransitionEnd)
-            }})
+                        update.bylineVisibility() ; app.div.removeEventListener('transitionend', onTransitionEnd) }
+                })
             const expandBtn = app.div.querySelector(`#${app.slug}-arrows-btn`)
-            if (expandBtn) expandBtn.firstChild.replaceWith(
-                icons.create({ key: `arrowsDiagonal${ app.config.expanded ? 'In' : 'Out' }`, size: 17 }))
+            if (expandBtn)
+                expandBtn.firstChild.replaceWith(
+                    icons.create({ key: `arrowsDiagonal${ app.config.expanded ? 'In' : 'Out' }`, size: 17 }))
         },
 
         manualGen(mode) { // Prefix/Suffix modes
@@ -2101,8 +2103,9 @@
 
         observeRemoval(modal, modalType, modalSubType) { // to maintain stack for proper nav
             const modalBG = modal.parentNode
-            new MutationObserver(([mutation], obs) => {
-                mutation.removedNodes.forEach(removedNode => { if (removedNode == modalBG) {
+            new MutationObserver(([mutation], obs) =>
+                mutation.removedNodes.forEach(removedNode => {
+                    if (removedNode != modalBG) return
                     if (modals.stack[0].includes(modalSubType || modalType)) { // new modal not launched so nav back
                         modals.stack.shift() // remove this modal type from stack 1st
                         const prevModalType = modals.stack[0]
@@ -2112,8 +2115,8 @@
                         }
                     }
                     obs.disconnect()
-                }})
-            }).observe(modalBG.parentNode, { childList: true, subtree: true })
+                })
+            ).observe(modalBG.parentNode, { childList: true, subtree: true })
         },
 
         open(modalType, modalSubType) { // custom ones
