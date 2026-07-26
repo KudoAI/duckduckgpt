@@ -148,7 +148,7 @@
 // @description:zu         Yengeza izimpendulo ze-AI ku-DuckDuckGo (inikwa amandla yi-GPT-4o!)
 // @author                 KudoAI
 // @namespace              https://kudoai.com
-// @version                2026.7.26.2
+// @version                2026.7.26.3
 // @license                MIT
 // @icon                   https://cdn.jsdelivr.net/gh/KudoAI/duckduckgpt@e73859f/assets/images/icons/app/icon48.png
 // @icon64                 https://cdn.jsdelivr.net/gh/KudoAI/duckduckgpt@e73859f/assets/images/icons/app/icon64.png
@@ -2361,7 +2361,8 @@
                                 innerDiv.innerHTML = modals.settings.aboutContent[
                                     app.config.fgAnimationsDisabled ? 'short' : 'long']
                                 innerDiv.style.float = app.config.fgAnimationsDisabled ? 'right' : ''
-                                configStatusSpan.append(innerDiv) ; settingEntry.onclick = () => modals.open('about')
+                                configStatusSpan.append(innerDiv)
+                                settingEntry.onclick = () => modals.open('about')
                             },
                             preferredAPI: () => {
                                 configStatusSpan.textContent = app.config.preferredAPI || app.msgs.menuLabel_random
