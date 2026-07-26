@@ -26,7 +26,7 @@
         while (!fs.existsSync(path.join(dir, 'package.json'))) dir = path.dirname(dir)
         return path.basename(dir)
     })()
-    const userJSfilePath = `./greasemonkey/${repoName}.user.js`
+    const userJSfilepath = `./greasemonkey/${repoName}.user.js`
 
     // Init REGEX
     const regEx = {
@@ -39,7 +39,7 @@
 
     // Collect resourcs
     bump.log.working('\nCollecting resources...\n')
-    const userJScontent = fs.readFileSync(userJSfilePath, 'utf-8'),
+    const userJScontent = fs.readFileSync(userJSfilepath, 'utf-8'),
           resURLs = [...userJScontent.matchAll(new RegExp(regEx.jsURL.source, 'gm'))].map(match => match[1])
     bump.log.success(`${resURLs.length} potentially bumpable resource(s) found.`)
 
@@ -85,13 +85,13 @@
 
         // Write updated URL to userscript
         console.log(`Writing updated URL for ${resName}...`)
-        const userJScontent = fs.readFileSync(userJSfilePath, 'utf-8')
-        fs.writeFileSync(userJSfilePath, userJScontent.replace(resURL, updatedURL), 'utf-8')
+        const userJScontent = fs.readFileSync(userJSfilepath, 'utf-8')
+        fs.writeFileSync(userJSfilepath, userJScontent.replace(resURL, updatedURL), 'utf-8')
         bump.log.success(`${resName} bumped!\n`) ; urlsUpdatedCnt++
     }
     if (urlsUpdatedCnt) {
         console.log(`${ !bump.log.endedWithLineBreak ? '\n' : '' }Bumping userscript version...`)
-        bump.bumpVersion({ format: 'dateVer', filePath: userJSfilePath })
+        bump.bumpVersion({ format: 'dateVer', filepath: userJSfilepath })
     }
 
     // Log final summary
