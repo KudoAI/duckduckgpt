@@ -148,7 +148,7 @@
 // @description:zu         Yengeza izimpendulo ze-AI ku-DuckDuckGo (inikwa amandla yi-GPT-4o!)
 // @author                 KudoAI
 // @namespace              https://kudoai.com
-// @version                2026.7.26
+// @version                2026.7.26.1
 // @license                MIT
 // @icon                   https://cdn.jsdelivr.net/gh/KudoAI/duckduckgpt@e73859f/assets/images/icons/app/icon48.png
 // @icon64                 https://cdn.jsdelivr.net/gh/KudoAI/duckduckgpt@e73859f/assets/images/icons/app/icon64.png
@@ -1633,7 +1633,7 @@
                         return // since big Summarize button exists
                     const btn = dom.create.elem('button', {
                         id: `${app.slug}-${btnType}-btn`, class: `${app.slug}-chatbar-btn no-mobile-tap-outline` })
-                    btn.style.right = `${ idx == 0 ? 5 : 0.3 }px`
+                    btn.style.right = `${ idx === 0 ? 5 : 0.3 }px`
                     if (env.browser.isFF && btnType == 'shuffle') btn.style.right = '1.4px'
                     btn.append(icons.create({ key: btnType, size: btnType == 'send' ? 14 : 18 }))
                     continueChatDiv.append(btn)
@@ -1863,7 +1863,7 @@
                     + `<span class="about-em">${app.version}</span>\n`
                 + `<span style="${labelStyles}">📜 ${app.msgs.about_openSourceCode}:</span> `
                     + `<a href="${app.urls.github}" target="_blank" rel="nopener">`
-                        + app.urls.github + '</a>\n'
+                        + `${app.urls.github}</a>\n`
                 + `<span style="${labelStyles}">🚀 ${app.msgs.about_latestChanges}:</span> `
                     + `<a href="${app.urls.github}/commits" target="_blank" rel="nopener">`
                         + `${app.urls.github}/commits</a>\n`
@@ -1952,7 +1952,7 @@
             btnsDiv.style.cssText = `margin: 18px 0px 6px !important ; ${ env.browser.isCompact ? ''
                 : 'flex-wrap: wrap ; justify-content: center ; gap: 9px' }` // gridify wide view btns
             btnsDiv.querySelectorAll('button').forEach((btn, idx) => {
-                if (idx == 0) btn.style.display = 'none' // hide Dismiss button
+                if (idx === 0) btn.style.display = 'none' // hide Dismiss button
                 else btn.classList.toggle('primary-modal-btn', // emphasize preferred API
                     app.config.preferredAPI && app.config.preferredAPI.toLowerCase() == btn.textContent.toLowerCase()
                         || btn.textContent == app.msgs.menuLabel_random && !app.config.preferredAPI)
@@ -1982,7 +1982,7 @@
             // Hack buttons
             btns = btnsDiv.querySelectorAll('button')
             btns.forEach((btn, idx) => {
-                if (idx == 0) btn.style.display = 'none' // hide Dismiss button
+                if (idx === 0) btn.style.display = 'none' // hide Dismiss button
                 if (idx == btns.length -1) btn.classList.remove('primary-modal-btn') // de-emphasize last link
                 btn.style.marginTop = btn.style.marginBottom = '5px' // v-pad btns
 
@@ -2105,7 +2105,7 @@
             const modalBG = modal.parentNode
             new MutationObserver(([mutation], obs) =>
                 mutation.removedNodes.forEach(removedNode => {
-                    if (removedNode != modalBG) return
+                    if (removedNode !== modalBG) return
                     if (modals.stack[0].includes(modalSubType || modalType)) { // new modal not launched so nav back
                         modals.stack.shift() // remove this modal type from stack 1st
                         const prevModalType = modals.stack[0]
