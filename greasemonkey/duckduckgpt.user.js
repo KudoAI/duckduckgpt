@@ -148,7 +148,7 @@
 // @description:zu         Yengeza izimpendulo ze-AI ku-DuckDuckGo (inikwa amandla yi-GPT-4o!)
 // @author                 KudoAI
 // @namespace              https://kudoai.com
-// @version                2026.7.27.4
+// @version                2026.7.27.5
 // @license                MIT
 // @icon                   https://cdn.jsdelivr.net/gh/KudoAI/duckduckgpt@e73859f/assets/images/icons/app/icon48.png
 // @icon64                 https://cdn.jsdelivr.net/gh/KudoAI/duckduckgpt@e73859f/assets/images/icons/app/icon64.png
@@ -188,8 +188,6 @@
 // @connect                cdn.jsdelivr.net
 // @connect                chatai.mixerbox.com
 // @connect                chatgpt.com
-// @connect                ddgpt.com
-// @connect                duckduckgpt.com
 // @connect                fanyi.sogou.com
 // @connect                raw.githubusercontent.com
 // @require                https://cdn.jsdelivr.net/npm/@kudoai/chatgpt.js@4.15.6/dist/chatgpt.min.js#sha256-zp2Wy06WHvPDCRWgIE/ZHNT0cLqAGIsgleJjfDEITjw=
@@ -234,8 +232,8 @@
 // @grant                  GM.xmlHttpRequest
 // @antifeature            ads
 // @noframes
-// @downloadURL            https://gm.ddgpt.com
-// @updateURL              https://gm.ddgpt.com
+// @downloadURL            https://scriptcat.org/scripts/code/7197/duckduckgpt.user.js
+// @updateURL              https://scriptcat.org/scripts/code/7197/duckduckgpt.user.js
 // @homepageURL            https://www.duckduckgpt.com
 // @supportURL             https://github.com/KudoAI/duckduckgpt/issues
 // @contributionURL        https://github.com/sponsors/KudoAI

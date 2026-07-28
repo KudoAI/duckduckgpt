@@ -13,6 +13,7 @@
     "contributors": "https://docs.duckduckgpt.com/#-contributors",
     "discuss": "https://github.com/KudoAI/duckduckgpt/discussions",
     "donate": { "github": "https://github.com/sponsors/KudoAI" },
+    "download": { "gm": "https://scriptcat.org/scripts/code/7197/duckduckgpt.user.js" },
     "github": "https://github.com/KudoAI/duckduckgpt",
     "publisher": "https://kudoai.com",
     "relatedExtensions": "https://github.com/adamlui/ai-web-extensions/#readme",
@@ -23,6 +24,6 @@
       "productHunt": "https://www.producthunt.com/products/duckduckgpt/reviews/new"
     },
     "support": "https://github.com/KudoAI/duckduckgpt/issues",
-    "update": { "gm": "https://gm.ddgpt.com" }
+    "update": { "gm": "https://scriptcat.org/scripts/code/7197/duckduckgpt.meta.js" }
   }
 }

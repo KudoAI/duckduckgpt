@@ -28,7 +28,7 @@
 
 <h3>Enhance DuckDuckGo w/ AI chat & search summaries, powered by the latest LLMs</h3>
 
-<a href="https://gm.ddgpt.com"><img style="height: 45px" alt="[Install this script]" src="https://cdn.jsdelivr.net/gh/KudoAI/duckduckgpt/assets/images/buttons/greasy-fork/install/this-script.svg"></a><a href="#-installation"><img style="height: 45px" alt="[How to install]" title="How to install" src="https://cdn.jsdelivr.net/gh/KudoAI/duckduckgpt/assets/images/buttons/greasy-fork/help.svg"></a>
+<a href="https://scriptcat.org/scripts/code/7197/duckduckgpt.user.js"><img style="height: 45px" alt="[Install this script]" src="https://cdn.jsdelivr.net/gh/KudoAI/duckduckgpt/assets/images/buttons/greasy-fork/install/this-script.svg"></a><a href="#-installation"><img style="height: 45px" alt="[How to install]" title="How to install" src="https://cdn.jsdelivr.net/gh/KudoAI/duckduckgpt/assets/images/buttons/greasy-fork/help.svg"></a>
 <br>
 [Discuss](https://github.com/KudoAI/duckduckgpt/discussions) /
 [Get support](https://github.com/KudoAI/duckduckgpt/issues) / 
@@ -57,7 +57,7 @@
     - **OrangeMonkey*** for [Chrome](https://chromewebstore.google.com/detail/orangemonkey/ekmeppjgajofkpiofbebgcbohbmfldaf)
     - [**Stay**](https://apps.apple.com/app/stay-for-safari/id1591620171) or [**Userscripts**](https://apps.apple.com/app/userscripts/id1463298887) for Safari
 
-2. Install [**DuckDuckGPT**](https://gm.ddgpt.com) userscript (will load in manager installed above)
+2. Install [**DuckDuckGPT**](https://scriptcat.org/scripts/code/7197/duckduckgpt.user.js) userscript (will load in manager installed above)
 
 3. Visit [**duckduckgo.com**](https://duckduckgo.com), type your search, engage bot!
 
@@ -515,7 +515,7 @@ When disabled, a ChatGPT account is required to fetch responses. If OpenAI API i
 
 <div align="center">
 
-<a href="https://gm.ddgpt.com"><img style="height: 45px" alt="[Install DuckDuckGPT]" src="https://cdn.jsdelivr.net/gh/KudoAI/duckduckgpt/assets/images/buttons/greasy-fork/install/duckduckgpt.svg"></a><a href="#-installation"><img style="height: 45px" alt="[How to install]" title="How to install" src="https://cdn.jsdelivr.net/gh/KudoAI/duckduckgpt/assets/images/buttons/greasy-fork/help.svg"></a>
+<a href="https://scriptcat.org/scripts/code/7197/duckduckgpt.user.js"><img style="height: 45px" alt="[Install DuckDuckGPT]" src="https://cdn.jsdelivr.net/gh/KudoAI/duckduckgpt/assets/images/buttons/greasy-fork/install/duckduckgpt.svg"></a><a href="#-installation"><img style="height: 45px" alt="[How to install]" title="How to install" src="https://cdn.jsdelivr.net/gh/KudoAI/duckduckgpt/assets/images/buttons/greasy-fork/help.svg"></a>
 <br>
 [Discuss](https://github.com/KudoAI/duckduckgpt/discussions) /
 [Get support](https://github.com/KudoAI/duckduckgpt/issues) / 
