@@ -148,7 +148,7 @@
 // @description:zu         Yengeza izimpendulo ze-AI ku-DuckDuckGo
 // @author                 KudoAI
 // @namespace              https://kudoai.com
-// @version                2026.7.27.7
+// @version                2026.7.27.8
 // @license                MIT
 // @icon                   https://cdn.jsdelivr.net/gh/KudoAI/duckduckgpt@e73859f/assets/images/icons/app/icon48.png
 // @icon64                 https://cdn.jsdelivr.net/gh/KudoAI/duckduckgpt@e73859f/assets/images/icons/app/icon64.png
@@ -190,6 +190,7 @@
 // @connect                chatgpt.com
 // @connect                fanyi.sogou.com
 // @connect                raw.githubusercontent.com
+// @connect                scriptcat.org
 // @require                https://cdn.jsdelivr.net/npm/@kudoai/chatgpt.js@4.15.6/dist/chatgpt.min.js#sha256-zp2Wy06WHvPDCRWgIE/ZHNT0cLqAGIsgleJjfDEITjw=
 // @require                https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js#sha256-dppVXeVTurw1ozOPNE3XqhYmDJPOosfbKQcHyQSE58w=
 // @require                https://cdn.jsdelivr.net/npm/json5@2.2.3/dist/index.min.js#sha256-S7ltnVPzgKyAGBlBG4wQhorJqYTehj5WQCrADCKJufE=
@@ -263,8 +264,8 @@
     window.app = {
         version: GM_info.script.version, chatgptjsVer: /chatgpt\.js@([\d.]+)/.exec(GM_info.scriptMetaStr)[1],
         commitHashes: {
-            app: 'eb250bc', // for cached <app|messages>.json
-            aiweb: 'be17b5f' // for cached ai-chat-apis.json5 + <code-languages|katex-delimiters|sogou-tts-lang-codes>.json
+            app: '2babed', // for cached <app|messages>.json
+            aiweb: '435d5ea' // for cached ai-chat-apis.json5 + <code-languages|katex-delimiters|sogou-tts-lang-codes>.json
         },
         config: {}
     }
@@ -1964,7 +1965,13 @@
         feedback() {
 
             // Init buttons
-            let btns = [function productHunt(){}, function linkedin(){}, function g2(){}, function alternativeto(){}]
+            let btns = [
+                function productHunt(){},
+                function linkedin(){},
+                function g2(){},
+                function alternativeto(){},
+                function scriptcat(){}
+            ]
             if (modals.stack[0] != 'about') btns.push(function github(){})
 
             // Show modal
@@ -1993,6 +2000,7 @@
                   : btn.textContent == 'G2' ? app.urls.review.g2
                   : btn.textContent == 'Linkedin' ? app.urls.review.linkedin
                   : btn.textContent == 'Product Hunt' ? app.urls.review.productHunt
+                  : btn.textContent == 'Scriptcat' ? app.urls.review.scriptcat
                   : app.urls.discuss
                 )
             })
