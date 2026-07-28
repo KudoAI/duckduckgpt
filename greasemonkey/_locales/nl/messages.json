@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "Voegt ChatGPT-antwoorden toe aan de DuckDuckGo-zijbalk (mogelijk gemaakt door GPT-4o!)" },
+  "appDesc": { "message": "Voegt AI-antwoorden toe aan DuckDuckGo (aangedreven door de nieuwste LLM's!)" },
   "menuLabel_proxyAPImode": { "message": "Proxy-API-modus" },
   "menuLabel_preferred": { "message": "Voorkeur" },
   "menuLabel_autoAnswer": { "message": "Automatisch oppakken" },

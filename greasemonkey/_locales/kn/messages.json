@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "DuckDuckGo ಸೈಡ್ ಬಾರ್ ಗೆ ChatGPT ಉತ್ತರಗಳನ್ನು ಸೇರಿಸುತ್ತದೆ (GPT-4o ನಿಂದ ನಡೆಸಲ್ಪಡುತ್ತದೆ!)" },
+  "appDesc": { "message": "DuckDuckGo ಗೆ AI ಉತ್ತರಗಳನ್ನು ಸೇರಿಸುತ್ತದೆ (ಇತ್ತೀಚಿನ LLM ಗಳಿಂದ ನಡೆಸಲ್ಪಡುತ್ತದೆ!)" },
   "menuLabel_proxyAPImode": { "message": "ಪ್ರಾಕ್ಸಿ API ಮೋಡ್" },
   "menuLabel_preferred": { "message": "ಆದ್ಯತೆಗಳು" },
   "menuLabel_autoAnswer": { "message": "ಸ್ವಯಂ-ಉತ್ತರ" },

@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "Lisää ChatGPT-vastaukset DuckDuckGo-sivupalkkiin (powered by GPT-4o!)" },
+  "appDesc": { "message": "Lisää tekoälyvastaukset DuckDuckGoon (uusimpien LLM: ien avulla!)" },
   "menuLabel_proxyAPImode": { "message": "Välityspalvelimen API-tila" },
   "menuLabel_preferred": { "message": "Ensisijainen" },
   "menuLabel_autoAnswer": { "message": "Automaattinen vastaus" },

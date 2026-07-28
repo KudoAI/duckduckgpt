@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "DuckDuckGo সাইডবারে ChatGPT উত্তর যোগ করে (GPT-4o দ্বারা চালিত!)" },
+  "appDesc": { "message": "DuckDuckGo-তে AI উত্তর যোগ করে (সর্বশেষ LLM দ্বারা চালিত!)" },
   "menuLabel_proxyAPImode": { "message": "প্রক্সি API মোড" },
   "menuLabel_preferred": { "message": "পছন্দসমূহ" },
   "menuLabel_autoAnswer": { "message": "অটো-অনুরোধ" },

@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "Voeg ChatGPT-antwoorde by DuckDuckGo-sybalk (aangedryf deur GPT-4o!)" },
+  "appDesc": { "message": "Voeg AI antwoorde op DuckDuckGo (aangedryf deur die nuutste LLMs!)" },
   "menuLabel_proxyAPImode": { "message": "Volmag-API-modus" },
   "menuLabel_preferred": { "message": "Voorkeur" },
   "menuLabel_autoAnswer": { "message": "Auto-Answer" },

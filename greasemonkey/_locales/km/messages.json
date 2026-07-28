@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "បន្ថែមចម្លើយ ChatGPT ទៅរបារចំហៀង DuckDuckGo (ដំណើរការដោយ GPT-4o!)" },
+  "appDesc": { "message": "បន្ថែមចម្លើយ AI ទៅ DuckDuckGo (ដំណើរការដោយ LLMs ចុងក្រោយបំផុត!)" },
   "menuLabel_proxyAPImode": { "message": "ម៉ូដប្រូកស៊ី API" },
   "menuLabel_preferred": { "message": "Size Policy" },
   "menuLabel_autoAnswer": { "message": "ឆ្លើយដោយស្វ័យប្រវត្តិ" },

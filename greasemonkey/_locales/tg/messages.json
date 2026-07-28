@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "Ба панели паҳлӯии DuckDuckGo ҷавобҳои ChatGPT-ро илова мекунад (бо GPT-4o кор мекунад!)" },
+  "appDesc": { "message": "ADDS AI ҷавобҳо ба DuckDuckGo (powered by the latest LLMs!)" },
   "menuLabel_proxyAPImode": { "message": "Усули API Proxy" },
   "menuLabel_preferred": { "message": "Size Policy" },
   "menuLabel_autoAnswer": { "message": "Ð  Ð ° Ð ¼ Ð ¾ Ð ¸" },

@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "Tāpiri ChatGPT whakautu ki DuckDuckGo tahabar (e whakahaerehia ana e GPT-4o!)" },
+  "appDesc": { "message": "Tāpirihia nga whakautu AI ki a DuckDuckGo (e whakahaerehia ana e nga LLM hou!)" },
   "menuLabel_proxyAPImode": { "message": "Aratau API Proxy" },
   "menuLabel_preferred": { "message": "He pai ake" },
   "menuLabel_autoAnswer": { "message": "Auto-Answer" },

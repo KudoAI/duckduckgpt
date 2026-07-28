@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "Nagdugang mga tubag sa ChatGPT sa DuckDuckGo sidebar (gipadagan sa GPT-4o!)" },
+  "appDesc": { "message": "Nagdugang mga tubag sa AI sa DuckDuckGo (gipadagan sa labing bag-ong mga LLM!)" },
   "menuLabel_proxyAPImode": { "message": "Modo sa Proxy API" },
   "menuLabel_preferred": { "message": "Mas gipalabi" },
   "menuLabel_autoAnswer": { "message": "Auto-Answer" },

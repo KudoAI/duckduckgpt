@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "ChatGPT válaszokat ad a DuckDuckGo oldalsávhoz (GPT-4o motorral!)" },
+  "appDesc": { "message": "AI válaszokat ad a DuckDuckGo-hoz (a legújabb LLM-ekkel!)" },
   "menuLabel_proxyAPImode": { "message": "Proxy API mód" },
   "menuLabel_preferred": { "message": "Ajánlott" },
   "menuLabel_autoAnswer": { "message": "Automatikus válasz" },

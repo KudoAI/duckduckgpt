@@ -1,154 +1,154 @@
 // ==UserScript==
 // @name                   DuckDuckGPT 🤖
-// @description            Add AI answers to DuckDuckGo (powered by GPT-4o!)
-// @description:af         Voeg AI-antwoorde by DuckDuckGo (aangedryf deur GPT-4o!)
-// @description:am         የ DuckDuckGo ውስጥ AI መልቀቅን አድርግ፣ (GPT-4o በመሣሪያዎቹ ውስጥ!)
-// @description:ar         يضيف إجابات AI إلى DuckDuckGo (مدعوم بواسطة GPT-4o!)
-// @description:as         DuckDuckGo-লৈ AI উত্তৰ যোগ দিয়ে (GPT-4o দ্বাৰা পাওৱা হৈছে!)
-// @description:az         DuckDuckGo-ya AI cavablarını əlavə edir (GPT-4o tərəfindən dəstəklənir!)
-// @description:be         Дадае ІА адказы на DuckDuckGo (падтрымліваецца GPT-4o!)
-// @description:bg         Добавя ИИ отговори в DuckDuckGo (поддържан от GPT-4o!)
-// @description:bn         DuckDuckGo-ত AI উত্তর যোগ করে (GPT-4o দ্বারা প্রচালিত!)
-// @description:bs         Dodaje AI odgovore na DuckDuckGo (pokreće GPT-4o!)
-// @description:ca         Afegeix respostes d'IA a DuckDuckGo (impulsat per GPT-4o!)
-// @description:ceb        Nagdugang ug mga tubag AI ngadto sa DuckDuckGo (gipadagan sa GPT-4o!)
-// @description:co         Aggiunge risposte AI a DuckDuckGo (supportate da GPT-4o!)
-// @description:cs         Přidává AI odpovědi do DuckDuckGo (poháněno GPT-4o!)
-// @description:cy         Ychwanegu atebion AI i DuckDuckGo (a yrrir gan GPT-4o!)
-// @description:da         Tilføjer AI-svar til DuckDuckGo (drevet af GPT-4o!)
-// @description:de         Fügt AI-Antworten zu DuckDuckGo hinzu (betrieben von GPT-4o!)
-// @description:el         Προσθέτει απαντήσεις AI στο DuckDuckGo (τροφοδοτούμενο από GPT-4o!)
-// @description:en         Add AI answers to DuckDuckGo (powered by GPT-4o!)
-// @description:eo         Aldonas AI-respondojn al DuckDuckGo (ebligita de GPT-4o!)
-// @description:es         Añade respuestas de IA a DuckDuckGo (impulsado por GPT-4o!)
-// @description:et         Lisab AI-vastused DuckDuckGo'le (juhitud GPT-4o-ga!)
-// @description:eu         Gehitu IA erantzunak DuckDuckGo-n (GPT-4o-k bultzatuta!)
-// @description:fa         پاسخهای هوشمصنوعی به DuckDuckGo اضافه میشود (توسط GPT-4o پشتیبانی میشود!)
-// @description:fi         Lisää tekoälyvastauksia DuckDuckGo:hun (ohjattu GPT-4o:lla!)
-// @description:fil        Nagdaragdag ng mga sagot ng AI sa DuckDuckGo (pinapagana ng GPT-4o!)
-// @description:fo         Bætir AI svar við DuckDuckGo (drifin af GPT-4o!)
-// @description:fr         Ajoute des réponses IA à DuckDuckGo (propulsé par GPT-4o!)
-// @description:fr-CA      Ajoute des réponses IA à DuckDuckGo (propulsé par GPT-4o!)
-// @description:fy         Foeget AI-antwurden ta oan DuckDuckGo (dreaun troch GPT-4o!)
-// @description:ga         Cuirtear freagraí AI le DuckDuckGo (dírítear ag GPT-4o!)
-// @description:gd         Cur freagairtichean AI ris an DuckDuckGo (air a thug seachad le GPT-4o!)
-// @description:gl         Engade respostas de IA a DuckDuckGo (impulsado por GPT-4o!)
-// @description:gu         DuckDuckGo માટે AI જવાબો ઉમેરે છે (GPT-4o દ્વારા પોવરેડ!)
-// @description:ha         Ƙaddara takardun AI zu DuckDuckGo (da aka fi GPT-4o!)
-// @description:haw        Hoʻohui aku i nā hoʻopiʻi AI iā DuckDuckGo (hoʻohui ʻia e GPT-4o!)
-// @description:he         מוסיף תשובות AI ל-DuckDuckGo (מופעל על ידי GPT-4o!)
-// @description:hi         DuckDuckGo में AI उत्तर जोड़ता है (GPT-4o द्वारा संचालित!)
-// @description:hmn        Ntxig AI nruab nruab rau DuckDuckGo (pab cuam GPT-4o!)
-// @description:hr         Dodaje AI odgovore na DuckDuckGo (pokreće GPT-4o!)
-// @description:ht         Ajoute repons AI nan DuckDuckGo (pòte pa GPT-4o!)
-// @description:hu         AI válaszokat ad hozzá a DuckDuckGo-hoz (GPT-4o által hajtva!)
-// @description:hy         Ավելացնում է AI պատասխաններ DuckDuckGo-ում (աջակցված է GPT-4o-ով!)
-// @description:ia         Adde responas AI a DuckDuckGo (propulsate per GPT-4o!)
-// @description:id         Menambahkan jawaban AI ke DuckDuckGo (didukung oleh GPT-4o!)
-// @description:ig         Tinye ihe ndekọ AI n'ụzọ ọgụgụ DuckDuckGo (n'efu na GPT-4o!)
-// @description:ii         DuckDuckGo ᐸᔦᒪᔪᐃᓃᑦ AI ᓇᑕᐅᒪᐃᑦᓯ (GPT-4o ᓂᑕᔪᑦᓯᐏᑦᑕᒥᔭ!)
-// @description:is         Bætir AI svar við DuckDuckGo (keyrir á GPT-4o!)
-// @description:it         Aggiunge risposte AI a DuckDuckGo (alimentato da GPT-4o!)
-// @description:iu         DuckDuckGo ᑲᑎᒪᔪᖅᑐᖅᑐᐃᓐᓇᓂᒃ AI ᑎᑎᕋᖃᕐᓯᒪᓂᖏᓐ (GPT-4o ᑐᑭᒧᑦᑖᑦ!)
-// @description:ja         DuckDuckGo に AI 回答を追加します (GPT-4o で動作！)
-// @description:jv         Nambéhi pirangga AI nganti DuckDuckGo (diduweni déning GPT-4o!)
-// @description:ka         ამატებს AI პასუხებს DuckDuckGo-ს (იმართება GPT-4o!)
-// @description:kk         DuckDuckGo-ға AI жауаптарын қосады (GPT-4o арқылы жұмыс істейді!)
-// @description:kl         DuckDuckGo-mi AI-t Kalaallit Nunaanni iluani (GPT-4o! -nip ilaanni!)
-// @description:km         បន្ថែមចម្លើយ AI ទៅ DuckDuckGo (ដំណើរការដោយ GPT-4o!)
-// @description:kn         DuckDuckGo ಗೆ AI ಉತ್ತರಗಳನ್ನು ಸೇರಿಸುತ್ತದೆ (GPT-4o ನಿಂದ ನಡೆಸಲ್ಪಡುತ್ತಿದೆ!)
-// @description:ko         DuckDuckGo에 AI 답변을 추가합니다(GPT-4o 제공!)
-// @description:ku         Bersivên AI-ê li DuckDuckGo zêde dike (ji hêla GPT-4o ve hatî hêzdar kirin!)
-// @description:ky         DuckDuckGo'го AI жоопторун кошот (GPT-4o тарабынан иштейт!)
-// @description:la         Addit AI responsa DuckDuckGo (powered per GPT-4o!)
-// @description:lb         Füügt AI Äntwerten op DuckDuckGo (ugedriwwen duerch GPT-4o!)
-// @description:lg         Yambula emisomo ey'ensobi ku DuckDuckGo (enkuuma GPT-4o!)
-// @description:ln         Ebakisi biyano ya AI na DuckDuckGo (ezali na nguya ya GPT-4o!)
-// @description:lo         ເພີ່ມຄໍາຕອບ AI ໃຫ້ກັບ DuckDuckGo (ຂັບເຄື່ອນໂດຍ GPT-4o!)
-// @description:lt         Prideda AI atsakymus į „DuckDuckGo“ (maitina GPT-4o!)
-// @description:lv         Pievieno AI atbildes DuckDuckGo (darbina GPT-4o!)
-// @description:mg         Manampy valiny AI amin'ny DuckDuckGo (nampiasain'ny GPT-4o!)
-// @description:mi         Ka taapirihia nga whakautu AI ki a DuckDuckGo (whakamahia e GPT-4o!)
-// @description:mk         Додава одговори со вештачка интелигенција на DuckDuckGo (напојувано од GPT-4o!)
-// @description:ml         DuckDuckGo-യിലേക്ക് AI ഉത്തരങ്ങൾ ചേർക്കുന്നു (GPT-4o നൽകുന്നതാണ്!)
-// @description:mn         DuckDuckGo-д AI хариултуудыг нэмдэг (GPT-4o-оор ажилладаг!)
-// @description:mr         DuckDuckGo ला AI उत्तरे जोडते (GPT-4o द्वारे समर्थित!)
-// @description:ms         Menambahkan jawapan AI pada DuckDuckGo (dikuasakan oleh GPT-4o!)
-// @description:mt         Iżżid it-tweġibiet AI għal DuckDuckGo (mħaddma minn GPT-4o!)
-// @description:my         DuckDuckGo (GPT-4o ဖြင့် စွမ်းဆောင်ထားသည့်) တွင် AI အဖြေများကို ပေါင်းထည့်သည်
-// @description:na         Aeta AI teroma i DuckDuckGo (ira GPT-4o reke akea!)
-// @description:nb         Legger til AI-svar på DuckDuckGo (drevet av GPT-4o!)
-// @description:nd         Iyatholakala amaswelelo e-AI kuDuckDuckGo (kuyatholakala ngokulawula uGPT-4o!)
-// @description:ne         DuckDuckGo मा AI जवाफहरू थप्छ (GPT-4o द्वारा संचालित!)
-// @description:ng         Ondjova mbelelo dha AI moDuckDuckGo (uumbuli nguGPT-4o!)
-// @description:nl         Voegt AI-antwoorden toe aan DuckDuckGo (mogelijk gemaakt door GPT-4o!)
-// @description:nn         Legg til AI-svar på DuckDuckGo (drevet av GPT-4o!)
-// @description:no         Legger til AI-svar til DuckDuckGo (drevet av GPT-4o!)
-// @description:nso        Ya go etela ditshenyegi tsa AI mo DuckDuckGo (e dirwang ke GPT-4o!)
-// @description:ny         Imawonjezera mayankho a AI ku DuckDuckGo (yoyendetsedwa ndi GPT-4o!)
-// @description:oc         Ajusta de respòstas d'IA a DuckDuckGo (amb GPT-4o!)
-// @description:om         Deebii AI DuckDuckGo (GPT-4o'n kan hojjetu!) irratti dabalata.
-// @description:or         DuckDuckGo କୁ AI ଉତ୍ତର ଯୋଗ କରେ (GPT-4o ଦ୍ୱାରା ଚାଳିତ!)
-// @description:pa         DuckDuckGo (GPT-4o ਦੁਆਰਾ ਸੰਚਾਲਿਤ!) ਵਿੱਚ AI ਜਵਾਬ ਸ਼ਾਮਲ ਕਰਦਾ ਹੈ
-// @description:pl         Dodaje odpowiedzi AI do DuckDuckGo (obsługiwane przez GPT-4o!)
-// @description:ps         DuckDuckGo ته د AI ځوابونه اضافه کوي (د GPT-4o لخوا پرمخ وړل کیږي!)
-// @description:pt         Adiciona respostas de IA ao DuckDuckGo (desenvolvido por GPT-4o!)
-// @description:pt-BR      Adiciona respostas de IA ao DuckDuckGo (desenvolvido por GPT-4o!)
-// @description:qu         DuckDuckGo (GPT-4o nisqawan kallpachasqa!) nisqaman AI kutichiykunata yapan.
-// @description:rm         Agiuntescha respostas d'IA a DuckDuckGo (propulsà da GPT-4o!)
-// @description:rn         Abafasha inyandiko z'IA ku DuckDuckGo (yashyizweho na GPT-4o!)
-// @description:ro         Adaugă răspunsuri AI la DuckDuckGo (alimentat de GPT-4o!)
-// @description:ru         Добавляет ответы ИИ в DuckDuckGo (на базе GPT-4o!)
-// @description:rw         Ongeraho ibisubizo bya AI kuri DuckDuckGo (ikoreshwa na GPT-4o!)
-// @description:sa         DuckDuckGo (GPT-4o द्वारा संचालितम्!) इत्यत्र AI उत्तराणि योजयति ।
-// @description:sat        DuckDuckGo ar AI jawab khon ojantok (GPT-4o! sebadha manju)
-// @description:sc         Agiungit rispostas de IA a DuckDuckGo (motorizadu da GPT-4o!)
-// @description:sd         شامل ڪري ٿو AI جوابن کي DuckDuckGo (GPT-4o پاران طاقتور!)
-// @description:se         Lávdegáhtii AI vástid DuckDuckGo (GPT-4o! vuosttas!)
-// @description:sg         Nâ tî-kûzâ mái vêdáara AI mbi DuckDuckGo (ngâ GPT-4o!)
-// @description:si         DuckDuckGo වෙත AI පිළිතුරු එක් කරයි (GPT-4o මගින් බලගන්වයි!)
-// @description:sk         Pridáva odpovede AI do DuckDuckGo (poháňané GPT-4o!)
-// @description:sl         Dodaja odgovore AI v DuckDuckGo (poganja GPT-4o!)
-// @description:sm         Faʻaopoopo tali AI ile DuckDuckGo (faʻamalosia e GPT-4o!)
-// @description:sn         Inowedzera mhinduro dzeAI kuDuckDuckGo (inofambiswa neGPT-4o!)
-// @description:so         Waxay ku dartay jawaabaha AI DuckDuckGo (waxaa ku shaqeeya GPT-4o!)
-// @description:sq         Shton përgjigjet e AI në DuckDuckGo (mundësuar nga GPT-4o!)
-// @description:sr         Додаје АИ одговоре у DuckDuckGo (покреће ГПТ-4о!)
-// @description:ss         Iphendvulela izindlela zezilungiselelo ku-DuckDuckGo (izenzakalo nge-GPT-4o!)
-// @description:st         E kopanetse diqoqo tsa AI ka DuckDuckGo (ka sebelisoa ke GPT-4o!)
-// @description:su         Nambahkeun jawaban AI kana DuckDuckGo (dikuatkeun ku GPT-4o!)
-// @description:sv         Lägger till AI-svar till DuckDuckGo (driven av GPT-4o!)
-// @description:sw         Inaongeza majibu ya AI kwa DuckDuckGo (inaendeshwa na GPT-4o!)
-// @description:ta         DuckDuckGo க்கு AI பதில்களைச் சேர்க்கிறது (GPT-4o மூலம் இயக்கப்படுகிறது!)
-// @description:te         DuckDuckGoకి AI సమాధానాలను జోడిస్తుంది (GPT-4o ద్వారా ఆధారితం!)
-// @description:tg         Ба DuckDuckGo ҷавобҳои AI илова мекунад (аз ҷониби GPT-4o!)
-// @description:th         เพิ่มคำตอบ AI ให้กับ DuckDuckGo (ขับเคลื่อนโดย GPT-4o!)
-// @description:ti         ናብ DuckDuckGo (ብGPT-4o ዝሰርሕ!) ናይ AI መልስታት ይውስኸሉ።
-// @description:tk         DuckDuckGo-a AI jogaplaryny goşýar (GPT-4o bilen işleýär!)
-// @description:tl         Nagdadagdag ng mga sagot ng AI sa DuckDuckGo (pinapatakbo ng GPT-4o!)
-// @description:tn         O amogela dipotso tsa AI mo DuckDuckGo (e a nang le GPT-4o!)
-// @description:to         Tambisa mabizo a AI ku DuckDuckGo (mukutenga na GPT-4o!)
-// @description:tr         DuckDuckGo'ya yapay zeka yanıtları ekler (GPT-4o tarafından desteklenmektedir!)
-// @description:ts         Ku engetela tinhlamulo ta AI eka DuckDuckGo (leyi fambiwaka hi GPT-4o!)
-// @description:tt         DuckDuckGo'ка AI җаваплары өсти (GPT-4o белән эшләнгән!)
-// @description:tw         Ɔde AI mmuae ka DuckDuckGo (a GPT-4o na ɛma ahoɔden!) ho.
-// @description:ug         DuckDuckGo ۋەبسېتكە AI جاۋابلار قوشۇدۇ (GPT-4o تەكشۈرگۈچى بىلەن!)
-// @description:uk         Додає відповіді штучного інтелекту в DuckDuckGo (на базі GPT-4o!)
-// @description:ur         DuckDuckGo میں AI جوابات شامل کرتا ہے (GPT-4o کے ذریعے تقویت یافتہ!)
-// @description:uz         DuckDuckGo-ga AI javoblarini qo'shadi (GPT-4o tomonidan quvvatlanadi!)
-// @description:vi         Thêm câu trả lời AI vào DuckDuckGo (được cung cấp bởi GPT-4o!)
-// @description:xh         Yongeza iimpendulo ze-AI kwi-DuckDuckGo (ixhaswe yi-GPT-4o!)
-// @description:yi         לייגט אַי ענטפֿערס צו DuckDuckGo (Powered דורך GPT-4o!)
-// @description:yo         Ṣe afikun awọn idahun AI si DuckDuckGo (agbara nipasẹ GPT-4o!)
-// @description:zh         为 DuckDuckGo 添加 AI 答案（由 GPT-4o 提供支持！）
-// @description:zh-CN      为 DuckDuckGo 添加 AI 答案（由 GPT-4o 提供支持！）
-// @description:zh-HK      為 DuckDuckGo 添加 AI 答案（由 GPT-4o 提供支援！）
-// @description:zh-SG      为 DuckDuckGo 添加 AI 答案（由 GPT-4o 提供支持！）
-// @description:zh-TW      為 DuckDuckGo 添加 AI 答案（由 GPT-4o 提供支援！）
-// @description:zu         Yengeza izimpendulo ze-AI ku-DuckDuckGo (inikwa amandla yi-GPT-4o!)
+// @description            Add AI answers to DuckDuckGo (powered by  the latest LLMs!)
+// @description:af         Voeg AI-antwoorde by DuckDuckGo
+// @description:am         የ DuckDuckGo ውስጥ AI መልቀቅን አድርግ፣
+// @description:ar         يضيف إجابات AI إلى DuckDuckGo
+// @description:as         DuckDuckGo-লৈ AI উত্তৰ যোগ দিয়ে
+// @description:az         DuckDuckGo-ya AI cavablarını əlavə edir
+// @description:be         Дадае ІА адказы на DuckDuckGo
+// @description:bg         Добавя ИИ отговори в DuckDuckGo
+// @description:bn         DuckDuckGo-ত AI উত্তর যোগ করে
+// @description:bs         Dodaje AI odgovore na DuckDuckGo
+// @description:ca         Afegeix respostes d'IA a DuckDuckGo
+// @description:ceb        Nagdugang ug mga tubag AI ngadto sa DuckDuckGo
+// @description:co         Aggiunge risposte AI a DuckDuckGo
+// @description:cs         Přidává AI odpovědi do DuckDuckGo
+// @description:cy         Ychwanegu atebion AI i DuckDuckGo
+// @description:da         Tilføjer AI-svar til DuckDuckGo
+// @description:de         Fügt AI-Antworten zu DuckDuckGo hinzu
+// @description:el         Προσθέτει απαντήσεις AI στο DuckDuckGo
+// @description:en         Add AI answers to DuckDuckGo (powered by  the latest LLMs!)
+// @description:eo         Aldonas AI-respondojn al DuckDuckGo
+// @description:es         Añade respuestas de IA a DuckDuckGo
+// @description:et         Lisab AI-vastused DuckDuckGo'le
+// @description:eu         Gehitu IA erantzunak DuckDuckGo-n
+// @description:fa         پاسخهای هوشمصنوعی به DuckDuckGo اضافه میشود
+// @description:fi         Lisää tekoälyvastauksia DuckDuckGo:hun
+// @description:fil        Nagdaragdag ng mga sagot ng AI sa DuckDuckGo
+// @description:fo         Bætir AI svar við DuckDuckGo
+// @description:fr         Ajoute des réponses IA à DuckDuckGo
+// @description:fr-CA      Ajoute des réponses IA à DuckDuckGo
+// @description:fy         Foeget AI-antwurden ta oan DuckDuckGo
+// @description:ga         Cuirtear freagraí AI le DuckDuckGo
+// @description:gd         Cur freagairtichean AI ris an DuckDuckGo
+// @description:gl         Engade respostas de IA a DuckDuckGo
+// @description:gu         DuckDuckGo માટે AI જવાબો ઉમેરે છે
+// @description:ha         Ƙaddara takardun AI zu DuckDuckGo
+// @description:haw        Hoʻohui aku i nā hoʻopiʻi AI iā DuckDuckGo
+// @description:he         מוסיף תשובות AI ל-DuckDuckGo
+// @description:hi         DuckDuckGo में AI उत्तर जोड़ता है
+// @description:hmn        Ntxig AI nruab nruab rau DuckDuckGo
+// @description:hr         Dodaje AI odgovore na DuckDuckGo
+// @description:ht         Ajoute repons AI nan DuckDuckGo
+// @description:hu         AI válaszokat ad hozzá a DuckDuckGo-hoz
+// @description:hy         Ավելացնում է AI պատասխաններ DuckDuckGo-ում
+// @description:ia         Adde responas AI a DuckDuckGo
+// @description:id         Menambahkan jawaban AI ke DuckDuckGo
+// @description:ig         Tinye ihe ndekọ AI n'ụzọ ọgụgụ DuckDuckGo
+// @description:ii         DuckDuckGo ᐸᔦᒪᔪᐃᓃᑦ AI ᓇᑕᐅᒪᐃᑦᓯ
+// @description:is         Bætir AI svar við DuckDuckGo
+// @description:it         Aggiunge risposte AI a DuckDuckGo
+// @description:iu         DuckDuckGo ᑲᑎᒪᔪᖅᑐᖅᑐᐃᓐᓇᓂᒃ AI ᑎᑎᕋᖃᕐᓯᒪᓂᖏᓐ
+// @description:ja         DuckDuckGo に AI 回答を追加します
+// @description:jv         Nambéhi pirangga AI nganti DuckDuckGo
+// @description:ka         ამატებს AI პასუხებს DuckDuckGo-ს
+// @description:kk         DuckDuckGo-ға AI жауаптарын қосады
+// @description:kl         DuckDuckGo-mi AI-t Kalaallit Nunaanni iluani
+// @description:km         បន្ថែមចម្លើយ AI ទៅ DuckDuckGo
+// @description:kn         DuckDuckGo ಗೆ AI ಉತ್ತರಗಳನ್ನು ಸೇರಿಸುತ್ತದೆ
+// @description:ko         DuckDuckGo에 AI 답변을 추가합니다
+// @description:ku         Bersivên AI-ê li DuckDuckGo zêde dike
+// @description:ky         DuckDuckGo'го AI жоопторун кошот
+// @description:la         Addit AI responsa DuckDuckGo
+// @description:lb         Füügt AI Äntwerten op DuckDuckGo
+// @description:lg         Yambula emisomo ey'ensobi ku DuckDuckGo
+// @description:ln         Ebakisi biyano ya AI na DuckDuckGo
+// @description:lo         ເພີ່ມຄໍາຕອບ AI ໃຫ້ກັບ DuckDuckGo
+// @description:lt         Prideda AI atsakymus į „DuckDuckGo“
+// @description:lv         Pievieno AI atbildes DuckDuckGo
+// @description:mg         Manampy valiny AI amin'ny DuckDuckGo
+// @description:mi         Ka taapirihia nga whakautu AI ki a DuckDuckGo
+// @description:mk         Додава одговори со вештачка интелигенција на DuckDuckGo
+// @description:ml         DuckDuckGo-യിലേക്ക് AI ഉത്തരങ്ങൾ ചേർക്കുന്നു
+// @description:mn         DuckDuckGo-д AI хариултуудыг нэмдэг
+// @description:mr         DuckDuckGo ला AI उत्तरे जोडते
+// @description:ms         Menambahkan jawapan AI pada DuckDuckGo
+// @description:mt         Iżżid it-tweġibiet AI għal DuckDuckGo
+// @description:my         DuckDuckGo တွင် AI အဖြေများကို ပေါင်းထည့်သည်
+// @description:na         Aeta AI teroma i DuckDuckGo
+// @description:nb         Legger til AI-svar på DuckDuckGo
+// @description:nd         Iyatholakala amaswelelo e-AI kuDuckDuckGo
+// @description:ne         DuckDuckGo मा AI जवाफहरू थप्छ
+// @description:ng         Ondjova mbelelo dha AI moDuckDuckGo
+// @description:nl         Voegt AI-antwoorden toe aan DuckDuckGo
+// @description:nn         Legg til AI-svar på DuckDuckGo
+// @description:no         Legger til AI-svar til DuckDuckGo
+// @description:nso        Ya go etela ditshenyegi tsa AI mo DuckDuckGo
+// @description:ny         Imawonjezera mayankho a AI ku DuckDuckGo
+// @description:oc         Ajusta de respòstas d'IA a DuckDuckGo
+// @description:om         Deebii AI DuckDuckGo irratti dabalata.
+// @description:or         DuckDuckGo କୁ AI ଉତ୍ତର ଯୋଗ କରେ
+// @description:pa         DuckDuckGo ਵਿੱਚ AI ਜਵਾਬ ਸ਼ਾਮਲ ਕਰਦਾ ਹੈ
+// @description:pl         Dodaje odpowiedzi AI do DuckDuckGo
+// @description:ps         DuckDuckGo ته د AI ځوابونه اضافه کوي
+// @description:pt         Adiciona respostas de IA ao DuckDuckGo
+// @description:pt-BR      Adiciona respostas de IA ao DuckDuckGo
+// @description:qu         DuckDuckGo nisqaman AI kutichiykunata yapan.
+// @description:rm         Agiuntescha respostas d'IA a DuckDuckGo
+// @description:rn         Abafasha inyandiko z'IA ku DuckDuckGo
+// @description:ro         Adaugă răspunsuri AI la DuckDuckGo
+// @description:ru         Добавляет ответы ИИ в DuckDuckGo
+// @description:rw         Ongeraho ibisubizo bya AI kuri DuckDuckGo
+// @description:sa         DuckDuckGo इत्यत्र AI उत्तराणि योजयति ।
+// @description:sat        DuckDuckGo ar AI jawab khon ojantok
+// @description:sc         Agiungit rispostas de IA a DuckDuckGo
+// @description:sd         شامل ڪري ٿو AI جوابن کي DuckDuckGo
+// @description:se         Lávdegáhtii AI vástid DuckDuckGo
+// @description:sg         Nâ tî-kûzâ mái vêdáara AI mbi DuckDuckGo
+// @description:si         DuckDuckGo වෙත AI පිළිතුරු එක් කරයි
+// @description:sk         Pridáva odpovede AI do DuckDuckGo
+// @description:sl         Dodaja odgovore AI v DuckDuckGo
+// @description:sm         Faʻaopoopo tali AI ile DuckDuckGo
+// @description:sn         Inowedzera mhinduro dzeAI kuDuckDuckGo
+// @description:so         Waxay ku dartay jawaabaha AI DuckDuckGo
+// @description:sq         Shton përgjigjet e AI në DuckDuckGo
+// @description:sr         Додаје АИ одговоре у DuckDuckGo
+// @description:ss         Iphendvulela izindlela zezilungiselelo ku-DuckDuckGo
+// @description:st         E kopanetse diqoqo tsa AI ka DuckDuckGo
+// @description:su         Nambahkeun jawaban AI kana DuckDuckGo
+// @description:sv         Lägger till AI-svar till DuckDuckGo
+// @description:sw         Inaongeza majibu ya AI kwa DuckDuckGo
+// @description:ta         DuckDuckGo க்கு AI பதில்களைச் சேர்க்கிறது
+// @description:te         DuckDuckGoకి AI సమాధానాలను జోడిస్తుంది
+// @description:tg         Ба DuckDuckGo ҷавобҳои AI илова мекунад
+// @description:th         เพิ่มคำตอบ AI ให้กับ DuckDuckGo
+// @description:ti         ናብ DuckDuckGo ናይ AI መልስታት ይውስኸሉ።
+// @description:tk         DuckDuckGo-a AI jogaplaryny goşýar
+// @description:tl         Nagdadagdag ng mga sagot ng AI sa DuckDuckGo
+// @description:tn         O amogela dipotso tsa AI mo DuckDuckGo
+// @description:to         Tambisa mabizo a AI ku DuckDuckGo
+// @description:tr         DuckDuckGo'ya yapay zeka yanıtları ekler
+// @description:ts         Ku engetela tinhlamulo ta AI eka DuckDuckGo
+// @description:tt         DuckDuckGo'ка AI җаваплары өсти
+// @description:tw         Ɔde AI mmuae ka DuckDuckGo ho.
+// @description:ug         DuckDuckGo ۋەبسېتكە AI جاۋابلار قوشۇدۇ
+// @description:uk         Додає відповіді штучного інтелекту в DuckDuckGo
+// @description:ur         DuckDuckGo میں AI جوابات شامل کرتا ہے
+// @description:uz         DuckDuckGo-ga AI javoblarini qo'shadi
+// @description:vi         Thêm câu trả lời AI vào DuckDuckGo
+// @description:xh         Yongeza iimpendulo ze-AI kwi-DuckDuckGo
+// @description:yi         לייגט אַי ענטפֿערס צו DuckDuckGo
+// @description:yo         Ṣe afikun awọn idahun AI si DuckDuckGo
+// @description:zh         为 DuckDuckGo 添加 AI 答案
+// @description:zh-CN      为 DuckDuckGo 添加 AI 答案
+// @description:zh-HK      為 DuckDuckGo 添加 AI 答案
+// @description:zh-SG      为 DuckDuckGo 添加 AI 答案
+// @description:zh-TW      為 DuckDuckGo 添加 AI 答案
+// @description:zu         Yengeza izimpendulo ze-AI ku-DuckDuckGo
 // @author                 KudoAI
 // @namespace              https://kudoai.com
-// @version                2026.7.27.5
+// @version                2026.7.27.6
 // @license                MIT
 // @icon                   https://cdn.jsdelivr.net/gh/KudoAI/duckduckgpt@e73859f/assets/images/icons/app/icon48.png
 // @icon64                 https://cdn.jsdelivr.net/gh/KudoAI/duckduckgpt@e73859f/assets/images/icons/app/icon64.png

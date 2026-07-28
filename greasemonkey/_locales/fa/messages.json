@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "پاسخ‌های ChatGPT را به نوار کناری DuckDuckGo اضافه می‌کند (طراحی شده توسط GPT-4o!)" },
+  "appDesc": { "message": "پاسخ‌های هوش مصنوعی را به DuckDuckGo اضافه می‌کند (با پشتیبانی جدیدترین LLMها!)" },
   "menuLabel_proxyAPImode": { "message": "حالت API پروکسی" },
   "menuLabel_preferred": { "message": "ارجح" },
   "menuLabel_autoAnswer": { "message": "پاسخ خودکار" },

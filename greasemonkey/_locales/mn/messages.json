@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "DuckDuckGo хажуугийн мөрөнд ChatGPT хариулт нэмнэ (GPT-4o зайтай!)" },
+  "appDesc": { "message": "DuckDuckGo-д AI хариу өгнө (хамгийн сүүлийн үеийн LLMs зайтай!)" },
   "menuLabel_proxyAPImode": { "message": "Proxy API горим" },
   "menuLabel_preferred": { "message": "Эрхэмлэвэл зохих" },
   "menuLabel_autoAnswer": { "message": "Автоматаар нэмэх" },

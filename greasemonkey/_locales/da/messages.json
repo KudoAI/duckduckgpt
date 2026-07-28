@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "Tilføjer ChatGPT-svar til DuckDuckGo-sidebjælken (drevet af GPT-4o!)" },
+  "appDesc": { "message": "Tilføjer AI-svar til DuckDuckGo (drevet af de nyeste LLM'er!)" },
   "menuLabel_proxyAPImode": { "message": "Proxy API-tilstand" },
   "menuLabel_preferred": { "message": "foretrukken" },
   "menuLabel_autoAnswer": { "message": "Auto-svar" },

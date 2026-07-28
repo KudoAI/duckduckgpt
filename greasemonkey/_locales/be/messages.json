@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "Дадае адказы ChatGPT на бакавую панэль DuckDuckGo (харчаванне ад GPT-4o!)" },
+  "appDesc": { "message": "Дадае адказы на штучны інтэлект у DuckDuckGo (харчаванне ад апошніх LLM!)" },
   "menuLabel_proxyAPImode": { "message": "Рэжым API-проксі" },
   "menuLabel_preferred": { "message": "Home phone" },
   "menuLabel_autoAnswer": { "message": "Аўтаматычны адказ" },

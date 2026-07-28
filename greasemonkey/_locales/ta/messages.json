@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "DuckDuckGo பக்கப்பட்டியில் ChatGPT பதில்களைச் சேர்க்கிறது (GPT-4o ஆல் இயக்கப்படுகிறது!)" },
+  "appDesc": { "message": "DuckDuckGo க்கு AI பதில்களைச் சேர்க்கிறது (சமீபத்திய LLM களால் இயக்கப்படுகிறது!)" },
   "menuLabel_proxyAPImode": { "message": "ப்ராக்ஸி API பயன்முறை" },
   "menuLabel_preferred": { "message": "விருப்பமானது" },
   "menuLabel_autoAnswer": { "message": "தானாக பதிலளிக்கவும்" },

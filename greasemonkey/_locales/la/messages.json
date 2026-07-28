@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "Adicit responsa ChatGPT ad DuckDuckGo lateram (a GPT-4o sustentata!)" },
+  "appDesc": { "message": "Adds AI answers to DuckDuckGo (powered by the latest LLMs!)" },
   "menuLabel_proxyAPImode": { "message": "Modus API Proxy" },
   "menuLabel_preferred": { "message": "Praeficere" },
   "menuLabel_autoAnswer": { "message": "Autocatus" },

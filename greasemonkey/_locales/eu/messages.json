@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "ChatGPT erantzunak gehitzen ditu DuckDuckGo alboko barran (GPT-4o-k bultzatuta!)" },
+  "appDesc": { "message": "AI erantzunak gehitzen dizkio DuckDuckGo-ri (LLM berrienek bultzatuta!)" },
   "menuLabel_proxyAPImode": { "message": "Proxy API modua" },
   "menuLabel_preferred": { "message": "hobetsia" },
   "menuLabel_autoAnswer": { "message": "Erantzun automatikoa" },

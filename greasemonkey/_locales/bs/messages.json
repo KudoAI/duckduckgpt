@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "Dodaje ChatGPT odgovore na DuckDuckGo bočnu traku (pokreće GPT-4o!)" },
+  "appDesc": { "message": "Dodaje AI odgovore na DuckDuckGo (pokreću ga najnoviji LLM-ovi!)" },
   "menuLabel_proxyAPImode": { "message": "Proxy API režim" },
   "menuLabel_preferred": { "message": "Poželjno" },
   "menuLabel_autoAnswer": { "message": "Automatski odgovor" },

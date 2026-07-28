@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "Añade respuestas de ChatGPT a la barra lateral de DuckDuckGo (¡con tecnología GPT-4o!)" },
+  "appDesc": { "message": "Añade respuestas de IA a DuckDuckGo (¡con la tecnología de los últimos LLM!)" },
   "menuLabel_proxyAPImode": { "message": "Modo API de proxy" },
   "menuLabel_preferred": { "message": "Preferido" },
   "menuLabel_autoAnswer": { "message": "Respuesta automática" },

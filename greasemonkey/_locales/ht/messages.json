@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "Ajoute repons ChatGPT nan bar bò DuckDuckGo (patrone pa GPT-4o!)" },
+  "appDesc": { "message": "Ajoute repons AI nan DuckDuckGo (patrone pa dènye LLM yo!)" },
   "menuLabel_proxyAPImode": { "message": "Mòd API proxy" },
   "menuLabel_preferred": { "message": "Li pi bon" },
   "menuLabel_autoAnswer": { "message": "Repons Otomatik" },

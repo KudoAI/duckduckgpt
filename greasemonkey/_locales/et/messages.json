@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "Lisab ChatGPT vastused DuckDuckGo külgribale (powered by GPT-4o!)" },
+  "appDesc": { "message": "Lisab DuckDuckGole tehisintellekti vastused (toiteallikaks uusimad LLM-id!)" },
   "menuLabel_proxyAPImode": { "message": "Puhverserveri API-režiim" },
   "menuLabel_preferred": { "message": "Eelistatud" },
   "menuLabel_autoAnswer": { "message": "Automaatvastus" },

@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "Prideda ChatGPT atsakymus į DuckDuckGo šoninę juostą (sukurta GPT-4o!)" },
+  "appDesc": { "message": "Prideda DI atsakymus į DuckDuckGo (sukurta naujausių LLM!)" },
   "menuLabel_proxyAPImode": { "message": "Tarpinio serverio API režimas" },
   "menuLabel_preferred": { "message": "Naglazyme" },
   "menuLabel_autoAnswer": { "message": "Automatinis atsiliepimas" },

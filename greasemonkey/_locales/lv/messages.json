@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "Pievieno ChatGPT atbildes DuckDuckGo sānjoslai (nodrošina GPT-4o!)" },
+  "appDesc": { "message": "Pievieno AI atbildes DuckDuckGo (nodrošina jaunākās LLM!)" },
   "menuLabel_proxyAPImode": { "message": "Starpniekservera API režīms" },
   "menuLabel_preferred": { "message": "Ieteicamais" },
   "menuLabel_autoAnswer": { "message": "Automātiska atbilde" },

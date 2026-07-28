@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "ÇatGPT jogaplaryny DuckDuckGo (GPT-4o bilen işleýän!)" },
+  "appDesc": { "message": "DuckDuckGo (häzirki LLM-ler bilen işleýän) AI jogaplaryny goş!" },
   "menuLabel_proxyAPImode": { "message": "Proxy API tertibi" },
   "menuLabel_preferred": { "message": "Terbiýe" },
   "menuLabel_autoAnswer": { "message": "Auto-Answer" },

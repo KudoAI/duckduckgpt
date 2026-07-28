@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "Добавя ChatGPT отговори към страничната лента на DuckDuckGo (захранва се от GPT-4o!)" },
+  "appDesc": { "message": "Добавя AI отговори към DuckDuckGo (поддържа се от най - новите LLM!)" },
   "menuLabel_proxyAPImode": { "message": "Режим на прокси API" },
   "menuLabel_preferred": { "message": "Предпочитано" },
   "menuLabel_autoAnswer": { "message": "Auto Answer" },

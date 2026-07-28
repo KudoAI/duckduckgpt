@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "Füügt ChatGPT Äntwerten op DuckDuckGo Sidebar (ugedriwwen duerch GPT-4o!)" },
+  "appDesc": { "message": "Füügt AI Äntwerten op DuckDuckGo (ugedriwwe vun de leschten LLMs!)" },
   "menuLabel_proxyAPImode": { "message": "Proxy-API-Modus" },
   "menuLabel_preferred": { "message": "Am léifsten" },
   "menuLabel_autoAnswer": { "message": "Automatesch Äntwert" },

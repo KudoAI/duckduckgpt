@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "ChatGPT འཚོལ་ལེགས། DuckDuckGo ལུ་བསྒྲིགས། (GPT-4o! ཡུ་ཡུ་རྒྱུ་ནོང་ལགས།)" },
+  "appDesc": { "message": "ཨའི་གིས་ DuckDuckGo (LLMs གྱི་ཐོག་ལས་) ལུ་ལན་རྐྱབ་དོ་ཡོདཔ་ཨིན།" },
   "menuLabel_proxyAPImode": { "message": "པོརསི་ཨེཔི་གི་རྣམ་ཐར།" },
   "menuLabel_preferred": { "message": "གདམ་ཁ་ ཁ་སྐོང་ཚུ་སྟོནམ་" },
   "menuLabel_autoAnswer": { "message": "རང་མགོ་རང་འདྲོངས་" },

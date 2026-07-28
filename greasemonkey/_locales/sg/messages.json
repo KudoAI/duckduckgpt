@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "Add ChatGPT answers to DuckDuckGo sidebar (so GPT-4o ayeke sara kua na ni!)" },
+  "appDesc": { "message": "Add AI answers to DuckDuckGo (so a yeke sara kua na ni na lege ti ndangba LLMs!)" },
   "menuLabel_proxyAPImode": { "message": "Proxy API mode na na na" },
   "menuLabel_preferred": { "message": "Mbi ye ni mingi" },
   "menuLabel_autoAnswer": { "message": "Auto article" },

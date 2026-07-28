@@ -1,7 +1,5 @@
 {
-  "appDesc": {
-    "message": "E tsenya dikarabo tsa ChatGPT mo bareng e e kafa thoko ya DuckDuckGo (e e dirisiwang ke GPT-4o!)"
-  },
+  "appDesc": { "message": "E tsenya dikarabo tsa AI go DuckDuckGo (e tsamaisiwa ke di-LLM tsa sesweng!)" },
   "menuLabel_proxyAPImode": { "message": "Proxy API Mode" },
   "menuLabel_preferred": { "message": "Ke e rata thata" },
   "menuLabel_autoAnswer": { "message": "Auto-Answer" },

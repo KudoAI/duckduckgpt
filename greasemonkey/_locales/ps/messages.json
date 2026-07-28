@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "د DuckDuckGo سایډ بار ته د ChatGPT ځوابونه اضافه کوي (د GPT-4o لخوا پرمخ وړل شوی!)" },
+  "appDesc": { "message": "DuckDuckGo ته AI ځوابونه اضافه کوي (د وروستي LLMs لخوا ځواکمن شوی!)" },
   "menuLabel_proxyAPImode": { "message": "د پراکسي API حالت" },
   "menuLabel_preferred": { "message": "غوراوي" },
   "menuLabel_autoAnswer": { "message": "اتوماتیک ډول" },

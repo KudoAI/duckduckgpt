@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "מוסיף תשובות ChatGPT לסרגל הצדדי של DuckDuckGo (מופעל על ידי GPT-4o!)" },
+  "appDesc": { "message": "מוסיף תשובות AI ל - DuckDuckGo (מופעל על ידי LLMs האחרונים!)" },
   "menuLabel_proxyAPImode": { "message": "מצב API של שרת Proxy" },
   "menuLabel_preferred": { "message": "מועדף" },
   "menuLabel_autoAnswer": { "message": "מענה אוטומטי" },

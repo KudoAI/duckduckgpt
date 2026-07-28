@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "Manampy ny valin-tenin'i ChatGPT amin'ny sisin'ny DuckDuckGo (azo avy amin'ny GPT-4o!)" },
+  "appDesc": { "message": "Adds AI namaly ny DuckDuckGo (Powered by farany LLMs!)" },
   "menuLabel_proxyAPImode": { "message": "Fomba Proxy API" },
   "menuLabel_preferred": { "message": "Safidy" },
   "menuLabel_autoAnswer": { "message": "Pejy automatique" },

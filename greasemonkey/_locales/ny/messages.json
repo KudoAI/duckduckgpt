@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "Amawonjezera mayankho a ChatGPT ku DuckDuckGo sidebar (yoyendetsedwa ndi GPT-4o!)" },
+  "appDesc": { "message": "Amawonjezera mayankho a AI ku DuckDuckGo (yoyendetsedwa ndi ma LLM atsopano!)" },
   "menuLabel_proxyAPImode": { "message": "Njira ya Proxy API" },
   "menuLabel_preferred": { "message": "Wokondedwa" },
   "menuLabel_autoAnswer": { "message": "Auto-Answer" },

@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "Ավելացնում է ChatGPT պատասխանները DuckDuckGPT կողմից աջ կողմանց (GPT-4o! զինվորված)" },
+  "appDesc": { "message": "Ավելացնում է AI - ի պատասխանները DuckDuckGo - ին (սնուցվում է վերջին LLM - ներով)" },
   "menuLabel_proxyAPImode": { "message": "Proxy API ռեժիմ" },
   "menuLabel_preferred": { "message": "Նախընտրելի" },
   "menuLabel_autoAnswer": { "message": "Ավտոմատ պատասխան" },

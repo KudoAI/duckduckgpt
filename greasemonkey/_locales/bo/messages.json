@@ -1,5 +1,7 @@
 {
-  "appDesc": { "message": "ChatGPT ལན་འདེབས་DuckDuckGo sidebar (GPT-4o ཀྱིས་དབང་བསྒྱུར་!)" },
+  "appDesc": {
+    "message": "DuckDuckGo སྒྲིག་འཇུག་བྱས་ཚད ། ཐེངས་10 ལས་ཉུང་བ ། ཐོན་རིམ་5.7.1 ནང་དུ་ཚོད་ལྟ་བྱས་ཟིན ། ཟླ 6 སྔོན་ལ་གསར་བཅོས་བྱས །"
+  },
   "menuLabel_proxyAPImode": { "message": "པརོགསི ཨུ་ཕཱཡི མོདེ" },
   "menuLabel_preferred": { "message": "ཁྱེད་ཀྱི་ཐུགས་བརྩེ་" },
   "menuLabel_autoAnswer": { "message": "རང་འགུལ་ཞིབ་འཇུག" },

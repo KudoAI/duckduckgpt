@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "Menambahkan jawaban ChatGPT ke bilah sisi DuckDuckGo (didukung oleh GPT-4o!)" },
+  "appDesc": { "message": "Menambahkan jawaban AI ke DuckDuckGo (didukung oleh LLM terbaru!)" },
   "menuLabel_proxyAPImode": { "message": "Mode api Proxy" },
   "menuLabel_preferred": { "message": "Disukai" },
   "menuLabel_autoAnswer": { "message": "Jawaban Otomatis" },

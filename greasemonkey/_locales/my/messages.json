@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "ChatGPT အဖြေနဲ့ DuckDuckGo ဘေးဘားတွင် ပေါင်းထည့်ပါ (GPT-4o မှ အားဖြည့်ထားသည်!)" },
+  "appDesc": { "message": "DuckDuckGo (နောက်ဆုံးပေါ် LLMs အားဖြင့် powered!)" },
   "menuLabel_proxyAPImode": { "message": "ပရောက်စီ API မုဒ်" },
   "menuLabel_preferred": { "message": "နှစ်သက်ရာများ" },
   "menuLabel_autoAnswer": { "message": "အလိုအလျောက်ဖြေဆိုခြင်း" },

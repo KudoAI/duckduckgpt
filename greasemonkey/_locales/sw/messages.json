@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "Inaongeza majibu ya ChatGPT kwenye upau wa pembeni wa DuckDuckGo (unaendeshwa na GPT-4o!)" },
+  "appDesc": { "message": "Inaongeza majibu ya AI kwa DuckDuckGo (inaendeshwa na LLM za hivi karibuni!)" },
   "menuLabel_proxyAPImode": { "message": "Hali Mbadala ya API" },
   "menuLabel_preferred": { "message": "inayopendelewa" },
   "menuLabel_autoAnswer": { "message": "Mjibuji Kiotomatiki" },

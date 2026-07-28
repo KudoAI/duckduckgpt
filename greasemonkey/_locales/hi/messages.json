@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "DuckDuckGo साइडबार में ChatGPT उत्तर जोड़ता है (GPT-4o द्वारा संचालित!)" },
+  "appDesc": { "message": "DuckDuckGo में AI उत्तर जोड़ता है (नवीनतम LLMs द्वारा संचालित!)" },
   "menuLabel_proxyAPImode": { "message": "प्रॉक्सी एपीआई मोड" },
   "menuLabel_preferred": { "message": "पसंदीदा" },
   "menuLabel_autoAnswer": { "message": "ऑटो - उत्तर" },

@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "DuckDuckGo സൈഡ്‌ബാറിലേക്ക് ChatGPT ഉത്തരങ്ങൾ ചേർക്കുന്നു (GPT-4o നാൽ നയിക്കപ്പെടുന്നു!)" },
+  "appDesc": { "message": "DuckDuckGo-ലേക്ക് AI ഉത്തരങ്ങൾ ചേർക്കുന്നു (ഏറ്റവും പുതിയ LLM-കളാൽ നയിക്കപ്പെടുന്നു!)" },
   "menuLabel_proxyAPImode": { "message": "പ്രോക്സി API മോഡ്" },
   "menuLabel_preferred": { "message": "Size Policy" },
   "menuLabel_autoAnswer": { "message": "യാന്ത്രിക ഉത്തരം" },

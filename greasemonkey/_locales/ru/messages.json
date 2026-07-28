@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "Добавляет ответы ChatGPT на боковую панель DuckDuckGo (работает на GPT-4o!)" },
+  "appDesc": { "message": "Добавляет ответы ИИ в DuckDuckGo (на базе новейших LLM!)" },
   "menuLabel_proxyAPImode": { "message": "Режим API прокси-сервера" },
   "menuLabel_preferred": { "message": "Предпочтительно" },
   "menuLabel_autoAnswer": { "message": "автоответ" },

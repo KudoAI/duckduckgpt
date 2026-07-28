@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "DuckDuckGo సైడ్‌బార్‌కు ChatGPT సమాధానాలను జోడిస్తుంది (GPT-4o ద్వారా ఆధారితం!)" },
+  "appDesc": { "message": "DuckDuckGoకు AI సమాధానాలను జోడిస్తుంది (తాజా LLMల ద్వారా ఆధారితం!)" },
   "menuLabel_proxyAPImode": { "message": "ప్రాక్సీ API మోడ్" },
   "menuLabel_preferred": { "message": "ప్రాధాన్యత ఇవ్వబడింది" },
   "menuLabel_autoAnswer": { "message": "స్వయంచాలక జవాబుదారు" },

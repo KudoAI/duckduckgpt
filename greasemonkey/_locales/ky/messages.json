@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "Кошуу ChatGPT жооптор DuckDuckGo sidebar (GPT-4o менен иштейт!)" },
+  "appDesc": { "message": "DuckDuckGo AI жоопторун кошот (акыркы LLMs менен иштейт!)" },
   "menuLabel_proxyAPImode": { "message": "Прокси API режими" },
   "menuLabel_preferred": { "message": "Сүйүктүү" },
   "menuLabel_autoAnswer": { "message": "Auto-Answer" },

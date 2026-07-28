@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "Დაამატეთ ChatGPT-ის პასუხები DuckDuckGo-ს გვერდით ზოლში (GPT-4o-ის მეშვეობით!)" },
+  "appDesc": { "message": "Ამატებს AI-ს პასუხებს DuckDuckGo-ზე (რომელიც აღჭურვილია უახლესი LLM ‑ ებით!)" },
   "menuLabel_proxyAPImode": { "message": "Პროქსი API რეჟიმი" },
   "menuLabel_preferred": { "message": "მირჩევნია" },
   "menuLabel_autoAnswer": { "message": "Ავტომატური პასუხი" },

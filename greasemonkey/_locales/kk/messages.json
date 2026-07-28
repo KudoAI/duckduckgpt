@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "DuckDuckGo бүйірлік тақтасына ChatGPT жауаптарын қосады (GPT-4o арқылы жұмыс істейді!)" },
+  "appDesc": { "message": "DuckDuckGo-ға AI жауаптарын қосады (соңғы LLM-мен жұмыс істейді!)" },
   "menuLabel_proxyAPImode": { "message": "Прокси API режимі" },
   "menuLabel_preferred": { "message": "БасымдыSize Policy" },
   "menuLabel_autoAnswer": { "message": "Автоматты ансвер" },

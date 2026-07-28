@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "Fügt ChatGPT-Antworten zur DuckDuckGo-Seitenleiste hinzu (unterstützt von GPT-4o!)" },
+  "appDesc": { "message": "Fügt KI-Antworten zu DuckDuckGo hinzu (unterstützt von den neuesten LLMs!)" },
   "menuLabel_proxyAPImode": { "message": "Proxy-API-Modus" },
   "menuLabel_preferred": { "message": "Vorzugsweise" },
   "menuLabel_autoAnswer": { "message": "Auto Answer/Autom. Annahme" },

@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "Přidá odpovědi ChatGPT na postranní panel DuckDuckGo (poháněný GPT-4o!)" },
+  "appDesc": { "message": "Přidává odpovědi AI do DuckDuckGo (poháněné nejnovějšími LLM!)" },
   "menuLabel_proxyAPImode": { "message": "Režim proxy API" },
   "menuLabel_preferred": { "message": "Preference" },
   "menuLabel_autoAnswer": { "message": "Automatická odpověď" },

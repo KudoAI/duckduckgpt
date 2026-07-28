@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "A' cur freagairtean ChatGPT ris a' bhàr-taobh DuckDuckGo (air a chumail le GPT-4o!)" },
+  "appDesc": { "message": "Cuir a - steach freagairtean AI gu DuckDuckGo (air a stiùireadh leis na LLMs as ùire!)" },
   "menuLabel_proxyAPImode": { "message": "Modh API Proxy" },
   "menuLabel_preferred": { "message": "An roghainn as fheàrr leat" },
   "menuLabel_autoAnswer": { "message": "Auto - Inswer" },

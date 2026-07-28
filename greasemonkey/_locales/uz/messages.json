@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "DuckDuckGo yon paneliga ChatGPT javoblarini qo'shadi (GPT-4o tomonidan quvvatlanadi!)" },
+  "appDesc": { "message": "DuckDuckGo’ga AI javoblarini qo’shadi (eng so’nggi LLM’lar tomonidan quvvatlanadi!)" },
   "menuLabel_proxyAPImode": { "message": "Proksi API rejimi" },
   "menuLabel_preferred": { "message": "Afzal" },
   "menuLabel_autoAnswer": { "message": "Avtomatik javob" },

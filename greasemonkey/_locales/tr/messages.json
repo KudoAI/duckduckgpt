@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "ChatGPT yanıtlarını DuckDuckGo kenar çubuğuna ekler (GPT-4o tarafından desteklenmektedir!)" },
+  "appDesc": { "message": "DuckDuckGo'ya yapay zeka yanıtları ekler (en son LLM'ler tarafından desteklenmektedir!)" },
   "menuLabel_proxyAPImode": { "message": "Proxy API Modu" },
   "menuLabel_preferred": { "message": "Tercih ettiğiniz SMS Ağ Geçidini seçin" },
   "menuLabel_autoAnswer": { "message": "otomatik yanıt" },

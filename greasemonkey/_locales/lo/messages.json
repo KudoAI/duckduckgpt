@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "ເພີ່ມຄໍາຕອບ ChatGPT ກັບແຖບຂ້າງ DuckDuckGo (ຂັບເຄື່ອນໂດຍ GPT-4o!)" },
+  "appDesc": { "message": "ເພີ່ມຄໍາຕອບ AI ກັບ DuckDuckGo (ຂັບເຄື່ອນໂດຍ LLMs ຫຼ້າສຸດ!)" },
   "menuLabel_proxyAPImode": { "message": "ໂໝດໂປຣແກຣມ API" },
   "menuLabel_preferred": { "message": "ມັກ" },
   "menuLabel_autoAnswer": { "message": "ຄຳຕອບອັດຕະໂນມັດ" },

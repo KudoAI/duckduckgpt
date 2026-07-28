@@ -1,5 +1,5 @@
 {
-  "appDesc": { "message": "DuckDuckGo sidebarına ChatGPT cavabları əlavə edir (GPT-4o ilə təchiz edilmişdir!)" },
+  "appDesc": { "message": "DuckDuckGo-ya AI cavabları əlavə edir (ən son LLM-lərlə təchiz edilmişdir!)" },
   "menuLabel_proxyAPImode": { "message": "Proksi API Rejimi" },
   "menuLabel_preferred": { "message": "Qurğular" },
   "menuLabel_autoAnswer": { "message": "Avto-Answer" },
