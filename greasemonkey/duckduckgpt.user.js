@@ -264,8 +264,8 @@
     window.app = {
         version: GM_info.script.version, chatgptjsVer: /chatgpt\.js@([\d.]+)/.exec(GM_info.scriptMetaStr)[1],
         commitHashes: {
-            app: '2babed', // for cached <app|messages>.json
-            aiweb: '435d5ea' // for cached ai-chat-apis.json5 + <code-languages|katex-delimiters|sogou-tts-lang-codes>.json
+            app: '8cd32a6', // for cached <app|messages>.json
+            aiweb: 'e6263d7' // for cached ai-chat-apis.json5 + <code-languages|katex-delimiters|sogou-tts-lang-codes>.json
         },
         config: {}
     }
@@ -2660,7 +2660,7 @@
                 [class*=-modal-bg] {
                     pointer-events: auto ; /* override any disabling from site modals */
                     position: fixed ; top: 0 ; left: 0 ; width: 100% ; height: 100% ; /* expand to full view-port */
-                    display: flex ; justify-content: center ; align-items: center ; z-index: 9999 ; /* align */
+                    display: flex !important ; justify-content: center ; align-items: center ; z-index: 9999 ; /* align */
                     transition: var(--bg-transition) ; /* dim */
                        -webkit-transition: var(--bg-transition) ; -moz-transition: var(--bg-transition) ;
                        -o-transition: var(--bg-transition) ; -ms-transition: var(--bg-transition) }
