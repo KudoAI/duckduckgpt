@@ -148,7 +148,7 @@
 // @description:zu         Yengeza izimpendulo ze-AI ku-DuckDuckGo
 // @author                 KudoAI
 // @namespace              https://kudoai.com
-// @version                2026.7.29
+// @version                2026.7.29.1
 // @license                MIT
 // @icon                   https://cdn.jsdelivr.net/gh/KudoAI/duckduckgpt@e73859f/assets/images/icons/app/icon48.png
 // @icon64                 https://cdn.jsdelivr.net/gh/KudoAI/duckduckgpt@e73859f/assets/images/icons/app/icon64.png
@@ -234,7 +234,7 @@
 // @antifeature            ads
 // @noframes
 // @downloadURL            https://scriptcat.org/scripts/code/7197/duckduckgpt.user.js
-// @updateURL              https://scriptcat.org/scripts/code/7197/duckduckgpt.user.js
+// @updateURL              https://scriptcat.org/scripts/code/7197/duckduckgpt.meta.js
 // @homepageURL            https://www.duckduckgpt.com
 // @supportURL             https://github.com/KudoAI/duckduckgpt/issues
 // @contributionURL        https://github.com/sponsors/KudoAI
