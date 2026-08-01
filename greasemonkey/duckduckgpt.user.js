@@ -148,7 +148,7 @@
 // @description:zu         Yengeza izimpendulo ze-AI ku-DuckDuckGo
 // @author                 KudoAI
 // @namespace              https://kudoai.com
-// @version                2026.7.29.1
+// @version                2026.8.1
 // @license                MIT
 // @icon                   https://cdn.jsdelivr.net/gh/KudoAI/duckduckgpt@e73859f/assets/images/icons/app/icon48.png
 // @icon64                 https://cdn.jsdelivr.net/gh/KudoAI/duckduckgpt@e73859f/assets/images/icons/app/icon64.png
@@ -873,9 +873,8 @@
             // Select random, active campaign
             for (const [campaignName, campaign] of shuffle(applyBoosts(Object.entries(campaignsData)))) {
                 const campaignIsActive = campaign.active && (!campaign.endDate || currentDate <= campaign.endDate)
-                if (!campaignIsActive
-                    || campaign.excludedApps && campaign.excludedApps.some(ex => new RegExp(ex, 'i').test(app.name))
-                ) continue // to next campaign
+                if (!campaignIsActive || campaign.excludedApps?.some(ex => new RegExp(ex, 'i').test(app.name)))
+                    continue // to next campaign
 
                 // Select random active group
                 for (const [groupName, adGroup] of shuffle(applyBoosts(Object.entries(campaign.adGroups)))) {
