@@ -18,4 +18,4 @@ jobs:
         with:
           paths: '**/*.md'
           statusCodes: '{ "408": "skip", "429": "skip", "504": "skip" }'
-          linksToSkip: '^https://(?:www\\.)?duckduckgo\\.com(?:/|$)'
+          linksToSkip: '^https://(?:www\\.)?(?:duckduckgo|highlightjs)\\.(?:com|org)(?:/|$)'
