@@ -21,7 +21,7 @@
     <img alt="[SonarCloud vulnerabilities]" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fsonarcloud.io%2Fapi%2Fmeasures%2Fcomponent%3Fcomponent%3Dkudoai_duckduckgpt%26metricKeys%3Dvulnerabilities&query=%24.component.measures.0.value&style=for-the-badge&logo=sonar&logoColor=white&labelColor=464646&label=Vulnerabilities&color=ffef00"></a>
 <a href="https://github.com/awesome-scripts/awesome-userscripts/#-chatgpt">
     <img alt="[Mentioned in Awesome]" src="https://img.shields.io/badge/Mentioned_in-Awesome-cb48dc?logo=awesomelists&logoColor=white&labelColor=464646&style=for-the-badge"></a>
-<a href="https://kudoai.com/?utm_source=duckduckgpt&utm_content=github_shield">
+<a href="https://kudoai.org/?utm_source=duckduckgpt&utm_content=github_shield">
     <img alt="[Built by KudoAI]" src="https://img.shields.io/badge/Built_by-KudoAI-a07bfc?logo=esbuild&logoColor=white&labelColor=464646&style=for-the-badge"></a>
 <a href="https://www.jsdelivr.com/package/gh/KudoAI/duckduckgpt?tab=stats">
     <img alt="[jsDelivr stats]" src="https://img.shields.io/jsdelivr/gh/hm/KudoAI/duckduckgpt?style=for-the-badge&logo=jsdelivr&logoColor=white&label=jsDelivr%20Requests&labelColor=464646&color=2bbbd8"></a>
@@ -549,7 +549,7 @@ When disabled, a ChatGPT account is required to fetch responses. If OpenAI API i
     <img src="https://cdn.jsdelivr.net/gh/KudoAI/duckduckgpt/assets/images/logos/dependencies/collage/black.png">
 </picture>
 
-[chatgpt.js](https://chatgpt.js.org) © 2023–2026 [KudoAI](https://kudoai.com) & contributors under the MIT license
+[chatgpt.js](https://chatgpt.js.org) © 2023–2026 [KudoAI](https://kudoai.org) & contributors under the MIT license
 <br>[generate-ip](https://generate-ip.org) © 2024–2026 [Adam Lui](https://github.com/adamlui) & contributors under the MIT license
 <br>[highlight.js](https://highlightjs.org) © 2006 [Ivan Sagalaev](https://github.com/isagalaev) under the BSD 3-Clause license
 <br>[KaTeX](https://katex.org) © 2013–2020 [Khan Academy](https://www.khanacademy.org) & other contributors under the MIT license
@@ -581,11 +581,11 @@ For even more ChatGPT extensions, visit:
 
 ## 📜 Related scripts
 
-### <img src="https://cdn.jsdelivr.net/gh/KudoAI/amazongpt@579eef3/assets/images/icons/app/black-gold-teal/icon48.png" width=17> [AmazonGPT](https://amazongpt.kudoai.com) &nbsp;<a href="https://cdn.jsdelivr.net/gh/KudoAI/amazongpt@579eef3/assets/wolfram-award/letter.pdf"><img height=20 src="https://cdn.jsdelivr.net/gh/KudoAI/amazongpt@579eef3/assets/images/badges/wolfram-award/gold-badge.png"></a>
+### <img src="https://cdn.jsdelivr.net/gh/KudoAI/amazongpt@579eef3/assets/images/icons/app/black-gold-teal/icon48.png" width=17> [AmazonGPT](https://amazongpt.kudoai.org) &nbsp;<a href="https://cdn.jsdelivr.net/gh/KudoAI/amazongpt@579eef3/assets/wolfram-award/letter.pdf"><img height=20 src="https://cdn.jsdelivr.net/gh/KudoAI/amazongpt@579eef3/assets/images/badges/wolfram-award/gold-badge.png"></a>
 
 > Add AI chat & product/category summaries to Amazon shopping, powered by the latest LLMs like GPT-4o!
-<br>[Install](https://amazongpt.kudoai.com/#-installation) /
-[Readme](https://amazongpt.kudoai.com/#readme) /
+<br>[Install](https://amazongpt.kudoai.org/#-installation) /
+[Readme](https://amazongpt.kudoai.org/#readme) /
 [Discuss](https://github.com/KudoAI/amazongpt/discussions)
 
 ### <img width=16 src="https://cdn.jsdelivr.net/gh/adamlui/ai-web-extensions@8841371/assets/images/icons/infinity-symbol/circled/icon32.png"> [ChatGPT Infinity](https://github.com/adamlui/chatgpt-infinity/#readme) &nbsp;<a href="https://chromewebstore.google.com/detail/chatgpt-infinity/amikeononomkhphopbflomhnmdijjpmb/?utm_source=github&utm_medium=referral&utm_content=featured-by-google-badge"><img height=20 src="https://cdn.jsdelivr.net/gh/adamlui/ai-web-extensions@8841371/assets/images/badges/chrome-web-store/featured-by-google/badge500x91.png"></a>
