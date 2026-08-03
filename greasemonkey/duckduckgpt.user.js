@@ -148,7 +148,7 @@
 // @description:zu         Yengeza izimpendulo ze-AI ku-DuckDuckGo
 // @author                 KudoAI
 // @namespace              https://kudoai.com
-// @version                2026.8.1
+// @version                2026.8.3
 // @license                MIT
 // @icon                   https://cdn.jsdelivr.net/gh/KudoAI/duckduckgpt@e73859f/assets/images/icons/app/icon48.png
 // @icon64                 https://cdn.jsdelivr.net/gh/KudoAI/duckduckgpt@e73859f/assets/images/icons/app/icon64.png
@@ -200,10 +200,10 @@
 // @require                https://cdn.jsdelivr.net/gh/adamlui/ai-web-extensions@ecb4f6c/assets/js/chatbot/components/replyBubble.js#sha256-QfrKIzw/8K/k6SjFQbdD9s3ECXmeRXpiy9EHjV+MW2w=
 // @require                https://cdn.jsdelivr.net/gh/adamlui/ai-web-extensions@ecb4f6c/assets/js/chatbot/components/tooltip.js#sha256-1KtSaANaSrMGL3J/jf5TJkamTZEwPngsLM/0ZZ1cT3k=
 // @require                https://cdn.jsdelivr.net/gh/adamlui/ai-web-extensions@5526ca8/assets/js/chatbot/lib/api.js#sha256-QWYRzWP0rroFkj5fkNSgLah1lSq1LJXl7OHhOH7rfwo=
-// @require                https://cdn.jsdelivr.net/gh/adamlui/ai-web-extensions@5526ca8/assets/js/chatbot/lib/feedback.js#sha256-ri8OzNa/8sQINDn7bW84F2OuVYZxubMSm/Zpli/cPnQ=
+// @require                https://cdn.jsdelivr.net/gh/adamlui/ai-web-extensions@7270b09/assets/js/chatbot/lib/feedback.js#sha256-Da69CPm5DXaLMhry5ThCT9mV4MO66NmVbBdfSdRwJp4=
 // @require                https://cdn.jsdelivr.net/gh/adamlui/ai-web-extensions@ecb4f6c/assets/js/chatbot/lib/log.js#sha256-y92XM6xkHxiLZoTAVzI4TWUz8A1oB8ckZez9kYsZLrQ=
 // @require                https://cdn.jsdelivr.net/gh/adamlui/ai-web-extensions@5526ca8/assets/js/chatbot/lib/prompts.js#sha256-P/HR2U/MOWk8BnSJH6OSd3zqIGiMJvkQ+RkQK9k2OgU=
-// @require                https://cdn.jsdelivr.net/gh/adamlui/ai-web-extensions@ecb4f6c/assets/js/chatbot/lib/session.js#sha256-iNwJZ8Qlo2h5l0yUYpou5++zrWLvCSGQbN91hMufJj0=
+// @require                https://cdn.jsdelivr.net/gh/adamlui/ai-web-extensions@7270b09/assets/js/chatbot/lib/session.js#sha256-wYbdO1/Ce4oA0v7KEFznpQbRycqxhPNz3PqgfrWa8KA=
 // @require                https://cdn.jsdelivr.net/gh/adamlui/ai-web-extensions@ecb4f6c/assets/js/chatbot/lib/string.js#sha256-uY2JSeThjdEUhYecBMcd+csc9WlSJN/D/Y/MTYdx5SQ=
 // @require                https://cdn.jsdelivr.net/gh/adamlui/ai-web-extensions@30ce038/assets/js/chatbot/lib/themes.js#sha256-NSiOkXoRC/fF8zdmnbIk9XL5tKWWP5MU2NOfdJ9G0NU=
 // @require                https://cdn.jsdelivr.net/gh/adamlui/ai-web-extensions@ecb4f6c/assets/js/chatbot/lib/ui.js#sha256-A7val91Y0kLp/93+KEI8G99boaLKrhRDlKiAaDUCAFw=
@@ -224,8 +224,6 @@
 // @resource rpwCSS        https://cdn.jsdelivr.net/gh/adamlui/ai-web-extensions@727feff/assets/styles/rising-particles/dist/white.min.css#sha256-6xBXczm7yM1MZ/v0o1KVFfJGehHk47KJjq8oTktH4KE=
 // @grant                  GM_getValue
 // @grant                  GM_setValue
-// @grant                  GM_deleteValue
-// @grant                  GM_cookie
 // @grant                  GM_registerMenuCommand
 // @grant                  GM_unregisterMenuCommand
 // @grant                  GM_getResourceText
