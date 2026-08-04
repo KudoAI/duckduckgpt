@@ -148,7 +148,7 @@
 // @description:zu         Yengeza izimpendulo ze-AI ku-DuckDuckGo
 // @author                 KudoAI
 // @namespace              https://kudoai.org
-// @version                2026.8.3.3
+// @version                2026.8.4
 // @license                MIT
 // @icon                   https://cdn.jsdelivr.net/gh/KudoAI/duckduckgpt@e73859f/assets/images/icons/app/icon48.png
 // @icon64                 https://cdn.jsdelivr.net/gh/KudoAI/duckduckgpt@e73859f/assets/images/icons/app/icon64.png
@@ -189,7 +189,6 @@
 // @connect                chatai.mixerbox.com
 // @connect                chatgpt.com
 // @connect                fanyi.sogou.com
-// @connect                raw.githubusercontent.com
 // @connect                scriptcat.org
 // @require                https://cdn.jsdelivr.net/npm/@kudoai/chatgpt.js@4.15.6/dist/chatgpt.min.js#sha256-zp2Wy06WHvPDCRWgIE/ZHNT0cLqAGIsgleJjfDEITjw=
 // @require                https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js#sha256-dppVXeVTurw1ozOPNE3XqhYmDJPOosfbKQcHyQSE58w=
